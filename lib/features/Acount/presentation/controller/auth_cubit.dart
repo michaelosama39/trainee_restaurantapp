@@ -17,30 +17,44 @@ class AuthCubit extends Cubit<AuthState> {
 
   final authRepo = AuthRepo();
 
+  GlobalKey<FormState> formKeyLogin = GlobalKey<FormState>();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late String countryCode = AppConstants.DEFAULT_COUNTRY_CODE;
+  bool isLoading = false;
+
+  // disposeData(){
+  //   formKeyLogin.currentState!.dispose();
+  //   phoneController.clear();
+  //   passwordController.clear();
+  //   countryCode = AppConstants.DEFAULT_COUNTRY_CODE;
+  //   isLoading = false;
+  // }
 
   Future login(BuildContext context , int type) async {
-    emit(LoginLoading());
-    final res = await authRepo.login(
-      phoneController.text,
-      passwordController.text,
-      type,
-    );
-    res.fold(
-      (err) {
-        print(err);
-        Toast.show(err);
-        emit(LoginError());
-      },
-      (res) async {
-        AppStorage.cacheUserInfo(res);
-        Navigator.pushNamedAndRemoveUntil(
-            context, Routes.navigatorScreen, (route) => false,
-            arguments: type);
-        emit(LoginLoaded());
-      },
-    );
+    if(formKeyLogin.currentState!.validate()){
+      emit(LoginLoading());
+      isLoading = true;
+      final res = await authRepo.login(
+        phoneController.text,
+        passwordController.text,
+        type,
+      );
+      res.fold(
+            (err) {
+          isLoading = false;
+          Toast.show(err);
+          emit(LoginError());
+        },
+            (res) async {
+          AppStorage.cacheUserInfo(res);
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.navigatorScreen, (route) => false,
+              arguments: type);
+          isLoading = false;
+          emit(LoginLoaded());
+        },
+      );
+    }
   }
 }
