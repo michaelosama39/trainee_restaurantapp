@@ -71,7 +71,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
             Expanded(
               child: IconButton(
                   onPressed: () {},
-                  icon: FaIcon(
+                  icon: const FaIcon(
                    FontAwesomeIcons.solidBell,
                     color: AppColors.white,
                     size: 30,
@@ -97,7 +97,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: DecorationImage(
+            image: const DecorationImage(
               image: AssetImage(AppConstants.COACH1_IMAGE),
               fit: BoxFit.cover,
             ),
@@ -163,7 +163,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                   Positioned(
                       left: 16.w,
                       bottom: 10.h,
-                      child: ClockWidget(
+                      child: const ClockWidget(
                         duration: 10.0,
                       ))
                 ],
@@ -189,7 +189,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: DecorationImage(
+            image: const DecorationImage(
               image: AssetImage(AppConstants.COACH1_IMAGE),
               fit: BoxFit.cover,
             ),
@@ -236,7 +236,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.star,
                                         size: 20,
                                         color: AppColors.accentColorLight,
@@ -445,7 +445,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage(AppConstants.COACH2_IMAGE),
           fit: BoxFit.cover,
         ),
@@ -511,7 +511,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                               Radius.circular(AppConstants.borderRadius10)),
-                          gradient: LinearGradient(colors: [
+                          gradient: const LinearGradient(colors: [
                             AppColors.lightColor,
                             AppColors.accentColorLight
                           ])),
@@ -545,7 +545,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                       decoration: BoxDecoration(
                           border: Border.all(
                               color: AppColors.transparent.withOpacity(0.2)),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                               Radius.circular(AppConstants.blurDegree10)),
                           gradient: LinearGradient(colors: [
                             AppColors.transparent.withOpacity(0.0),
@@ -554,7 +554,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                       child: Center(
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_forward,
                             color: AppColors.white,
                             size: 30,
@@ -581,7 +581,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               trainerProfile(),

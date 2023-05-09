@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:trainee_restaurantapp/features/Acount/view/register_screen_restaurant.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/view/my_order_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/view/edit_profile_trainer_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/view/all_trainee_screen.dart';
 
-import '../../features/Acount/view/account_verification.dart';
-import '../../features/Acount/view/forget_password.dart';
-import '../../features/Acount/view/login_screen.dart';
-import '../../features/Acount/view/register_screen_shop.dart';
-import '../../features/Acount/view/register_screen_trainer.dart';
+import '../../features/Acount/presentation/screens/account_verification.dart';
+import '../../features/Acount/presentation/screens/forget_password.dart';
+import '../../features/Acount/presentation/screens/login_screen.dart';
+import '../../features/Acount/presentation/screens/register_screen_shop.dart';
+import '../../features/Acount/presentation/screens/register_screen_trainer.dart';
 import '../../features/navigator_home/view/navigator_home_view.dart';
 import '../../features/on_boarding/view/main_onboarding_view.dart';
 import '../../features/trainer/add_course/view/add_course_view.dart';
@@ -98,10 +98,14 @@ class AppRoute {
       case Routes.traineeScreen:
         return MaterialPageRoute(builder: (context) => AllTraineeScreen());
       case Routes.editProfileScreen:
-        return MaterialPageRoute(builder: (context) => EditProfileScreenContent());
-    case Routes.navigatorScreen:
-        return MaterialPageRoute(builder: (context) => NavigatorScreen(homeType: settings.arguments as int,));
-case Routes.addCourseScreen:
+        return MaterialPageRoute(
+            builder: (context) => EditProfileScreenContent());
+      case Routes.navigatorScreen:
+        return MaterialPageRoute(
+            builder: (context) => NavigatorScreen(
+                  homeType: settings.arguments as int,
+                ));
+      case Routes.addCourseScreen:
         return MaterialPageRoute(builder: (context) => AddCourseView());
 
       // case Routes.campainScreenView:

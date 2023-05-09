@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,6 +11,7 @@ import 'core/constants/app/app_constants.dart';
 import 'core/localization/flutter_localization.dart';
 import 'core/navigation/navigation_service.dart';
 import 'core/navigation/route_generator.dart';
+import 'features/Acount/presentation/controller/auth_cubit.dart';
 import 'features/navigator_home/view/navigator_home_view.dart';
 import 'features/on_boarding/view/main_onboarding_view.dart';
 import 'features/restaurant/add_plate/view/add_plate_view.dart';
@@ -35,7 +37,7 @@ import 'generated/l10n.dart';
 
 class App extends StatefulWidget {
   static final GlobalKey<NavigatorState> globalKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
 
   const App({
     Key? key,
@@ -56,51 +58,53 @@ class _AppState extends State<App> {
           ...ApplicationProvider().dependItems,
           Provider.value(value: routeObserver),
         ],
-        child: Consumer<LocalizationProvider>(
-          builder: (_, provider, __) {
-            return ScreenUtilInit(
-              designSize: AppConfig.screenUtilDesignSize(),
-              builder: (context, Widget? child) {
-                return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: AppConstants.TITLE_APP_NAME,
+        child: BlocProvider(
+          create: (context) => AuthCubit(),
+          child: Consumer<LocalizationProvider>(
+            builder: (_, provider, __) {
+              return ScreenUtilInit(
+                designSize: AppConfig.screenUtilDesignSize(),
+                builder: (context, Widget? child) {
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    title: AppConstants.TITLE_APP_NAME,
 
-                  /// Routing
-                  navigatorKey: App.globalKey,
-                  onGenerateRoute: AppRoute().generateRoute,
-                  initialRoute: "/",
+                    /// Routing
+                    navigatorKey: App.globalKey,
+                    onGenerateRoute: AppRoute().generateRoute,
+                    initialRoute: "/",
 
-                  navigatorObservers: [routeObserver],
+                    navigatorObservers: [routeObserver],
 
-                  /// Setup app localization
-                  supportedLocales: Translation.delegate.supportedLocales,
-                  locale: provider.appLocal,
+                    /// Setup app localization
+                    supportedLocales: Translation.delegate.supportedLocales,
+                    locale: provider.appLocal,
 
-                  localizationsDelegates: const [
-                    Translation.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                    // Built-in localization of basic text for Material widgets
-                    // GlobalMaterialLocalizations.delegate,
-                    // // Built-in localization for text direction LTR/RTL
-                    // GlobalWidgetsLocalizations.delegate,
-                    // GlobalCupertinoLocalizations.delegate,
-                    // DefaultCupertinoLocalizations.delegate,
-                    // GlobalCupertinoLocalizations.delegate
-                  ],
+                    localizationsDelegates: const [
+                      Translation.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                      // Built-in localization of basic text for Material widgets
+                      // GlobalMaterialLocalizations.delegate,
+                      // // Built-in localization for text direction LTR/RTL
+                      // GlobalWidgetsLocalizations.delegate,
+                      // GlobalCupertinoLocalizations.delegate,
+                      // DefaultCupertinoLocalizations.delegate,
+                      // GlobalCupertinoLocalizations.delegate
+                    ],
 
-                  /// Run app at first time on device language
-                  localeResolutionCallback: (locale, supportedLocales) {
-                    // if (provider.firstStart) {
-                    //   provider.changeLanguage(
-                    //       const Locale(AppConstants.LANG_AR), context);
-                    //   provider.firstStartOff();
-                    provider.changeLanguage(
-                        const Locale(AppConstants.LANG_AR), context);
+                    /// Run app at first time on device language
+                    localeResolutionCallback: (locale, supportedLocales) {
+                      // if (provider.firstStart) {
+                      //   provider.changeLanguage(
+                      //       const Locale(AppConstants.LANG_AR), context);
+                      //   provider.firstStartOff();
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_AR), context);
 
-                    /// Check if the current device locale is supported
-                    /*for (var supportedLocale in supportedLocales) {
+                      /// Check if the current device locale is supported
+                      /*for (var supportedLocale in supportedLocales) {
                             if (supportedLocale.languageCode ==
                                 locale!.languageCode) {
                               /// Set _firstStart false
@@ -122,19 +126,20 @@ class _AppState extends State<App> {
                             context,
                           );
                           return supportedLocales.first;*/
-                    //    }
-                  },
+                      //    }
+                    },
 
-                  /// Theming
-                  theme: AppConfig().themeData,
-                  themeMode: AppConfig().themeMode,
+                    /// Theming
+                    theme: AppConfig().themeData,
+                    themeMode: AppConfig().themeMode,
 
-                  /// Init screen
-                  home: ChatDetailsView(),
-                );
-              },
-            );
-          },
+                    /// Init screen
+                    home: SplashScreen(),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

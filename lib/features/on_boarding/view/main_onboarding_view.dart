@@ -33,13 +33,6 @@ class MainOnBoardingView extends StatelessWidget {
                 Expanded(
                     flex: 1,
                     child: Container(
-                      child: Center(
-                        child: CustomText(
-                          text: type,
-                          fontWeight: FontWeight.w600,
-                          fontSize: AppConstants.textSize18,
-                        ),
-                      ),
                       decoration: BoxDecoration(
                           color: AppColors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.only(
@@ -47,6 +40,13 @@ class MainOnBoardingView extends StatelessWidget {
                                   Radius.circular(AppConstants.borderRadius10),
                               topRight: Radius.circular(
                                   AppConstants.borderRadius10))),
+                      child: Center(
+                        child: CustomText(
+                          text: type,
+                          fontWeight: FontWeight.w600,
+                          fontSize: AppConstants.textSize18,
+                        ),
+                      ),
                     )),
                 Expanded(
                     flex: 4,
@@ -83,19 +83,22 @@ class MainOnBoardingView extends StatelessWidget {
                   )),
               userSelectorContainer(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.mainLoginScreen,arguments: 0);
+                    Navigator.of(context)
+                        .pushNamed(Routes.mainLoginScreen, arguments: 1);
                   },
                   image: AppConstants.TRAINER_SPLASH,
                   type: Translation.of(context).trainer),
               userSelectorContainer(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.mainLoginScreen,arguments: 1);
+                    Navigator.of(context)
+                        .pushNamed(Routes.mainLoginScreen, arguments: 1);
                   },
                   image: AppConstants.RESTAURANT_SPLASH,
                   type: Translation.of(context).restaurantOwner),
               userSelectorContainer(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.mainLoginScreen,arguments: 2);
+                    Navigator.of(context)
+                        .pushNamed(Routes.mainLoginScreen, arguments: 2);
                   },
                   image: AppConstants.RESTAURANT_SPLASH,
                   type: Translation.of(context).shopOwner),

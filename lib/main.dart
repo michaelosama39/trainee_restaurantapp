@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app.dart';
+import 'core/appStorage/app_storage.dart';
 import 'core/common/app_config.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/constants/enums/app_options_enum.dart';
@@ -19,6 +20,7 @@ import 'generated/l10n.dart';
 
 void main() async {
   await _initAppConfigs();
+  AppStorage.init();
   BlocOverrides.runZoned(
       () => runApp(
             const App(),
