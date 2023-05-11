@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/splash/presentation/screen/splash_screen_content.dart';
+import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/datasources/shared_preference.dart';
@@ -36,8 +37,14 @@ class _SplashScreenState extends State<SplashScreen> {
     //       */
     //
     // });
-    Future.delayed(const Duration(seconds: 3)).then((value) =>
-        Navigator.pushNamed(context, Routes.mainOnBoardingViewRoute));
+    Future.delayed(const Duration(seconds: 3)).then((value){
+      if(AppStorage.isLogged){
+        Navigator.pushNamed(context, Routes.navigatorScreen,arguments: 1);
+      }else{
+        Navigator.pushNamed(context, Routes.mainOnBoardingViewRoute);
+      }
+    }
+        );
     super.initState();
   }
 

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/courses_controller/courses_cubit.dart';
 
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
+import '../../../../core/models/course_model.dart';
 import '../../../../core/navigation/route_generator.dart';
+import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../core/ui/widgets/custom_rating_bar_widget.dart';
 import '../../../../generated/l10n.dart';
@@ -26,6 +30,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
   @override
   void initState() {
     tabController = TabController(length: 3, vsync: this);
+    CoursesCubit.of(context).getCourses(context,isActive: false);
     super.initState();
   }
 
@@ -39,7 +44,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
       ),
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: 60.h,
             child: Row(
               children: [
@@ -50,6 +55,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                       onTap: () {
                         setState(() {
                           tabbed = 1;
+                          CoursesCubit.of(context).getCourses(context,isActive: false);
                           tabController!.animateTo(0);
                         });
                       },
@@ -60,7 +66,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                                   : null,
                               border:
                                   Border.all(color: AppColors.accentColorLight),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               )),
                           child: Center(
@@ -83,6 +89,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                       onTap: () {
                         setState(() {
                           tabbed = 2;
+                          CoursesCubit.of(context).getCourses(context,isActive: true);
                           tabController!.animateTo(1);
                         });
                       },
@@ -93,7 +100,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                                   : null,
                               border:
                                   Border.all(color: AppColors.accentColorLight),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               )),
                           child: Center(
@@ -116,6 +123,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                       onTap: () {
                         setState(() {
                           tabbed = 3;
+                          CoursesCubit.of(context).getCourses(context,isFinished: true);
                           tabController!.animateTo(2);
                         });
                       },
@@ -126,7 +134,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                                   : null,
                               border:
                                   Border.all(color: AppColors.accentColorLight),
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               )),
                           child: Center(
@@ -155,7 +163,7 @@ class _MyCoursesViewState extends State<MyCoursesView>
                 RefusedList(),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
@@ -168,14 +176,28 @@ class WaitingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CardDetails(selectedCard: false),
-            );
-          }),
+      body: BlocBuilder<CoursesCubit,CoursesState>(
+        builder: (context, state) {
+          if(state is GetCoursesLoaded){
+            if(state.courses.isNotEmpty){
+              return ListView.builder(
+                  itemCount: state.courses.length,
+                  itemBuilder: (context, index) {
+                    return  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CardDetails(selectedCard: false,courseModel: state.courses[index]),
+                    );
+                  });
+            }else{
+              return const Center(child: Text(
+                  "لا يوجد كورسات"
+              ),);
+            }
+          }else{
+            return const Loader();
+          }
+        },
+      ),
     );
   }
 }
@@ -186,14 +208,28 @@ class AcceptedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CardDetails(selectedCard: false),
-            );
-          }),
+        body: BlocBuilder<CoursesCubit,CoursesState>(
+        builder: (context, state) {
+          if(state is GetCoursesLoaded){
+            if(state.courses.isNotEmpty){
+              return ListView.builder(
+                  itemCount: state.courses.length,
+                  itemBuilder: (context, index) {
+                    return  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CardDetails(selectedCard: false,courseModel: state.courses[index]),
+                    );
+                  });
+            }else{
+              return const Center(child: Text(
+                  "لا يوجد كورسات"
+              ),);
+            }
+          }else{
+            return const Loader();
+          }
+        },
+      ),
     );
   }
 }
@@ -204,14 +240,28 @@ class RefusedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CardDetails(selectedCard: true),
-            );
-          }),
+        body: BlocBuilder<CoursesCubit,CoursesState>(
+        builder: (context, state) {
+          if(state is GetCoursesLoaded){
+            if(state.courses.isNotEmpty){
+              return ListView.builder(
+                  itemCount: state.courses.length,
+                  itemBuilder: (context, index) {
+                    return  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CardDetails(selectedCard: false,courseModel: state.courses[index]),
+                    );
+                  });
+            }else{
+              return const Center(child: Text(
+                  "لا يوجد كورسات"
+              ),);
+            }
+          }else{
+            return const Loader();
+          }
+        },
+      ),
     );
   }
 }
@@ -224,7 +274,7 @@ class ImageWithNameTrainee extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage(AppConstants.COACH_COVER_IMG),
           fit: BoxFit.cover,
         ),
@@ -257,8 +307,8 @@ class ImageWithNameTrainee extends StatelessWidget {
 
 class CardDetails extends StatelessWidget {
   final bool selectedCard;
-
-  const CardDetails({Key? key, required this.selectedCard}) : super(key: key);
+  final CourseModel courseModel;
+  const CardDetails({Key? key, required this.selectedCard, required this.courseModel}) : super(key: key);
 
   Widget _buildRatingWidget({
     required double average,
@@ -288,14 +338,14 @@ class CardDetails extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
+        child: SizedBox(
           height: 140.h,
           child: Row(
             children: [
               Expanded(
                 flex: 5,
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
                         AppColors.linearCardTrainee1Color.withOpacity(1),
@@ -303,7 +353,7 @@ class CardDetails extends StatelessWidget {
                         AppColors.linearCardTrainee3Color.withOpacity(1),
                         AppColors.linearCardTrainee4Color.withOpacity(1),
                       ]),
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -313,7 +363,7 @@ class CardDetails extends StatelessWidget {
                           Expanded(
                             flex: 6,
                             child: CustomText(
-                              text: "كورس يوجا محترف مخصص لمن لديهم خبره",
+                              text: courseModel.name ?? "",
                               fontSize: AppConstants.textSize16,
                               maxLines: 2,
                               textAlign: TextAlign.start,
@@ -323,29 +373,28 @@ class CardDetails extends StatelessWidget {
                           ),
                           Expanded(
                               flex: 1,
-                              child: Container(
-                                  child: Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.user,
-                                    color: AppColors.lightGrey,
-                                    size: 16,
-                                  ),
-                                  CustomText(
-                                    text: "1",
-                                    fontSize: AppConstants.textSize16,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.start,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.accentColorLight,
-                                  ),
+                              const FaIcon(
+                                FontAwesomeIcons.user,
+                                color: AppColors.lightGrey,
+                                size: 16,
+                              ),
+                              CustomText(
+                                text: "${courseModel.viewsCount}",
+                                fontSize: AppConstants.textSize16,
+                                maxLines: 2,
+                                textAlign: TextAlign.start,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.accentColorLight,
+                              ),
                                 ],
-                              )))
+                              ))
                         ],
                       ),
                       CustomText(
-                        text: "2000 ريال",
+                        text: "${courseModel.fee} ${Translation.of(context).saudi_riyal}",
                         fontSize: AppConstants.textSize16,
                         maxLines: 2,
                         textAlign: TextAlign.start,
@@ -354,9 +403,9 @@ class CardDetails extends StatelessWidget {
                       ),
                       _buildRatingWidget(average: 4.2),
                       selectedCard
-                          ? SizedBox()
+                          ? const SizedBox()
                           : CustomText(
-                              text: "المده المتبقيه: يوم و 3 ساعات",
+                              text: "المده المتبقيه: ${courseModel.trainingHoursCount}",
                               fontSize: AppConstants.textSize16,
                               maxLines: 2,
                               textAlign: TextAlign.start,
@@ -371,11 +420,11 @@ class CardDetails extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration:  BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(AppConstants.YOGA_IMG),
+                          image: NetworkImage(courseModel.imageUrl ?? ""),
                           fit: BoxFit.cover),
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
                 ),
               ),
             ],

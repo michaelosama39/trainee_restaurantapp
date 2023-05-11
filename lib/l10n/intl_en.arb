@@ -203,5 +203,9 @@
   "hoursNumber": "Course Hours",
   "finishedHour": "Finished Hours",
   "remainsHours": "remaining Hours",
-  "numberOfAbsenece": "Absence Days"
+  "numberOfAbsenece": "Absence Days",
+  "pricePerHour" :"riyal/hour",
+  "myFiles" :"my files",
+  "cv" :"cv",
+  "certificate" :"certificate"
 }

@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelErrorMessage": MessageLookupByLibrary.simpleMessage(
             "Operation has been cancelled"),
         "categories": MessageLookupByLibrary.simpleMessage("Categories"),
+        "certificate": MessageLookupByLibrary.simpleMessage("certificate"),
         "changeLangMessage": MessageLookupByLibrary.simpleMessage(
             "Select a language, the application will restart"),
         "changeLanguage":
@@ -95,6 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current Courses"),
         "current_password":
             MessageLookupByLibrary.simpleMessage("current_password"),
+        "cv": MessageLookupByLibrary.simpleMessage("cv"),
         "date_of_birth": MessageLookupByLibrary.simpleMessage("Date of birth"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "dishes": MessageLookupByLibrary.simpleMessage("Dishes"),
@@ -197,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "most_rated": MessageLookupByLibrary.simpleMessage("Most rated"),
         "most_rated_coaches":
             MessageLookupByLibrary.simpleMessage("Most Rated Coaches"),
+        "myFiles": MessageLookupByLibrary.simpleMessage("my files"),
         "myOrder": MessageLookupByLibrary.simpleMessage("My Orders"),
         "my_course_details":
             MessageLookupByLibrary.simpleMessage("My Course Details"),
@@ -231,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pressTwiceToExit":
             MessageLookupByLibrary.simpleMessage("Press twice to exit"),
+        "pricePerHour": MessageLookupByLibrary.simpleMessage("riyal/hour"),
         "privacy_policy":
             MessageLookupByLibrary.simpleMessage("Privacy policy"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),

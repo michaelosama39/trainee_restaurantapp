@@ -203,5 +203,9 @@
   "hoursNumber": "عدد ساعات الكورس",
   "finishedHour": "الساعات المنجزه",
   "remainsHours": "الساعات المتبقيه",
-  "numberOfAbsenece": "عدد مرات الغياب"
+  "numberOfAbsenece": "عدد مرات الغياب",
+  "pricePerHour" :"ريال سعودى/الساعه",
+   "myFiles" :"ملفاتي",
+    "cv" :"السيره الذاتيه",
+    "certificate" :"شهادة"
 }

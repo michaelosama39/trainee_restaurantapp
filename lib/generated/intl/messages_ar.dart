@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelErrorMessage":
             MessageLookupByLibrary.simpleMessage("تم إلغاء العملية"),
         "categories": MessageLookupByLibrary.simpleMessage("التصنيفات"),
+        "certificate": MessageLookupByLibrary.simpleMessage("شهادة"),
         "changeLangMessage": MessageLookupByLibrary.simpleMessage(
             "اختر اللغة، ستتم إعادة تشغيل التطبيق"),
         "changeLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
@@ -93,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("كورساتي الحالية"),
         "current_password":
             MessageLookupByLibrary.simpleMessage("كلمة المرور الحالية"),
+        "cv": MessageLookupByLibrary.simpleMessage("السيره الذاتيه"),
         "date_of_birth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "details": MessageLookupByLibrary.simpleMessage("التفاصيل"),
         "dishes": MessageLookupByLibrary.simpleMessage("الأطباق"),
@@ -195,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "most_rated": MessageLookupByLibrary.simpleMessage("الأكثر تقييماً"),
         "most_rated_coaches":
             MessageLookupByLibrary.simpleMessage("المدربين الأفضل تقييماً"),
+        "myFiles": MessageLookupByLibrary.simpleMessage("ملفاتي"),
         "myOrder": MessageLookupByLibrary.simpleMessage("طلباتي"),
         "my_course_details":
             MessageLookupByLibrary.simpleMessage("تفاصيل كورساتي"),
@@ -231,6 +234,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phone": MessageLookupByLibrary.simpleMessage("رقم الجوال"),
         "pressTwiceToExit":
             MessageLookupByLibrary.simpleMessage("إضفط مرتين للخروج"),
+        "pricePerHour":
+            MessageLookupByLibrary.simpleMessage("ريال سعودى/الساعه"),
         "privacy_policy":
             MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
         "profile": MessageLookupByLibrary.simpleMessage("الشخصية"),

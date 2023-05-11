@@ -24,6 +24,7 @@ class CustomRatingBarWidget extends StatelessWidget {
       allowHalfRating: true,
       textDirection: TextDirection.ltr,
       itemCount: 5,
+      ignoreGestures: onRatingUpdate == null,
       unratedColor: AppColors.white,
       itemBuilder: (context, _) => const Icon(
         Icons.star,

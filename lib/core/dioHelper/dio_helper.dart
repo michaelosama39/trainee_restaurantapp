@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 
 import '../net/api_url.dart';
 
@@ -18,8 +19,13 @@ class DioHelper {
   }
 
   static Future<Response<dynamic>> get(String path,
-      {Map<String, dynamic>? headers}) {
+
+      {Map<String, dynamic>? headers, Map<String, dynamic>? query}) {
     dioSingleton.options.headers = headers;
-    return dioSingleton.get(path);
+    return dioSingleton.get(path,
+        queryParameters: query,
+        options: Options(headers: {
+      "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+    }));
   }
 }

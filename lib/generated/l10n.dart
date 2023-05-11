@@ -2079,6 +2079,46 @@ class Translation {
       args: [],
     );
   }
+
+  /// `riyal/hour`
+  String get pricePerHour {
+    return Intl.message(
+      'riyal/hour',
+      name: 'pricePerHour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `my files`
+  String get myFiles {
+    return Intl.message(
+      'my files',
+      name: 'myFiles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cv`
+  String get cv {
+    return Intl.message(
+      'cv',
+      name: 'cv',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `certificate`
+  String get certificate {
+    return Intl.message(
+      'certificate',
+      name: 'certificate',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Translation> {

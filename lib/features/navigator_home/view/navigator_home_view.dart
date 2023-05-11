@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
-import 'package:trainee_restaurantapp/features/trainer/profile_details/view/profile_view_screen.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/nav.dart';
 import '../../../../core/ui/widgets/route_aware_widget.dart';
 import '../../../../generated/l10n.dart';
-import '../../trainer/home_trainer/view/home_trainer_view.dart';
+import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../trainer/more_trainer/view/more_trainer_view.dart';
+import '../../trainer/profile_details/presentation/view/profile_view_screen.dart';
 
 class NavigatorScreen extends StatefulWidget {
   static const String routeName = "NavigatorScreen/";
