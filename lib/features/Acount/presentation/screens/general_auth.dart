@@ -19,16 +19,17 @@ class GeneralAuthScreen extends StatefulWidget {
   final Function onButtonTap;
   final Function onAdditionalTextTapped;
   final bool isloading;
+
   const GeneralAuthScreen(
       {Key? key,
-        required this.appBar,
-        required this.buttonText,
-        required this.additionalText,
-        required this.additionalTapText,
-        required this.child,
-        required this.onButtonTap,
-        required this.onAdditionalTextTapped,
-        this.isloading = false})
+      required this.appBar,
+      required this.buttonText,
+      required this.additionalText,
+      required this.additionalTapText,
+      required this.child,
+      required this.onButtonTap,
+      required this.onAdditionalTextTapped,
+      this.isloading = false})
       : super(key: key);
 
   @override
@@ -49,7 +50,7 @@ class _GeneralAuthScreenState extends State<GeneralAuthScreen> {
     return Container(
       width: 1.sw,
       height: 0.325.sh,
-      decoration:  BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
             image: AssetImage(AppConstants.CARD_IMG), fit: BoxFit.fill),
       ),
@@ -82,20 +83,20 @@ class _GeneralAuthScreenState extends State<GeneralAuthScreen> {
               ),
               widget.isloading
                   ? SizedBox(
-                height: 44.h,
-                width: 44.w,
-                child: const CircularProgressIndicator(
-                  color: AppColors.accentColorLight,
-                ),
-              )
+                      height: 44.h,
+                      width: 44.w,
+                      child: const CircularProgressIndicator(
+                        color: AppColors.accentColorLight,
+                      ),
+                    )
                   : SizedBox(
-                  width: 277.w,
-                  height: 44.h,
-                  child: CustomElevatedButton(
-                      onTap: () {
-                        widget.onButtonTap();
-                      },
-                      text: widget.buttonText)),
+                      width: 277.w,
+                      height: 44.h,
+                      child: CustomElevatedButton(
+                          onTap: () {
+                            widget.onButtonTap();
+                          },
+                          text: widget.buttonText)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

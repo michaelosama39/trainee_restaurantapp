@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_trainer.dart';
 
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -11,6 +13,7 @@ import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
 import '../../../../generated/l10n.dart';
+import 'forget_password.dart';
 import 'general_auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,27 +34,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _toForgotPassword() {
-    Navigator.of(context).pushNamed(Routes.forgetPassScreen);
-  }
-
-  @override
-  void dispose() {
-    // AuthCubit.of(context).disposeData();
-    super.dispose();
+    Navigator.of(context).pushNamed(
+      Routes.forgetPassScreen,
+      arguments: ForgotPasswordScreenContent(
+        userType: widget.screenNumber,
+      ),
+    );
   }
 
   void _offToSignupScreen() {
     widget.screenNumber == 0
-        ? Navigator.pushNamed(context, Routes.trainerSignUpScreen)
+        ? Navigator.pushNamed(context, Routes.restaurantSignUpScreen,
+            arguments:
+                RegisterRestaurantScreenView(userType: widget.screenNumber))
         : widget.screenNumber == 1
-            ? Navigator.pushNamed(context, Routes.restaurantSignUpScreen)
+            ? Navigator.pushNamed(context, Routes.trainerSignUpScreen,
+                arguments:
+                    RegisterTrainerScreenView(userType: widget.screenNumber))
             : Navigator.pushNamed(context, Routes.shopSignUpScreen);
     //  Nav.off(RegisterScreen.routeName, cleanHistory: true);
   }
-
-  bool passwordSecure = true;
-  FocusNode phoneFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
         buildWhen: (previous, current) =>
             previous != current ||
             current is LoginLoaded ||
-            current is LoginLoading,
+            current is LoginLoading ||
+            current is PasswordSecureState,
         builder: (context, state) {
           return GeneralAuthScreen(
             appBar: TransparentAppBar(
@@ -76,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Form(
-                key: AuthCubit.of(context).formKeyLogin,
+                key: AuthCubit.of(context).formKey,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -88,25 +91,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       textEditingController:
                           AuthCubit.of(context).phoneController,
                       isoCode: AuthCubit.of(context).countryCode,
-                      focusNode: phoneFocusNode,
+                      focusNode: AuthCubit.of(context).phoneFocusNode,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: () {
-                        FocusScope.of(context).requestFocus(passwordFocusNode);
+                        FocusScope.of(context).requestFocus(
+                            AuthCubit.of(context).passwordFocusNode);
                       },
                     ),
                     Gaps.vGap8,
                     PasswordTextField(
                       controller: AuthCubit.of(context).passwordController,
-                      passwordSecure: passwordSecure,
+                      passwordSecure: AuthCubit.of(context).passwordSecure,
                       textInputAction: TextInputAction.done,
                       onFiledSubmitted: () {
-                        //  _login();
+                        _login(context);
                       },
-                      focusNode: passwordFocusNode,
+                      focusNode: AuthCubit.of(context).passwordFocusNode,
                       hidePassword: (bool) {
-                        // setState(() {
-                        //   sn.passwordSecure = bool;
-                        // });
+                        AuthCubit.of(context).passwordSecure = bool;
+                        AuthCubit.of(context).emit(PasswordSecureState());
                       },
                     ),
                     Gaps.vGap14,

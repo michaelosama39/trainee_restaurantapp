@@ -91,7 +91,7 @@ class MainOnBoardingView extends StatelessWidget {
               userSelectorContainer(
                   onTap: () {
                     Navigator.of(context)
-                        .pushNamed(Routes.mainLoginScreen, arguments: 1);
+                        .pushNamed(Routes.mainLoginScreen, arguments: 0);
                   },
                   image: AppConstants.RESTAURANT_SPLASH,
                   type: Translation.of(context).restaurantOwner),

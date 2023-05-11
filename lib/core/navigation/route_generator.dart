@@ -8,9 +8,11 @@ import 'package:trainee_restaurantapp/features/trainer/trainee/view/all_trainee_
 
 import '../../features/Acount/presentation/screens/account_verification.dart';
 import '../../features/Acount/presentation/screens/forget_password.dart';
+import '../../features/Acount/presentation/screens/forget_password_verification.dart';
 import '../../features/Acount/presentation/screens/login_screen.dart';
 import '../../features/Acount/presentation/screens/register_screen_shop.dart';
 import '../../features/Acount/presentation/screens/register_screen_trainer.dart';
+import '../../features/Acount/presentation/screens/reset_password_screen.dart';
 import '../../features/navigator_home/view/navigator_home_view.dart';
 import '../../features/on_boarding/view/main_onboarding_view.dart';
 import '../../features/trainer/add_course/view/add_course_view.dart';
@@ -29,6 +31,8 @@ class Routes {
   static const String shopSignUpScreen = "/shopSignUp";
   static const String verificationOtpScreen = "/verificationOtpScreen";
   static const String forgetPassScreen = "/forgetPassScreen";
+  static const String forgetPassVerificationScreen =
+      "/forgetPassVerificationScreen";
   static const String navigatorScreen = "/navigatorScreen";
   static const String homeTrainerScreen = "/homeTrainerScreen";
   static const String traineeProfileScreen = "/traineeProfileScreen";
@@ -38,6 +42,7 @@ class Routes {
   static const String myOrderScreen = "/myOrderScreen";
   static const String traineeScreen = "/traineeScreen";
   static const String editProfileScreen = "/editProfileScreen";
+  static const String resetPass = "/resetPass";
 }
 
 class AppRoute {
@@ -70,20 +75,49 @@ class AppRoute {
                   screenNumber: settings.arguments as int,
                 ));
       case Routes.trainerSignUpScreen:
+        var arg = settings.arguments as RegisterTrainerScreenView;
         return MaterialPageRoute(
-            builder: (context) => const RegisterTrainerScreenView());
+            builder: (context) => RegisterTrainerScreenView(
+                  userType: arg.userType,
+                ));
       case Routes.verificationOtpScreen:
+        var arg = settings.arguments as AccountVerificationScreenContent;
         return MaterialPageRoute(
-            builder: (context) => const AccountVerificationScreenContent());
+          builder: (context) => AccountVerificationScreenContent(
+            phone: arg.phone,
+            userType: arg.userType,
+          ),
+        );
       case Routes.restaurantSignUpScreen:
+        var arg = settings.arguments as RegisterRestaurantScreenView;
         return MaterialPageRoute(
-            builder: (context) => const RegisterRestaurantScreenView());
+            builder: (context) => RegisterRestaurantScreenView(
+                  userType: arg.userType,
+                ));
       case Routes.shopSignUpScreen:
         return MaterialPageRoute(
             builder: (context) => const RegisterShopScreenView());
       case Routes.forgetPassScreen:
+        var arg = settings.arguments as ForgotPasswordScreenContent;
         return MaterialPageRoute(
-            builder: (context) => const ForgotPasswordScreenContent());
+            builder: (context) => ForgotPasswordScreenContent(
+                  userType: arg.userType,
+                ));
+      case Routes.forgetPassVerificationScreen:
+        var arg = settings.arguments as ForgetPasswordVerificationScreenContent;
+        return MaterialPageRoute(
+            builder: (context) => ForgetPasswordVerificationScreenContent(
+                  userType: arg.userType,
+                  phone: arg.phone,
+                ));
+      case Routes.resetPass:
+        var arg = settings.arguments as ResetPasswordScreen;
+        return MaterialPageRoute(
+            builder: (context) => ResetPasswordScreen(
+                  userType: arg.userType,
+                  phone: arg.phone,
+                  code: arg.code,
+                ));
       case Routes.homeTrainerScreen:
         return MaterialPageRoute(
             builder: (context) => const HomeTrainerScreen());
