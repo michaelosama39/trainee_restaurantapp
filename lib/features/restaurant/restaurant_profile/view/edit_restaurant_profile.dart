@@ -19,7 +19,7 @@ import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
 import '../../../../generated/l10n.dart';
-import '../../../trainer/profile_details/view/map_edit_user_profile.dart';
+import '../../../trainer/profile_details/presentation/view/map_edit_user_profile.dart';
 
 class EditRestaurantScreenContent extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _EditRestaurantScreenContentState
               DottedBorder(
                 color: AppColors.white,
                 dashPattern: const [5, 3],
-                radius: Radius.circular(10),
+                radius: const Radius.circular(10),
                 borderType: BorderType.Rect,
                 strokeWidth: 1,
                 child: Container(
@@ -205,7 +205,9 @@ class _EditRestaurantScreenContentState
           Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Container(
+              SizedBox(
+                height: 30,
+                width: 20,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12.0),
                   child: Icon(
@@ -213,8 +215,6 @@ class _EditRestaurantScreenContentState
                     color: AppColors.accentColorLight,
                   ),
                 ),
-                height: 30,
-                width: 20,
               ),
             ],
           ),
@@ -348,7 +348,7 @@ class _EditRestaurantScreenContentState
     return SizedBox(
       height: 350.h,
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: 7,
         itemBuilder: (context, index) {
           return Padding(
@@ -377,29 +377,29 @@ class _EditRestaurantScreenContentState
                           ],
                         ))),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                   height: 20.h,
-                  child: CustomText(text: "من"),
+                  child: const CustomText(text: "من"),
                 )),
                 Expanded(
                     flex: 2,
                     child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
                           border: Border.all(color: AppColors.white)),
                       height: 30.h,
                       child: HourDropDown(),
                     )),
                 Expanded(
-                    child: Container(
+                    child: SizedBox(
                   height: 20.h,
-                  child: CustomText(text: "الي"),
+                  child: const CustomText(text: "الي"),
                 )),
                 Expanded(
                     flex: 2,
                     child: Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
                           border: Border.all(color: AppColors.white)),
                       height: 30.h,
                       child: HourDropDown(),
@@ -453,7 +453,7 @@ class _HourDropDownState extends State<HourDropDown> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: DropdownButton<String>(
         value: selectedHour,
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_drop_down,
           color: AppColors.accentColorLight
 

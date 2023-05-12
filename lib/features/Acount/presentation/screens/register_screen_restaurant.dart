@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,16 +8,12 @@ import 'package:trainee_restaurantapp/features/Acount/presentation/controller/au
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
-import '../../../../../core/errors/app_errors.dart';
-import '../../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
-import '../../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_options.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/custom_text_field.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/common/style/dimens.dart';
-import '../../../../core/navigation/route_generator.dart';
 import 'general_auth.dart';
 
 class RegisterRestaurantScreenView extends StatefulWidget {
@@ -72,8 +67,8 @@ class _RegisterRestaurantScreenViewState
                       isoCode: AuthCubit.of(context).countryCode,
                       focusNode: AuthCubit.of(context).phoneFocusNode,
                       onFieldSubmitted: () {
-                        FocusScope.of(context).requestFocus(
-                            AuthCubit.of(context).userNameFocusNode);
+                        FocusScope.of(context)
+                            .requestFocus(AuthCubit.of(context).emailFocusNode);
                       },
                     ),
                     Gaps.vGap8,
@@ -121,13 +116,14 @@ class _RegisterRestaurantScreenViewState
                     ),
                     Gaps.vGap8,
                     uploadSignUpFile(
-                        text: Translation.of(context).commericalFile,
-                        file: AuthCubit.of(context).file,
-                        onTap: () async {
-                          AuthCubit.of(context).file =
-                              await AuthCubit.of(context).getFile();
-                          AuthCubit.of(context).emit(UploadSignUpFileState());
-                        }),
+                      text: Translation.of(context).commericalFile,
+                      file: AuthCubit.of(context).file,
+                      onTap: () async {
+                        AuthCubit.of(context).file =
+                            await AuthCubit.of(context).getFile();
+                        AuthCubit.of(context).emit(UploadSignUpFileState());
+                      },
+                    ),
                     Gaps.vGap8,
                     EmailTextField(
                       text: Translation.of(context).restaurantManagerName,
@@ -249,9 +245,7 @@ class _RegisterRestaurantScreenViewState
   }
 
   uploadSignUpFile(
-      {required void Function()? onTap,
-      required String text,
-      File? file}) {
+      {required void Function()? onTap, required String text, File? file}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
@@ -280,13 +274,15 @@ class _RegisterRestaurantScreenViewState
                       borderRadius: BorderRadius.circular((Dimens.dp12))),
                   height: Dimens.dp80.h,
                   width: double.infinity,
-                  child: file == null ? const Center(
-                    child: FaIcon(
-                      FontAwesomeIcons.upload,
-                      color: AppColors.accentColorLight,
-                      size: Dimens.dp40,
-                    ),
-                  ) : Image.file(file),
+                  child: file == null
+                      ? const Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.upload,
+                            color: AppColors.accentColorLight,
+                            size: Dimens.dp40,
+                          ),
+                        )
+                      : Image.file(file),
                 ),
               ),
             ],

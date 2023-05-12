@@ -7,13 +7,25 @@ import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
+import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/common/style/dimens.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
 
-class AddCourseView extends StatelessWidget {
+class AddCourseView extends StatefulWidget {
   AddCourseView({super.key});
 
+  @override
+  State<AddCourseView> createState() => _AddCourseViewState();
+}
+
+class _AddCourseViewState extends State<AddCourseView> {
+  @override
+  void initState() {
+    print(AppStorage.getUserInfo!.result!.userId);
+    print("AppStorage.getUserId");
+    super.initState();
+  }
   uploadSignUpFile({required void Function()? onTap, required String text}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -60,6 +72,7 @@ class AddCourseView extends StatelessWidget {
   }
 
   FocusNode commercialNumber = FocusNode();
+
   TextEditingController commercialNumberController = TextEditingController();
 
   @override

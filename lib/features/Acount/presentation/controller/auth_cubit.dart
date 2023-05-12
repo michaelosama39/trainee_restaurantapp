@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/register_restaurant_model.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
@@ -106,6 +107,53 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future registerShop(BuildContext context, int userType) async {
+    RegisterRestaurantModel model = RegisterRestaurantModel(
+      name: restaurantNameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+      phoneNumber: phoneController.text,
+      commercialRegisterDocument: file,
+      commercialRegisterNumber: commercialNumberController.text,
+      cityId: 1,
+      managerCountryCode: countryCode,
+      managerName: restaurantManagerNameController.text,
+      managerPhoneNumber: phoneRestaurantController.text,
+    );
+
+    if (formKey.currentState!.validate()) {
+      if (boxChecked) {
+        unFocus(context);
+        emit(RegisterShopLoading());
+        isLoading = true;
+        final res = await authRepo.registerShop(model);
+        res.fold(
+          (err) {
+            isLoading = false;
+            Toast.show(err);
+            emit(RegisterShopError());
+          },
+          (res) async {
+            await AppStorage.cacheUserInfo(res);
+            Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
+                arguments: AccountVerificationScreenContent(
+                    phone: phoneController.text, userType: userType));
+            isLoading = false;
+            emit(RegisterShopLoaded());
+          },
+        );
+      } else {
+        ErrorViewer.showError(
+            errorViewerOptions:
+                const ErrVSnackBarOptions(backgroundColor: AppColors.grey),
+            context: context,
+            error: CustomError(
+                message: Translation.of(context).accept_terms_conditions),
+            callback: () {});
+      }
+    }
+  }
+
   Future registerRestaurant(BuildContext context, int userType) async {
     RegisterRestaurantModel model = RegisterRestaurantModel(
       name: restaurantNameController.text,
@@ -120,7 +168,7 @@ class AuthCubit extends Cubit<AuthState> {
       managerPhoneNumber: phoneRestaurantController.text,
     );
 
-    // if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       if (boxChecked) {
         unFocus(context);
         emit(RegisterRestaurantLoading());
@@ -133,6 +181,7 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterRestaurantError());
           },
           (res) async {
+            await AppStorage.cacheUserInfo(res);
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneController.text, userType: userType));
@@ -149,7 +198,7 @@ class AuthCubit extends Cubit<AuthState> {
                 message: Translation.of(context).accept_terms_conditions),
             callback: () {});
       }
-    // }
+    }
   }
 
   Future registerTrainer(BuildContext context, int userType) async {
@@ -171,6 +220,7 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterTrainerError());
           },
           (res) async {
+            await AppStorage.cacheUserInfo(res);
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneController.text, userType: userType));
@@ -262,7 +312,8 @@ class AuthCubit extends Cubit<AuthState> {
           emit(LoginError());
         },
         (res) async {
-          if (formKey.currentState!.validate()) ;
+          if (formKey.currentState!.validate());
+          await AppStorage.cacheUserInfo(res);
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.navigatorScreen, (route) => false,
               arguments: type);
@@ -277,7 +328,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (FocusScope.of(context).hasFocus) FocusScope.of(context).unfocus();
   }
 
-  Future<File?> getFile() async{
+  Future<File?> getFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path!);

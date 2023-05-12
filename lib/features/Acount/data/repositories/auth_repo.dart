@@ -49,16 +49,16 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, bool>> registerRestaurant(
+  Future<Either<String, UserModel>> registerShop(
       RegisterRestaurantModel registerRestaurantModel) async {
     final response = await DioHelper.post(
-      APIUrls.API_REGISTER_REST,
+      APIUrls.API_REGISTER_SHOP,
       body: await registerRestaurantModel.toJson(),
     );
     try {
       if (response.data['success'] == true) {
-        print("Success registerRestaurant");
-        return const Right(true);
+        print("Success registerShop");
+        return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
       }
@@ -67,7 +67,25 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, bool>> registerTrainer(String phoneNumber, String name,
+  Future<Either<String, UserModel>> registerRestaurant(
+      RegisterRestaurantModel registerRestaurantModel) async {
+    final response = await DioHelper.post(
+      APIUrls.API_REGISTER_REST,
+      body: await registerRestaurantModel.toJson(),
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success registerRestaurant");
+        return Right(UserModel.fromJson(response.data));
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, UserModel>> registerTrainer(String phoneNumber, String name,
       String password, String countryCode) async {
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_TRAINER,
@@ -82,7 +100,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerTrainer");
-        return const Right(true);
+        return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
       }

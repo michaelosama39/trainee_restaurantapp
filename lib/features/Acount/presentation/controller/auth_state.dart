@@ -17,6 +17,10 @@ class RegisterRestaurantLoaded extends AuthState {}
 class RegisterRestaurantLoading extends AuthState {}
 class RegisterRestaurantError extends AuthState {}
 
+class RegisterShopLoaded extends AuthState {}
+class RegisterShopLoading extends AuthState {}
+class RegisterShopError extends AuthState {}
+
 class VerifyAccountLoaded extends AuthState {}
 class VerifyAccountLoading extends AuthState {}
 class VerifyAccountError extends AuthState {}

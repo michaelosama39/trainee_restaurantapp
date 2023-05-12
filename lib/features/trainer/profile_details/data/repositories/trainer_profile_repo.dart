@@ -11,7 +11,7 @@ class TrainerProfileRepo {
     final response = await DioHelper.get(
       APIUrls.API_GET_TRAINER_PROFILE,
       query: {
-        "id" : AppStorage.getUserId
+        "id" : AppStorage.getUserInfo!.result!.userId
       }
     );
     try {

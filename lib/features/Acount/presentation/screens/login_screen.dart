@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_shop.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_trainer.dart';
 
 import '../../../../core/common/app_colors.dart';
@@ -51,7 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ? Navigator.pushNamed(context, Routes.trainerSignUpScreen,
                 arguments:
                     RegisterTrainerScreenView(userType: widget.screenNumber))
-            : Navigator.pushNamed(context, Routes.shopSignUpScreen);
+            : Navigator.pushNamed(context, Routes.shopSignUpScreen,
+                arguments:
+                    RegisterShopScreenView(userType: widget.screenNumber));
     //  Nav.off(RegisterScreen.routeName, cleanHistory: true);
   }
 

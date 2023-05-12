@@ -95,8 +95,11 @@ class AppRoute {
                   userType: arg.userType,
                 ));
       case Routes.shopSignUpScreen:
+        var arg = settings.arguments as RegisterShopScreenView;
         return MaterialPageRoute(
-            builder: (context) => const RegisterShopScreenView());
+            builder: (context) => RegisterShopScreenView(
+              userType: arg.userType,
+            ));
       case Routes.forgetPassScreen:
         var arg = settings.arguments as ForgotPasswordScreenContent;
         return MaterialPageRoute(
