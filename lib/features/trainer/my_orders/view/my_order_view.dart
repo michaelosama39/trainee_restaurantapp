@@ -33,13 +33,11 @@ class _MyOrderViewState extends State<MyOrderView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
-        title: Translation
-            .of(context)
-            .my_orders,
+        title: Translation.of(context).my_orders,
       ),
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: 60.h,
             child: Row(
               children: [
@@ -56,15 +54,15 @@ class _MyOrderViewState extends State<MyOrderView>
                       child: Container(
                           decoration: tabbed == 1
                               ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
+                                  border: Border.all(
+                                      color: AppColors.grey.withOpacity(0.5)),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  gradient: LinearGradient(colors: [
+                                    AppColors.transparent.withOpacity(0.3),
+                                    AppColors.transparent.withOpacity(0),
+                                  ]))
                               : null,
                           child: Center(
                             child: CustomText(
@@ -90,15 +88,15 @@ class _MyOrderViewState extends State<MyOrderView>
                       child: Container(
                           decoration: tabbed == 2
                               ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
+                                  border: Border.all(
+                                      color: AppColors.grey.withOpacity(0.5)),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  gradient: LinearGradient(colors: [
+                                    AppColors.transparent.withOpacity(0.3),
+                                    AppColors.transparent.withOpacity(0),
+                                  ]))
                               : null,
                           child: Center(
                             child: CustomText(
@@ -124,15 +122,15 @@ class _MyOrderViewState extends State<MyOrderView>
                       child: Container(
                           decoration: tabbed == 3
                               ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
+                                  border: Border.all(
+                                      color: AppColors.grey.withOpacity(0.5)),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  gradient: LinearGradient(colors: [
+                                    AppColors.transparent.withOpacity(0.3),
+                                    AppColors.transparent.withOpacity(0),
+                                  ]))
                               : null,
                           child: Center(
                             child: CustomText(
@@ -167,7 +165,6 @@ class _MyOrderViewState extends State<MyOrderView>
 
 class WaitingList extends StatelessWidget {
   const WaitingList({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +225,7 @@ class ImageWithNameTrainee extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage(AppConstants.COACH_COVER_IMG),
           fit: BoxFit.cover,
         ),
@@ -268,7 +265,7 @@ class CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           gradient: LinearGradient(colors: [
             AppColors.transparent.withOpacity(1),
             AppColors.transparent.withOpacity(0),
@@ -278,35 +275,33 @@ class CardDetails extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: Container(
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: CircleAvatar(
-                          backgroundImage: AssetImage(
-                              AppConstants.COACH4_IMAGE)),
-                      title: CustomText(
-                        text: "مصطفي محمد",
-                        fontSize: AppConstants.textSize14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                      ),
-                      subtitle: CustomText(
-                        text: "#12375",
-                        fontSize: AppConstants.textSize14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white,
-                      ),
-                    ),
-                    CustomText(
-                      text: "100 ريال سعودي",
-                      color: AppColors.accentColorLight,
-                      fontWeight: FontWeight.w600,
-                      fontSize: AppConstants.textSize14,
-                    ),
-                    selectedCard
-                        ? SizedBox()
-                        : Row(
+              child: Column(
+            children: [
+              ListTile(
+                leading: const CircleAvatar(
+                    backgroundImage: AssetImage(AppConstants.COACH4_IMAGE)),
+                title: CustomText(
+                  text: "مصطفي محمد",
+                  fontSize: AppConstants.textSize14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
+                subtitle: CustomText(
+                  text: "#12375",
+                  fontSize: AppConstants.textSize14,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                ),
+              ),
+              CustomText(
+                text: "100 ريال سعودي",
+                color: AppColors.accentColorLight,
+                fontWeight: FontWeight.w600,
+                fontSize: AppConstants.textSize14,
+              ),
+              selectedCard
+                  ? const SizedBox()
+                  : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         InkWell(
@@ -332,10 +327,9 @@ class CardDetails extends StatelessWidget {
                         )
                       ],
                     ),
-                  ],
-                ),
-              )),
-          Expanded(child: ImageWithNameTrainee())
+            ],
+          )),
+          const Expanded(child: ImageWithNameTrainee())
         ],
       ),
     );

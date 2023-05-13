@@ -121,7 +121,7 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                       file: AuthCubit.of(context).file,
                       onTap: () async {
                         AuthCubit.of(context).file =
-                        await AuthCubit.of(context).getFile();
+                            await AuthCubit.of(context).getFile();
                         AuthCubit.of(context).emit(UploadSignUpFileState());
                       },
                     ),
@@ -281,12 +281,12 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                   width: double.infinity,
                   child: file == null
                       ? const Center(
-                    child: FaIcon(
-                      FontAwesomeIcons.upload,
-                      color: AppColors.accentColorLight,
-                      size: Dimens.dp40,
-                    ),
-                  )
+                          child: FaIcon(
+                            FontAwesomeIcons.upload,
+                            color: AppColors.accentColorLight,
+                            size: Dimens.dp40,
+                          ),
+                        )
                       : Image.file(file),
                 ),
               ),

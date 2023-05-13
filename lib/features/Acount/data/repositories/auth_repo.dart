@@ -7,9 +7,6 @@ import '../models/register_restaurant_model.dart';
 
 class AuthRepo {
   Future<Either<String, bool>> resendCode(String phone, int userType) async {
-    print('000000');
-    print(phone);
-    print(userType);
     final response = await DioHelper.post(
       APIUrls.API_VERIFY_RESEND_CODE,
       body: {
@@ -164,6 +161,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success login");
+        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);

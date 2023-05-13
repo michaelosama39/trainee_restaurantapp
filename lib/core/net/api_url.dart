@@ -16,5 +16,6 @@ class APIUrls {
   static const API_GET_COURSES = "/services/app/Course/GetAll";
   static const API_GET_NEW_TRAINEES = "/services/app/Trainee/GetNewTrainees";
   static const API_GET_TRAINER_PROFILE = "/services/app/Trainer/Get";
+  static const API_COURSE_CREATE = "/services/app/Course/Create";
 
 }

@@ -1,0 +1,10 @@
+part of 'add_course_cubit.dart';
+
+@immutable
+abstract class AddCourseState {}
+
+class AddCourseInitial extends AddCourseState {}
+class AddCourseLoading extends AddCourseState {}
+class AddCourseLoaded extends AddCourseState {}
+class AddCourseError extends AddCourseState {}
+class UploadSignUpFileState extends AddCourseState {}

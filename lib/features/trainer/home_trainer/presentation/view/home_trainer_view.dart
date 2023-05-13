@@ -21,7 +21,6 @@ import '../../../../../core/ui/widgets/custom_button.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
 
-
 class HomeTrainerScreen extends StatefulWidget {
   const HomeTrainerScreen({Key? key}) : super(key: key);
 
@@ -31,76 +30,79 @@ class HomeTrainerScreen extends StatefulWidget {
 
 class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   Widget trainerProfile() {
-    return BlocBuilder<TrainerProfileCubit,TrainerProfileState>(
+    return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
       buildWhen: (previous, current) =>
-      previous != current ||
+          previous != current ||
           current is GetTrainerProfileLoaded ||
           current is GetTrainerProfileLoading,
       builder: (context, state) {
-      if(state is GetTrainerProfileLoading){
-        return const Loader();
-      }else {
-        var trainerModel = TrainerProfileCubit.of(context).trainerModel;
-        return Container(
-          height: 192.h,
-          decoration: const BoxDecoration(
-            color: AppColors.darkBrownColor,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(Dimens.dp10),
-                bottomRight: Radius.circular(Dimens.dp10)),
-          ),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0, 0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Image.network(trainerModel!.imageUrl ?? "",
-                    errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(AppConstants.COACH1_IMAGE);
-                  },),
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.only(bottom: 23.0, left: 23, right: 23),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: trainerModel.name ?? "",
-                          fontSize: Dimens.dp20,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                         CustomText(
-                          text: trainerModel.subscription!.name ?? "",
-                          fontSize: Dimens.dp20,
-                          color: AppColors.accentColorLight,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ],
+        if (state is GetTrainerProfileLoading) {
+          return const Loader();
+        } else {
+          var trainerModel = TrainerProfileCubit.of(context).trainerModel;
+          return Container(
+            height: 192.h,
+            decoration: const BoxDecoration(
+              color: AppColors.darkBrownColor,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(Dimens.dp10),
+                  bottomRight: Radius.circular(Dimens.dp10)),
+            ),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Image.network(
+                      trainerModel!.imageUrl ?? "",
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(AppConstants.COACH1_IMAGE);
+                      },
                     ),
                   ),
-                ),
-                Expanded(
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const FaIcon(
-                        FontAwesomeIcons.solidBell,
-                        color: AppColors.white,
-                        size: 30,
-                      )),
-                )
-              ],
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 23.0, left: 23, right: 23),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: trainerModel.name ?? "",
+                            fontSize: Dimens.dp20,
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          CustomText(
+                            text: trainerModel.subscription!.name ?? "",
+                            fontSize: Dimens.dp20,
+                            color: AppColors.accentColorLight,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(
+                          FontAwesomeIcons.solidBell,
+                          color: AppColors.white,
+                          size: 30,
+                        )),
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    },);
+          );
+        }
+      },
+    );
   }
 
   Widget _buildCourseItemWidget() {
@@ -155,7 +157,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                               ),
                               Gaps.vGap12,
                               CustomText(
-                                text: ' ssxx${Translation.of(context).saudi_riyal}',
+                                text:
+                                    ' ssxx${Translation.of(context).saudi_riyal}',
                                 fontSize: AppConstants.textSize15,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.accentColorLight,
@@ -208,7 +211,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image:  DecorationImage(
+            image: DecorationImage(
               image: NetworkImage(courseModel.imageUrl ?? ""),
               fit: BoxFit.cover,
             ),
@@ -276,7 +279,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(8.w, 0, 0, 0),
                             child: CustomText(
-                              text: "${courseModel.fee} ${Translation.of(context).saudi_riyal}",
+                              text:
+                                  "${courseModel.fee} ${Translation.of(context).saudi_riyal}",
                               fontWeight: FontWeight.w600,
                               color: AppColors.accentColorLight,
                               fontSize: AppConstants.textSize12,
@@ -289,7 +293,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  text: "المده المتبقيه: ${courseModel.trainingHoursCount}",
+                                  text:
+                                      "المده المتبقيه: ${courseModel.trainingHoursCount}",
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.white,
                                   fontSize: AppConstants.textSize14,
@@ -304,7 +309,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: CustomText(
-                                          text: courseModel.isActive == true ? 'فعاله' : 'غير فعاله' ,
+                                          text: courseModel.isActive == true
+                                              ? 'فعاله'
+                                              : 'غير فعاله',
                                           color: AppColors.white,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -347,36 +354,40 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
             ),
           ),
           Gaps.vGap16,
-          BlocBuilder<HomeTrainerCubit,HomeTrainerState>(builder: (context, state) {
-            if(state is GetMostWantedCoursesLoaded){
-              if(state.mostWantedCourse.isNotEmpty){
-                return Padding(
-                  padding: EdgeInsets.only(right: 4.w),
-                  child: CustomCarousel(
-                    items: List.generate(
-                        state.mostWantedCourse.length,
-                            (index) => _buildMyCourseItemWidget(state.mostWantedCourse[index])),
-                    options: CarouselOptions(
-                      height: 344.h,
-                      viewportFraction: 0.8,
-                      initialPage: 0,
-                      enableInfiniteScroll: false,
-                      scrollPhysics: const CustomScrollPhysics(itemDimension: 1),
-                      autoPlay: false,
-                      enlargeCenterPage: true,
-                      scrollDirection: Axis.horizontal,
+          BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+            builder: (context, state) {
+              if (state is GetMostWantedCoursesLoaded) {
+                if (state.mostWantedCourse.isNotEmpty) {
+                  return Padding(
+                    padding: EdgeInsets.only(right: 4.w),
+                    child: CustomCarousel(
+                      items: List.generate(
+                          state.mostWantedCourse.length,
+                          (index) => _buildMyCourseItemWidget(
+                              state.mostWantedCourse[index])),
+                      options: CarouselOptions(
+                        height: 344.h,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        scrollPhysics:
+                            const CustomScrollPhysics(itemDimension: 1),
+                        autoPlay: false,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                      ),
                     ),
-                  ),
-                );
-              }else{
-                return const Center(child: Text(
-                  "لا يوجد كورسات"
-                ),);
+                  );
+                } else {
+                  return const Center(
+                    child: Text("لا يوجد كورسات"),
+                  );
+                }
+              } else {
+                return const Loader();
               }
-            }else{
-              return const Loader();
-            }
-          },)
+            },
+          )
         ],
       ),
     );
@@ -528,9 +539,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
               titleColor: AppColors.accentColorLight,
             ),
             Gaps.vGap14,
-            BlocBuilder<TrainerProfileCubit,TrainerProfileState>(
+            BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
               builder: (context, state) {
-                if(TrainerProfileCubit.of(context).trainerModel != null){
+                if (TrainerProfileCubit.of(context).trainerModel != null) {
                   return Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -539,8 +550,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                           flex: 3,
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(AppConstants.borderRadius10)),
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    AppConstants.borderRadius10)),
                                 gradient: const LinearGradient(colors: [
                                   AppColors.lightColor,
                                   AppColors.accentColorLight
@@ -548,17 +559,23 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    text: TrainerProfileCubit.of(context).trainerModel!.subscription!.name ?? "",
+                                    text: TrainerProfileCubit.of(context)
+                                            .trainerModel!
+                                            .subscription!
+                                            .name ??
+                                        "",
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.white,
                                     fontSize: AppConstants.textSize16,
                                   ),
                                   CustomText(
-                                    text: "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee} ${Translation.of(context).saudi_riyal}",
+                                    text:
+                                        "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee} ${Translation.of(context).saudi_riyal}",
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.white,
                                     fontSize: AppConstants.textSize16,
@@ -574,7 +591,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: AppColors.transparent.withOpacity(0.2)),
+                                    color:
+                                        AppColors.transparent.withOpacity(0.2)),
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(AppConstants.blurDegree10)),
                                 gradient: LinearGradient(colors: [
@@ -600,11 +618,11 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                       ],
                     ),
                   );
-                }else{
+                } else {
                   return const Loader();
                 }
-              },)
-
+              },
+            )
           ],
         ),
       ),
@@ -627,7 +645,6 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
               Gaps.vGap16,
               trainerBouquet(),
               Gaps.vGap60,
-
             ],
           ),
         ),

@@ -16,7 +16,7 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+    json['result'] != null ? Result.fromJson(json['result']) : null;
     targetUrl = json['targetUrl'];
     success = json['success'];
     error = json['error'];
@@ -25,7 +25,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.result != null) {
       data['result'] = this.result!.toJson();
     }
@@ -43,8 +43,8 @@ class Result {
   String? encryptedAccessToken;
   int? expireInSeconds;
   int? userId;
-  int? restaurantId;
-  int? shopId;
+  Null? restaurantId;
+  Null? shopId;
 
   Result(
       {this.accessToken,
@@ -64,7 +64,7 @@ class Result {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['accessToken'] = this.accessToken;
     data['encryptedAccessToken'] = this.encryptedAccessToken;
     data['expireInSeconds'] = this.expireInSeconds;

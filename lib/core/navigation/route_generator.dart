@@ -14,7 +14,7 @@ import '../../features/Acount/presentation/screens/register_screen_trainer.dart'
 import '../../features/Acount/presentation/screens/reset_password_screen.dart';
 import '../../features/navigator_home/view/navigator_home_view.dart';
 import '../../features/on_boarding/view/main_onboarding_view.dart';
-import '../../features/trainer/add_course/view/add_course_view.dart';
+import '../../features/trainer/add_course/presentation/screen/add_course_view.dart';
 import '../../features/trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../features/trainer/my_courses/view/my_course_details.dart';
 import '../../features/trainer/profile_details/presentation/view/edit_profile_trainer_screen.dart';

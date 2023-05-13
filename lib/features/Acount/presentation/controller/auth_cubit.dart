@@ -312,8 +312,6 @@ class AuthCubit extends Cubit<AuthState> {
           emit(LoginError());
         },
         (res) async {
-          if (formKey.currentState!.validate());
-          await AppStorage.cacheUserInfo(res);
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.navigatorScreen, (route) => false,
               arguments: type);
