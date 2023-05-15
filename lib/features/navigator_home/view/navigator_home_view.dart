@@ -3,11 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/view/home_restaurant_view.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/nav.dart';
 import '../../../../core/ui/widgets/route_aware_widget.dart';
 import '../../../../generated/l10n.dart';
+import '../../restaurant/add_plate/view/add_plate_view.dart';
+import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../trainer/more_trainer/view/more_trainer_view.dart';
 import '../../trainer/profile_details/presentation/view/profile_view_screen.dart';
@@ -23,11 +26,12 @@ class NavigatorScreen extends StatefulWidget {
 }
 
 class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
+
   late List<Widget> _pages;
 
   late PageController _pageController;
   int _selectedPage = 0;
-  GlobalKey globalKey = new GlobalKey(debugLabel: 'btm_app_bar');
+  GlobalKey globalKey = GlobalKey(debugLabel: 'btm_app_bar');
   bool _inScreen = true;
 
   @override
@@ -47,20 +51,27 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
       ProfileTrainerScreenView(),
       // const ProfileScreen(),
       // const MoreScreen()
-      MoreTrainerScreen()
+      const MoreTrainerScreen()
     ]:widget.homeType==1?[
       const HomeTrainerScreen(),
       Container(),
       // const ProfileScreen(),
       // const MoreScreen()
-      MoreTrainerScreen(),
+      const MoreTrainerScreen(),
       ProfileTrainerScreenView(),
+    ]:widget.homeType==3?[
+      const HomeRestaurantScreen(),
+      Container(),
+      // const ProfileScreen(),
+      // const MoreScreen()
+      const RestaurantProfile(),
+      const MoreTrainerScreen(),
     ]:[
       Container(),
       ProfileTrainerScreenView(),
       // const ProfileScreen(),
       // const MoreScreen()
-      MoreTrainerScreen(),
+      const MoreTrainerScreen(),
       const HomeTrainerScreen(),
     ];
 
@@ -106,30 +117,28 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                             onTap: () {
                               _onItemTapped(0);
                             },
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 0.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                        AppConstants.HOME_ICON,
-                                      ),
-                                      color: _selectedPage == 0
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                      size: AppConstants.textSize18.h,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ImageIcon(
+                                    const AssetImage(
+                                      AppConstants.HOME_ICON,
                                     ),
-                                    CustomText(
-                                      text: Translation.of(context).homePage,
-                                      color: _selectedPage == 0
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                    )
-                                  ],
-                                ),
+                                    color: _selectedPage == 0
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                    size: AppConstants.textSize18.h,
+                                  ),
+                                  CustomText(
+                                    text: Translation.of(context).homePage,
+                                    color: _selectedPage == 0
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -137,30 +146,28 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                             onTap: () {
                               _onItemTapped(1);
                             },
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 0.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                        AppConstants.MAIL_ICON,
-                                      ),
-                                      color: _selectedPage == 1
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                      size: AppConstants.textSize18.h,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ImageIcon(
+                                    const AssetImage(
+                                      AppConstants.MAIL_ICON,
                                     ),
-                                    CustomText(
-                                      text: Translation.of(context).mail,
-                                      color: _selectedPage == 1
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                    )
-                                  ],
-                                ),
+                                    color: _selectedPage == 1
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                    size: AppConstants.textSize18.h,
+                                  ),
+                                  CustomText(
+                                    text: Translation.of(context).mail,
+                                    color: _selectedPage == 1
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -168,30 +175,28 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                             onTap: () {
                               _onItemTapped(2);
                             },
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 0.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ImageIcon(
-                                      AssetImage(
-                                        AppConstants.PROFILE_ICON,
-                                      ),
-                                      color: _selectedPage == 2
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                      size: AppConstants.textSize18.h,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ImageIcon(
+                                    const AssetImage(
+                                      AppConstants.PROFILE_ICON,
                                     ),
-                                    CustomText(
-                                      text: Translation.of(context).profile,
-                                      color: _selectedPage == 2
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                    )
-                                  ],
-                                ),
+                                    color: _selectedPage == 2
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                    size: AppConstants.textSize18.h,
+                                  ),
+                                  CustomText(
+                                    text: Translation.of(context).profile,
+                                    color: _selectedPage == 2
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -199,28 +204,26 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                             onTap: () {
                               _onItemTapped(3);
                             },
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 0.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Icon(
-                                      Icons.more_horiz,
-                                      color: _selectedPage == 3
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                      size: AppConstants.textSize18.h,
-                                    ),
-                                    CustomText(
-                                      text: Translation.of(context).more,
-                                      color: _selectedPage == 3
-                                          ? AppColors.accentColorLight
-                                          : AppColors.white,
-                                    )
-                                  ],
-                                ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    Icons.more_horiz,
+                                    color: _selectedPage == 3
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                    size: AppConstants.textSize18.h,
+                                  ),
+                                  CustomText(
+                                    text: Translation.of(context).more,
+                                    color: _selectedPage == 3
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -232,13 +235,17 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
               ),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primaryColorLight,
                     shape: BoxShape.circle,
                   ),
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(Routes.addCourseScreen);
+                      if(widget.homeType == 3){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPlateView()));
+                      }else{
+                        Navigator.of(context).pushNamed(Routes.addCourseScreen);
+                      }
                     },
                     child: Container(
                       width: double.minPositive,

@@ -314,7 +314,7 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                   //         height: 250.h,
                   //       )
                   //     :
-                mainTopWidget??  Image.asset(
+                mainTopWidget??  Image.network(
                 image ?? AppConstants.TRAINEE_IMG,
                 fit: BoxFit.cover,
                 height: 250.h,

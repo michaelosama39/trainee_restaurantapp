@@ -18,6 +18,18 @@ class DioHelper {
         ));
   }
 
+  static Future<Response<dynamic>> put(String path,
+      {Map<String, dynamic>? body, Map<String, dynamic>? headers}) {
+    dioSingleton.options.headers = headers;
+    return dioSingleton.put(path,
+        data: body,
+        options: Options(
+          validateStatus: (_) => true,
+          contentType: Headers.jsonContentType,
+          responseType: ResponseType.json,
+        ));
+  }
+
   static Future<Response<dynamic>> get(String path,
 
       {Map<String, dynamic>? headers, Map<String, dynamic>? query}) {

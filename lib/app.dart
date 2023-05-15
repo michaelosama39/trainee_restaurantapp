@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/courses_controller/courses_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
@@ -41,8 +42,18 @@ class _AppState extends State<App> {
         ],
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => TrainerProfileCubit()..getTrainerProfile(context),),
-            BlocProvider(create: (context) => HomeTrainerCubit()..getMostWantedCourses(context),),
+            BlocProvider(
+              create: (context) =>
+                  TrainerProfileCubit()..getTrainerProfile(context),
+            ),
+            BlocProvider(
+              create: (context) =>
+              RestProfileCubit()..getRestaurantProfile(context),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  HomeTrainerCubit()..getMostWantedCourses(context),
+            ),
             BlocProvider(create: (context) => CoursesCubit()),
           ],
           child: Consumer<LocalizationProvider>(

@@ -43,8 +43,8 @@ class Result {
   String? encryptedAccessToken;
   int? expireInSeconds;
   int? userId;
-  Null? restaurantId;
-  Null? shopId;
+  int? restaurantId;
+  int? shopId;
 
   Result(
       {this.accessToken,

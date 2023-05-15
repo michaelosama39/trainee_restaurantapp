@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
+import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/view/home_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/view/my_course_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_orders/view/my_order_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/trainee/view/all_trainee_screen.dart';
@@ -14,6 +15,7 @@ import '../../features/Acount/presentation/screens/register_screen_trainer.dart'
 import '../../features/Acount/presentation/screens/reset_password_screen.dart';
 import '../../features/navigator_home/view/navigator_home_view.dart';
 import '../../features/on_boarding/view/main_onboarding_view.dart';
+import '../../features/restaurant/restaurant_profile/view/edit_restaurant_profile.dart';
 import '../../features/trainer/add_course/presentation/screen/add_course_view.dart';
 import '../../features/trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../features/trainer/my_courses/view/my_course_details.dart';
@@ -35,6 +37,7 @@ class Routes {
       "/forgetPassVerificationScreen";
   static const String navigatorScreen = "/navigatorScreen";
   static const String homeTrainerScreen = "/homeTrainerScreen";
+  static const String homeRestScreen = "/homeRestScreen";
   static const String traineeProfileScreen = "/traineeProfileScreen";
   static const String MyCourseDetailsScreen = "/myCourseDetails";
   static const String addCourseScreen = "/addCourseScreen";
@@ -42,6 +45,7 @@ class Routes {
   static const String myOrderScreen = "/myOrderScreen";
   static const String traineeScreen = "/traineeScreen";
   static const String editProfileScreen = "/editProfileScreen";
+  static const String editRestProfileScreen = "/editRestProfileScreen";
   static const String resetPass = "/resetPass";
 }
 
@@ -98,8 +102,8 @@ class AppRoute {
         var arg = settings.arguments as RegisterShopScreenView;
         return MaterialPageRoute(
             builder: (context) => RegisterShopScreenView(
-              userType: arg.userType,
-            ));
+                  userType: arg.userType,
+                ));
       case Routes.forgetPassScreen:
         var arg = settings.arguments as ForgotPasswordScreenContent;
         return MaterialPageRoute(
@@ -124,6 +128,9 @@ class AppRoute {
       case Routes.homeTrainerScreen:
         return MaterialPageRoute(
             builder: (context) => const HomeTrainerScreen());
+      case Routes.homeRestScreen:
+        return MaterialPageRoute(
+            builder: (context) => const HomeRestaurantScreen());
       case Routes.traineeProfileScreen:
         return MaterialPageRoute(builder: (context) => TraineeProfileScreen());
       case Routes.MyCourseDetailsScreen:
@@ -137,6 +144,9 @@ class AppRoute {
       case Routes.editProfileScreen:
         return MaterialPageRoute(
             builder: (context) => EditProfileScreenContent());
+        case Routes.editRestProfileScreen:
+        return MaterialPageRoute(
+            builder: (context) => EditRestaurantScreenContent());
       case Routes.navigatorScreen:
         return MaterialPageRoute(
             builder: (context) => NavigatorScreen(

@@ -7,13 +7,8 @@ import '../../../../../core/models/trainer_model.dart';
 
 class TrainerProfileRepo {
   Future<Either<String, TrainerModel>> getTrainerProfile() async {
-
-    final response = await DioHelper.get(
-      APIUrls.API_GET_TRAINER_PROFILE,
-      query: {
-        "id" : AppStorage.getUserInfo!.result!.userId
-      }
-    );
+    final response = await DioHelper.get(APIUrls.API_GET_REST_PROFILE,
+        query: {"id": AppStorage.getUserInfo!.result!.userId});
     try {
       if (response.data['success'] == true) {
         return Right(TrainerModel.fromJson(response.data["result"]));
@@ -25,5 +20,4 @@ class TrainerProfileRepo {
       return Left(e.toString());
     }
   }
-
 }

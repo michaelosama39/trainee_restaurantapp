@@ -12,7 +12,7 @@ import '../../../../core/common/style/gaps.dart';
 import '../../../../core/ui/widgets/custom_text_field.dart';
 
 class AddPlateView extends StatelessWidget {
-  AddPlateView({super.key});
+   AddPlateView({super.key});
 
   uploadSignUpFile({required void Function()? onTap, required String text}) {
     return Padding(

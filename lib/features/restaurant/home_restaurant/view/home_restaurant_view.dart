@@ -1,15 +1,17 @@
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/style/dimens.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
+import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/library/carousel/custom_carousel.dart';
+import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../core/ui/widgets/clock_widget.dart';
@@ -42,7 +44,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           children: [
             Expanded(
               flex: 2,
-              child: Image.asset(AppConstants.COACH1_IMAGE),
+              child: Image.network(''),
             ),
             Expanded(
               flex: 4,
@@ -72,7 +74,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             Expanded(
               child: IconButton(
                   onPressed: () {},
-                  icon: FaIcon(
+                  icon: const FaIcon(
                     FontAwesomeIcons.solidBell,
                     color: AppColors.white,
                     size: 30,
@@ -98,7 +100,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: DecorationImage(
+            image: const DecorationImage(
               image: AssetImage(AppConstants.COACH1_IMAGE),
               fit: BoxFit.cover,
             ),
@@ -136,8 +138,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               ),
                               Gaps.vGap12,
                               CustomText(
-                                text: ' ssxx' +
-                                    Translation.of(context).saudi_riyal,
+                                text:
+                                    ' ssxx${Translation.of(context).saudi_riyal}',
                                 fontSize: AppConstants.textSize15,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.accentColorLight,
@@ -164,7 +166,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   Positioned(
                       left: 16.w,
                       bottom: 10.h,
-                      child: ClockWidget(
+                      child: const ClockWidget(
                         duration: 10.0,
                       ))
                 ],
@@ -190,7 +192,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: DecorationImage(
+            image: const DecorationImage(
               image: AssetImage(AppConstants.RESTAURANT_IMG),
               fit: BoxFit.cover,
             ),
@@ -237,14 +239,12 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      child: Icon(
-                                        FontAwesomeIcons.cube,
-                                        size: 16,
-                                        color: AppColors.accentColorLight,
-                                      ),
+                                    const Icon(
+                                      FontAwesomeIcons.cube,
+                                      size: 16,
+                                      color: AppColors.accentColorLight,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 10,
                                       child: CustomText(
                                         text: "24 طلب",
@@ -429,7 +429,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage(AppConstants.COACH2_IMAGE),
           fit: BoxFit.cover,
         ),
@@ -474,16 +474,16 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   Widget getPlate() {
     return Container(
         height: 400.h,
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 childAspectRatio: 1.2,
                 crossAxisSpacing: 10),
             itemCount: 4,
-            itemBuilder: (context, int) {
+            itemBuilder: (context, v) {
               return DishesView(
                   onTap: () {},
                   restaurantName: "موتشي",
@@ -518,7 +518,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                               Radius.circular(AppConstants.borderRadius10)),
-                          gradient: LinearGradient(colors: [
+                          gradient: const LinearGradient(colors: [
                             AppColors.lightColor,
                             AppColors.accentColorLight
                           ])),
@@ -552,7 +552,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                       decoration: BoxDecoration(
                           border: Border.all(
                               color: AppColors.transparent.withOpacity(0.2)),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                               Radius.circular(AppConstants.blurDegree10)),
                           gradient: LinearGradient(colors: [
                             AppColors.transparent.withOpacity(0.0),
@@ -561,7 +561,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                       child: Center(
                         child: MaterialButton(
                           onPressed: () {},
-                          child: Icon(
+                          child: const Icon(
                             Icons.arrow_forward,
                             color: AppColors.white,
                             size: 30,
@@ -583,109 +583,147 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
     );
   }
 
+  @override
+  void initState() {
+    RestProfileCubit.of(context).getRestaurantProfile(context);
+    super.initState();
+  }
+
   Widget _buildSubscriptionWidget() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Column(
+    return BlocBuilder<RestProfileCubit, RestProfileState>(
+      // buildWhen: (previous, current) =>
+      //     previous != current ||
+      //     current is GetRestProfileLoaded ||
+      //     current is GetRestProfileLoading,
+      builder: (context, state) {
+        if (state is GetRestProfileLoading) {
+          return const Loader();
+        } else {
+          var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
+          return Stack(
             children: [
-              Container(
-                height: 120.h,
-                decoration: BoxDecoration(
-                    color: AppColors.grey,
-                    gradient: LinearGradient(colors: [
-                      AppColors.grey.withOpacity(0.9),
-                      AppColors.grey.withOpacity(1),
-                    ]),
-                    borderRadius:
-                        BorderRadius.circular(AppConstants.borderRadius10)),
-                child: Padding(
-                  padding: EdgeInsets.all(12.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    AssetImage(AppConstants.RESTAURANT_IMG))),
-                      )),
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CustomText(
-                                  text: "موتشي",
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                CustomText(
-                                  text: "الذهبيه",
-                                  color: AppColors.accentColorLight,
-                                  fontSize: AppConstants.textSize14,
-                                  fontWeight: FontWeight.w600,
-                                )
-                              ],
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 120.h,
+                      decoration: BoxDecoration(
+                          color: AppColors.grey,
+                          gradient: LinearGradient(colors: [
+                            AppColors.grey.withOpacity(0.9),
+                            AppColors.grey.withOpacity(1),
+                          ]),
+                          borderRadius: BorderRadius.circular(
+                              AppConstants.borderRadius10)),
+                      child: Padding(
+                        padding: EdgeInsets.all(12.w),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 100.w,
+                              height: 100.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        restaurantsModel?.logo ?? ''),
+                                    fit: BoxFit.fill),
+                              ),
                             ),
-                          ))
-                    ],
-                  ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CustomText(
+                                      text: restaurantsModel?.name ?? "",
+                                      color: AppColors.white,
+                                      fontSize: AppConstants.textSize14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    CustomText(
+                                      text: restaurantsModel
+                                              ?.subscription?.name ??
+                                          "",
+                                      color: AppColors.accentColorLight,
+                                      fontSize: AppConstants.textSize14,
+                                      fontWeight: FontWeight.w600,
+                                    )
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScrollView(slivers: <Widget>[
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: CustomSliverDelegate(
-            expandedHeight: 230.h,
-            child: _buildSubscriptionWidget(),
-          ),
-        ),
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                mostWantedCourse(),
-                 Gaps.vGap16,
-                // _buildSectionWidget(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: TitleWidget(
-                    title: "أحدث الأطباق",
-                    subtitleColorTapped: () {
-                     // Navigator.pushNamed(context, Routes.traineeScreen);
-                    },
-                    subtitle: Translation.of(context).see_all,
-                    titleColor: AppColors.accentColorLight,
+    return BlocBuilder<RestProfileCubit, RestProfileState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        if (state is GetRestProfileLoading) {
+          return const Loader();
+        } else {
+          var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
+          return SafeArea(
+            child: CustomScrollView(slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: CustomSliverDelegate(
+                  image: restaurantsModel!.cover ?? '',
+                  expandedHeight: 230.h,
+                  child: _buildSubscriptionWidget(),
+                ),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      mostWantedCourse(),
+                      Gaps.vGap16,
+                      // _buildSectionWidget(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TitleWidget(
+                          title: "أحدث الأطباق",
+                          subtitleColorTapped: () {
+                            // Navigator.pushNamed(context, Routes.traineeScreen);
+                          },
+                          subtitle: Translation.of(context).see_all,
+                          titleColor: AppColors.accentColorLight,
+                        ),
+                      ),
+                      Gaps.vGap16,
+                      getPlate(),
+                      restaurantBouquet(),
+                      Gaps.vGap60,
+                    ],
                   ),
                 ),
-                Gaps.vGap16,
-                getPlate(),
-                restaurantBouquet(),
-                // Gaps.vGap60,
-              ],
-            ),
-          ),
-        ),
-      ]),
+              ),
+            ]),
+          );
+        }
+      },
     );
   }
 }
@@ -713,11 +751,11 @@ class DishesView extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: AppColors.grey,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
@@ -744,13 +782,14 @@ class DishesView extends StatelessWidget {
                           FittedBox(
                             child: Text(
                               restaurantName,
-                              style:
-                                  TextStyle(color: Colors.yellow, fontSize: 11),
+                              style: const TextStyle(
+                                  color: Colors.yellow, fontSize: 11),
                             ),
                           ),
                           Text(
                             "$price ر.س ",
-                            style: TextStyle(color: Colors.grey, fontSize: 10),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 10),
                           ),
                         ],
                       )
@@ -767,7 +806,7 @@ class DishesView extends StatelessWidget {
                             "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
                       ),
                       fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
                   ),

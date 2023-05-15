@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/route_generator.dart';
-import '../../../../core/ui/widgets/blur_widget.dart';
+import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
-import '../../../../core/ui/widgets/custom_rating_bar_widget.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
-import '../../../../core/ui/widgets/precentage_show.dart';
-import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../data/models/restaurants_model.dart';
 
 class RestaurantProfile extends StatefulWidget {
   const RestaurantProfile({super.key});
@@ -24,7 +23,7 @@ class RestaurantProfile extends StatefulWidget {
 }
 
 class _RestaurantProfileState extends State<RestaurantProfile> {
-  Widget _buildSubscriptionWidget() {
+  Widget _buildSubscriptionWidget(RestaurantsModel restaurantsModel) {
     return Stack(
       children: [
         Positioned(
@@ -42,71 +41,88 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: double.infinity,
-                    child: CustomText(
-                      text: "موتشي",
-                      fontSize: AppConstants.textSize16,
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  const Spacer(),
                   Row(
                     children: [
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.phone,
-                                color: AppColors.accentColorLight,
-                                size: 14,
-                              ),
-                              Gaps.hGap8,
-                              CustomText(
-                                maxLines: 2,
-                                text: "4561234566",
-                                color: AppColors.white,
-                                fontSize: AppConstants.textSize14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
+                      Container(
+                        width: 50.w,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  restaurantsModel.logo ?? ''),
+                              fit: BoxFit.fill),
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: restaurantsModel.name ?? "",
+                            fontSize: AppConstants.textSize16,
+                            fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
                             children: [
-                              Icon(
-                                FontAwesomeIcons.locationDot,
-                                color: AppColors.accentColorLight,
-                                size: 14,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    FontAwesomeIcons.phone,
+                                    color: AppColors.accentColorLight,
+                                    size: 14,
+                                  ),
+                                  Gaps.hGap4,
+                                  CustomText(
+                                    maxLines: 2,
+                                    text: restaurantsModel.phoneNumber ?? "",
+                                    color: AppColors.white,
+                                    fontSize: AppConstants.textSize14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
                               ),
                               Gaps.hGap8,
-                              CustomText(
-                                maxLines: 2,
-                                text: "جده, شارع الملك",
-                                color: AppColors.white,
-                                fontSize: AppConstants.textSize14,
-                                fontWeight: FontWeight.w500,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    FontAwesomeIcons.locationDot,
+                                    color: AppColors.accentColorLight,
+                                    size: 14,
+                                  ),
+                                  Gaps.hGap4,
+                                  CustomText(
+                                    maxLines: 2,
+                                    text:
+                                    "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
+                                    color: AppColors.white,
+                                    fontSize: AppConstants.textSize14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                  const Spacer(),
+                  SizedBox(
+                    height: 15.h,
+                  ),
                   CustomText(
                     textAlign: TextAlign.start,
                     maxLines: 3,
                     textOverflow: TextOverflow.ellipsis,
-                    text:
-                        "مطعم مختص بالأطباق الصحيه ووجبات فطور وغداء وعشاء يقدم الفواكه الصحيه والسلطات جميع الوجبات موجوده لدينا موجود لدينا تنوع كبير ف الأطباق",
+                    text: restaurantsModel.description ?? "",
                     color: AppColors.white,
                     fontSize: AppConstants.textSize12,
                     fontWeight: FontWeight.w500,
@@ -130,7 +146,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
           Expanded(
             flex: 5,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     AppColors.linearCardTrainee1Color.withOpacity(1),
@@ -138,7 +154,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                     AppColors.linearCardTrainee3Color.withOpacity(1),
                     AppColors.linearCardTrainee4Color.withOpacity(1),
                   ]),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -180,7 +196,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                       ),
                       Expanded(
                         child: CustomText(
-                          text: "${DateTime.now().toString().substring(0, 10)}",
+                          text: DateTime.now().toString().substring(0, 10),
                           fontSize: AppConstants.textSize14,
                           maxLines: 2,
                           textAlign: TextAlign.start,
@@ -198,7 +214,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
           Expanded(
             flex: 2,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(AppConstants.COACH1_IMAGE),
                       fit: BoxFit.cover),
@@ -210,58 +226,38 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
     );
   }
 
-  final List<String> _restaurantProfileConstantList = [
-    "رقم الهاتف",
-    "رقم السجل التجاري",
-    "السجيل التجاري",
-    "مدير المطعم",
-    "البلد",
-    "المدينه",
-    "الشارع",
-    "رقم البناء"
-  ];
-  final List<String> _restaurantProfileMochitDataList = [
-    "01011153207",
-    "4665122953322",
-    "السجل التجاري.pdf",
-    "مصطفي محمد",
-    "السعوديه",
-    "الرياض",
-    "شارع الملك طلال",
-    "بناء رقم 489"
-  ];
-  final List<WorkingHoursMochitoData>
-      _restaurantProfileMochitWorkingHoursDataList = [
-    WorkingHoursMochitoData(start: "8:00 Am", day: "السبت :", end: "8:00 PM"),
-    WorkingHoursMochitoData(start: "8:00 Am", day: "الأحد :", end: "8:00 PM"),
-    WorkingHoursMochitoData(start: "8:00 Am", day: "الاتنين :", end: "8:00 PM"),
-    WorkingHoursMochitoData(
-        start: "8:00 Am", day: "الثلاثاء :", end: "8:00 PM"),
-    WorkingHoursMochitoData(
-        start: "8:00 Am", day: "الاربعاء :", end: "8:00 PM"),
-  ];
-
-  Widget _restaurantProfileData() {
+  Widget _restaurantProfileData(RestaurantsModel restaurantsModel) {
+    final List<String> restaurantProfileMochitDataList = [
+      restaurantsModel.phoneNumber ?? '',
+      restaurantsModel.commercialRegisterNumber ?? '',
+      restaurantsModel.commercialRegisterDocument!.split("/").last,
+      restaurantsModel.manager?.name ?? '',
+      restaurantsModel.city?.text ?? '',
+      restaurantsModel.city?.text ?? '',
+      restaurantsModel.street ?? '',
+      "بناء رقم ${restaurantsModel.buildingNumber}"
+    ];
     return SizedBox(
       height: 450.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return Container(
+              return SizedBox(
                 height: 50,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      text: _restaurantProfileConstantList[index],
+                      text: RestProfileCubit.of(context)
+                          .restaurantProfileConstantList[index],
                       color: AppColors.accentColorLight,
                       fontWeight: FontWeight.w500,
                       fontSize: AppConstants.textSize14,
                     ),
                     CustomText(
-                      text: _restaurantProfileMochitDataList[index],
+                      text: restaurantProfileMochitDataList[index],
                       color: AppColors.white.withOpacity(0.6),
                       fontWeight: FontWeight.w500,
                       fontSize: AppConstants.textSize12,
@@ -281,7 +277,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
     );
   }
 
-  Widget _restaurantProfileWorkingHours() {
+  Widget _restaurantProfileWorkingHours(RestaurantsModel restaurantsModel) {
     return SizedBox(
       height: 320.h,
       child: Column(
@@ -300,72 +296,65 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Container(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.access_time,
+                                size: 14,
+                                color: AppColors.accentColorLight,
+                              ),
+                              Gaps.hGap8,
+                              CustomText(
+                                text: RestProfileCubit.of(context).convertDays(
+                                    restaurantsModel.openingDays![index].day!),
+                                color: AppColors.accentColorLight,
+                                fontWeight: FontWeight.w500,
+                                fontSize: AppConstants.textSize14,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
                             child: Row(
-                              children: [
-                                Container(
-                                  child: Icon(
-                                    Icons.access_time,
-                                    size: 14,
-                                    color: AppColors.accentColorLight,
-                                  ),
-                                ),
-                                Gaps.hGap8,
-                                CustomText(
-                                  text:
-                                      _restaurantProfileMochitWorkingHoursDataList[
-                                              index]
-                                          .day,
-                                  color: AppColors.accentColorLight,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ],
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text:
+                                  "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
                             ),
-                          )),
-                          Expanded(
-                              child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                  text:
-                                      "من ${_restaurantProfileMochitWorkingHoursDataList[index].start}",
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                                CustomText(
-                                  text:
-                                      "الي ${_restaurantProfileMochitWorkingHoursDataList[index].end}",
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ],
+                            CustomText(
+                              text:
+                                  "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
                             ),
-                          )),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Container(
-                      height: 2,
-                      color: AppColors.grey,
-                    );
-                  },
-                  itemCount:
-                      _restaurantProfileMochitWorkingHoursDataList.length),
+                          ],
+                        )),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Container(
+                    height: 2,
+                    color: AppColors.grey,
+                  );
+                },
+                itemCount: restaurantsModel.openingDays!.length,
+              ),
             ),
           ),
         ],
@@ -373,7 +362,15 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
     );
   }
 
-  Widget _restaurantProfileSocialMedia() {
+  Widget _restaurantProfileSocialMedia(RestaurantsModel restaurantsModel) {
+    List<SocialModel> listOfSocial = [
+      SocialModel(
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? ''),
+      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? ''),
+      SocialModel(
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? ''),
+      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? ''),
+    ];
     return SizedBox(
       height: 300.h,
       child: Column(
@@ -392,21 +389,22 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return Container(
+                    return SizedBox(
                       height: 50,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                              child: Container(
-                            color: AppColors.accentColorLight,
-                            child: Icon(
-                              FontAwesomeIcons.facebook,
-                              color: Colors.white,
+                            child: Container(
+                              color: AppColors.accentColorLight,
+                              child: Icon(
+                                listOfSocial[index].iconData,
+                                color: Colors.white,
+                              ),
                             ),
-                          )),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -415,16 +413,15 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                             ),
                           ),
                           Expanded(
-                              flex: 10,
-                              child: Container(
-                                child: CustomText(
-                                  textAlign: TextAlign.end,
-                                  text: "mochto@facebook.com",
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              )),
+                            flex: 10,
+                            child: CustomText(
+                              textAlign: TextAlign.end,
+                              text: listOfSocial[index].text,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
+                            ),
+                          ),
                         ],
                       ),
                     );
@@ -446,6 +443,12 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
   TextEditingController commentController = TextEditingController();
 
   @override
+  void initState() {
+    RestProfileCubit.of(context).getRestaurantProfile(context);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
@@ -453,9 +456,10 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
         actions: [
           GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, Routes.editProfileScreen);
+                Navigator.pushNamed(context, Routes.editRestProfileScreen);
               },
-              child: ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
+              child: const ImageIcon(
+                  AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
           const Icon(
             Icons.notifications,
@@ -464,44 +468,51 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
           Gaps.hGap20,
         ],
       ),
-      body: SafeArea(
-        child: CustomScrollView(slivers: <Widget>[
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: CustomSliverDelegate(
-              image: AppConstants.RESTAURANT_IMG2,
-              expandedHeight: 220.h,
-              child: _buildSubscriptionWidget(),
-            ),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Gaps.vGap10,
-                  _restaurantProfileData(),
-                  _restaurantProfileWorkingHours(),
-                  _restaurantProfileSocialMedia()
-                ],
-              ),
-            ),
-          ),
-        ]),
+      body: BlocBuilder<RestProfileCubit, RestProfileState>(
+        buildWhen: (previous, current) =>
+        previous != current,
+        builder: (context, state) {
+          if (state is GetRestProfileLoading) {
+            return const Loader();
+          } else {
+              var restaurantsModel =
+                  RestProfileCubit.of(context).restaurantsModel;
+            return SafeArea(
+              child: CustomScrollView(slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverDelegate(
+                    image: restaurantsModel!.cover??'',
+                    expandedHeight: 220.h,
+                    child: _buildSubscriptionWidget(restaurantsModel),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Gaps.vGap10,
+                        _restaurantProfileData(restaurantsModel),
+                        _restaurantProfileWorkingHours(restaurantsModel),
+                        _restaurantProfileSocialMedia(restaurantsModel)
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
+        },
       ),
     );
   }
 }
 
-class WorkingHoursMochitoData {
-  final String day;
-  final String start;
-  final String end;
+class SocialModel {
+  final IconData iconData;
+  final String text;
 
-  WorkingHoursMochitoData({
-    required this.start,
-    required this.day,
-    required this.end,
-  });
+  SocialModel(this.iconData, this.text);
 }

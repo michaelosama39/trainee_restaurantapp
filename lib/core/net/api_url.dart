@@ -18,4 +18,8 @@ class APIUrls {
   static const API_GET_TRAINER_PROFILE = "/services/app/Trainer/Get";
   static const API_COURSE_CREATE = "/services/app/Course/Create";
 
+  //rest
+  static const API_GET_REST_PROFILE = "/services/app/Restaurant/Get";
+  static const API_UPDATE_REST_PROFILE = "/services/app/Restaurant/Update";
+
 }

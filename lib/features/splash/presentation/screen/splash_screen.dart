@@ -41,7 +41,11 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3)).then(
       (value) {
         if (AppStorage.isLogged) {
-          Navigator.pushNamed(context, Routes.navigatorScreen, arguments: 1);
+          if(AppStorage.getUserInfo!.result!.restaurantId != null){
+            Navigator.pushNamed(context, Routes.navigatorScreen, arguments: 3);
+          }else {
+            Navigator.pushNamed(context, Routes.navigatorScreen, arguments: 1);
+          }
         } else {
           Navigator.pushNamed(context, Routes.mainOnBoardingViewRoute);
         }
