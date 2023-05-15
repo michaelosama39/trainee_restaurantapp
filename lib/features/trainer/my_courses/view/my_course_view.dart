@@ -334,7 +334,7 @@ class CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(Routes.MyCourseDetailsScreen);
+        Navigator.of(context).pushNamed(Routes.MyCourseDetailsScreen,arguments: courseModel.id );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -382,7 +382,7 @@ class CardDetails extends StatelessWidget {
                                 size: 16,
                               ),
                               CustomText(
-                                text: "${courseModel.viewsCount}",
+                                text: "${courseModel.traineesCount}",
                                 fontSize: AppConstants.textSize16,
                                 maxLines: 2,
                                 textAlign: TextAlign.start,

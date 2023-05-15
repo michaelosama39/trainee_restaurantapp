@@ -21,6 +21,7 @@ import '../../features/trainer/home_trainer/presentation/view/home_trainer_view.
 import '../../features/trainer/my_courses/view/my_course_details.dart';
 import '../../features/trainer/profile_details/presentation/view/edit_profile_trainer_screen.dart';
 import '../../features/trainer/trainee/view/trainee_profile_view.dart';
+import '../models/course_model.dart';
 import 'animations/animated_route.dart';
 import 'animations/fade_route.dart';
 import 'navigation_service.dart';
@@ -132,15 +133,15 @@ class AppRoute {
         return MaterialPageRoute(
             builder: (context) => const HomeRestaurantScreen());
       case Routes.traineeProfileScreen:
-        return MaterialPageRoute(builder: (context) => TraineeProfileScreen());
+        return MaterialPageRoute(builder: (context) => TraineeProfileScreen(args: settings.arguments as Map,));
       case Routes.MyCourseDetailsScreen:
-        return MaterialPageRoute(builder: (context) => MyCourseDetails());
+        return MaterialPageRoute(builder: (context) => MyCourseDetails(courseId: settings.arguments as int,));
       case Routes.myOrderScreen:
-        return MaterialPageRoute(builder: (context) => MyOrderView());
+        return MaterialPageRoute(builder: (context) => const MyOrderView());
       case Routes.myCourseScreen:
-        return MaterialPageRoute(builder: (context) => MyCoursesView());
+        return MaterialPageRoute(builder: (context) => const MyCoursesView());
       case Routes.traineeScreen:
-        return MaterialPageRoute(builder: (context) => AllTraineeScreen());
+        return MaterialPageRoute(builder: (context) => const AllTraineeScreen());
       case Routes.editProfileScreen:
         return MaterialPageRoute(
             builder: (context) => EditProfileScreenContent());

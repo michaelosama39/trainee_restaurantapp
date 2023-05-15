@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/constants/app/app_constants.dart';
 
 class SplashScreenContent extends StatefulWidget {
-  SplashScreenContent({Key? key}) : super(key: key);
+  const SplashScreenContent({Key? key}) : super(key: key);
 
   @override
   _SplashScreenContentState createState() => _SplashScreenContentState();

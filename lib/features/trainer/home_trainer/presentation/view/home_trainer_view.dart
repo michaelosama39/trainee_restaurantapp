@@ -14,6 +14,7 @@ import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/library/carousel/custom_carousel.dart';
 import '../../../../../core/models/course_model.dart';
+import '../../../../../core/models/new_trainee_model.dart';
 import '../../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/clock_widget.dart';
@@ -105,106 +106,13 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     );
   }
 
-  Widget _buildCourseItemWidget() {
-    return InkWell(
-      onTap: () {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        //   return CourseView(
-        //     courseModel: courseModel,
-        //   );
-        // }));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: const DecorationImage(
-              image: AssetImage(AppConstants.COACH1_IMAGE),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.white.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: const Offset(0, 0), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 80.h,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                    child: BlurWidget(
-                      height: 63.h,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: "courseModel.name",
-                                fontWeight: FontWeight.w500,
-                                fontSize: AppConstants.textSize14,
-                              ),
-                              Gaps.vGap12,
-                              CustomText(
-                                text:
-                                    ' ssxx${Translation.of(context).saudi_riyal}',
-                                fontSize: AppConstants.textSize15,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.accentColorLight,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 16.w,
-                    child: SizedBox(
-                      height: 28.h,
-                      child: CustomElevatedButton(
-                        textMaxLines: 1,
-                        text: Translation.of(context).book_now,
-                        textSize: AppConstants.textSize12,
-                        onTap: () {},
-                        borderRadius: AppConstants.borderRadius4,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                      left: 16.w,
-                      bottom: 10.h,
-                      child: const ClockWidget(
-                        duration: 10.0,
-                      ))
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildMyCourseItemWidget(CourseModel courseModel) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        //   return CourseView(
-        //     courseModel: courseModel,
-        //   );
-        // }));
+        Navigator.of(context).pushNamed(Routes.MyCourseDetailsScreen,arguments: courseModel.id);
+
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -262,7 +170,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                       size: 20,
                                       color: AppColors.accentColorLight,
                                     ),
-                                    Container(
+                                    SizedBox(
                                       height: 10,
                                       child: CustomText(
                                         text: "${courseModel.rate} ",
@@ -299,24 +207,22 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                   color: AppColors.white,
                                   fontSize: AppConstants.textSize14,
                                 ),
-                                InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: AppColors.greenColorButton,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CustomText(
-                                          text: courseModel.isActive == true
-                                              ? 'فعاله'
-                                              : 'غير فعاله',
-                                          color: AppColors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ))
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: courseModel.isActive == true ? AppColors.greenColorButton : AppColors.red,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CustomText(
+                                      text: courseModel.isActive == true
+                                          ? 'فعاله'
+                                          : 'غير فعاله',
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -356,15 +262,15 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
           Gaps.vGap16,
           BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
             builder: (context, state) {
-              if (state is GetMostWantedCoursesLoaded) {
-                if (state.mostWantedCourse.isNotEmpty) {
+              if (HomeTrainerCubit.of(context).topCourses != null) {
+                if (HomeTrainerCubit.of(context).topCourses!.isNotEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(right: 4.w),
                     child: CustomCarousel(
                       items: List.generate(
-                          state.mostWantedCourse.length,
+                          HomeTrainerCubit.of(context).topCourses!.length,
                           (index) => _buildMyCourseItemWidget(
-                              state.mostWantedCourse[index])),
+                              HomeTrainerCubit.of(context).topCourses![index])),
                       options: CarouselOptions(
                         height: 344.h,
                         viewportFraction: 0.8,
@@ -409,82 +315,104 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
               titleColor: AppColors.accentColorLight,
             ),
             Gaps.vGap14,
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: Row(
+            BlocBuilder<HomeTrainerCubit,HomeTrainerState>(
+
+              builder: (context, state) {
+                if(HomeTrainerCubit.of(context).newTrainees != null){
+                  if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
+                    return Expanded(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // widgets.length > 0
-                        //     ?
                         Expanded(
-                          flex: 3,
-                          child: Column(
+                          flex: 4,
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              // widgets.length > 1
-                              //     ?
+                             if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty)
                               Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  // onItemSelected(1);
-                                },
-                                child: imageWithNameTrainee(),
-                              )),
-                              // : const SizedBox.shrink(),
-                              SizedBox(
-                                height: 8.w,
+                                flex: 3,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty)
+                                    Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(Routes.traineeProfileScreen,arguments: {
+                                              "courseId" : HomeTrainerCubit.of(context).newTrainees!.first.course!.value,
+                                              "traineeId" : HomeTrainerCubit.of(context).newTrainees!.first.trainee!.id
+                                            });
+                                          },
+                                          child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees!.first),
+                                        )),
+                                    // : const SizedBox.shrink(),
+                                    SizedBox(
+                                      height: 8.w,
+                                    ),
+                                    if(HomeTrainerCubit.of(context).newTrainees!.length > 1)
+                                    Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(Routes.traineeProfileScreen, arguments: {
+                                              "courseId" : HomeTrainerCubit.of(context).newTrainees![1].course!.value,
+                                              "traineeId" : HomeTrainerCubit.of(context).newTrainees![1].trainee!.id
+                                            });
+                                          },
+                                          child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees![1]),
+                                        ))
+                                    // : const SizedBox.shrink(),
+                                  ],
+                                ),
                               ),
-                              // widgets.length > 2
-                              //     ?
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              if(HomeTrainerCubit.of(context).newTrainees!.length > 2)
+
                               Expanded(
+                                  flex: 2,
                                   child: GestureDetector(
-                                onTap: () {
-                                  //  onItemSelected(2);
-                                },
-                                child: imageWithNameTrainee(),
-                              ))
-                              // : const SizedBox.shrink(),
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(Routes.traineeProfileScreen, arguments: {
+                                          "courseId" : HomeTrainerCubit.of(context).newTrainees![2].course!.value,
+                                          "traineeId" : HomeTrainerCubit.of(context).newTrainees![2].trainee!.id
+                                        });                                      },
+                                      child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees![2]))),
+                              //: const SizedBox.shrink(),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          width: 8.w,
-                        ),
 
-                        Expanded(
-                            flex: 2,
-                            child: GestureDetector(
-                                onTap: () {
-                                  // onItemSelected(0);
-                                },
-                                child: imageWithNameTrainee())),
-                        //: const SizedBox.shrink(),
+                        // widgets.length > 3
+                        //     ?
+                        // : const SizedBox.shrink(),
                       ],
                     ),
-                  ),
+                  );
+                  }else{
+    return const Center(
+    child: Text("لا يوجد متدربين"),
+    );
+                  }
+                }else{
+                  return const Loader();
+                }
+              },
 
-                  // widgets.length > 3
-                  //     ?
-                  // : const SizedBox.shrink(),
-                ],
-              ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget imageWithNameTrainee() {
+  Widget imageWithNameTrainee(NewTraineeModel newTraineeModel) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
-        image: const DecorationImage(
-          image: AssetImage(AppConstants.COACH2_IMAGE),
+        image: DecorationImage(
+          image: NetworkImage(newTraineeModel.trainee!.imageUrl ?? ""),
           fit: BoxFit.cover,
         ),
       ),
@@ -503,7 +431,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                   children: [
                     Center(
                       child: CustomText(
-                        text: "مصطفي محمد",
+                        text: newTraineeModel.trainee!.name ?? "",
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                         fontSize: AppConstants.textSize16,

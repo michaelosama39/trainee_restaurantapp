@@ -54,6 +54,8 @@ class _AppState extends State<App> {
               create: (context) =>
                   HomeTrainerCubit()..getMostWantedCourses(context),
             ),
+            BlocProvider(create: (context) => TrainerProfileCubit()..getTrainerProfile(context),),
+            BlocProvider(create: (context) => HomeTrainerCubit()..getMostWantedCourses(context)..getNewTrainees(context),),
             BlocProvider(create: (context) => CoursesCubit()),
           ],
           child: Consumer<LocalizationProvider>(

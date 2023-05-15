@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trainee_restaurantapp/app.dart';
+import 'package:trainee_restaurantapp/features/trainer/trainee/view/add_new_trainee_entry_screen.dart';
 
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -13,7 +14,8 @@ import '../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../generated/l10n.dart';
 
 class TraineeProfileScreen extends StatelessWidget {
-  TraineeProfileScreen({Key? key}) : super(key: key);
+  final Map args;
+  const TraineeProfileScreen({Key? key,required this.args}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +52,15 @@ class TraineeProfileScreen extends StatelessWidget {
                 //   ),
                 // ),
                 NewElevatedButton(
-                  text: "ادخل قيم جديده",
+                  text: "ابدا التمرين",
                   onTap: () {},
                   color: AppColors.accentColorLight,
                 ),
                 NewElevatedButton(
                   text: "ادخل قيم جديده",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewTraineeEntryScreen(),));
+                  },
                   color: null,
                 ),
               ],
@@ -409,7 +413,7 @@ class _StatisticState extends State<Statistic> {
               xValueMapper: (SalesData sales, _) => sales.year,
               yValueMapper: (SalesData sales, _) => sales.sales,
               color: AppColors.accentColorLight,
-              dataLabelSettings: DataLabelSettings(isVisible: true))
+              dataLabelSettings: const DataLabelSettings(isVisible: true))
         ]))));
   }
 }

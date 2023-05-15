@@ -22,12 +22,20 @@ import '../../../../../generated/l10n.dart';
 
 
 class ProfileTrainerScreenView extends StatefulWidget {
+  const ProfileTrainerScreenView({super.key});
+
   @override
   State<ProfileTrainerScreenView> createState() =>
       _ProfileTrainerScreenViewState();
 }
 
 class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    TrainerProfileCubit.of(context).getTrainerReviews(context);
+    super.initState();
+  }
   Widget profileScreenDetails() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -105,27 +113,27 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const FaIcon(
-                                FontAwesomeIcons.locationDot,
-                                color: AppColors.accentColorLight,
-                                size: 14,
-                              ),
-                              // Gaps.hGap8,
-                              // CustomText(
-                              //   text: "جدة,شارع الملك",
-                              //   fontWeight: FontWeight.w500,
-                              //   color: AppColors.white,
-                              //   fontSize: AppConstants.textSize14,
-                              // ),
-                            ],
-                          ),
-                        ),
+                        // Padding(
+                        //   padding:
+                        //       EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.start,
+                        //     children: [
+                        //       const FaIcon(
+                        //         FontAwesomeIcons.locationDot,
+                        //         color: AppColors.accentColorLight,
+                        //         size: 14,
+                        //       ),
+                        //       Gaps.hGap8,
+                        //       CustomText(
+                        //         text: "جدة,شارع الملك",
+                        //         fontWeight: FontWeight.w500,
+                        //         color: AppColors.white,
+                        //         fontSize: AppConstants.textSize14,
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
@@ -207,13 +215,13 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: "الباقه الذهبيه",
+                              text: TrainerProfileCubit.of(context).trainerModel!.subscription!.name ?? "",
                               fontWeight: FontWeight.w600,
                               color: AppColors.white,
                               fontSize: AppConstants.textSize16,
                             ),
                             CustomText(
-                              text: "20 ريال سعودي",
+                              text: "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
                               fontWeight: FontWeight.w600,
                               color: AppColors.white,
                               fontSize: AppConstants.textSize16,
@@ -253,8 +261,11 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                   ClipRRect(
                     borderRadius:
                         BorderRadius.circular(AppConstants.borderRadius8),
-                    child: Image.asset(
-                      AppConstants.COACH3_IMAGE,
+                    child: Image.network(
+                      image,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(AppConstants.COACH3_IMAGE);
+                      },
                       height: 56.h,
                       width: 46.w,
                     ),
@@ -291,70 +302,34 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
   }
 
   Widget _buildCommentsWidget() {
-    return SizedBox(
-      height: 128.h,
-      child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return BlurWidget(
-              width: 268.w,
-              height: 128.h,
-              borderRadius: AppConstants.borderRadius4,
-              child: _buildCommentItemWidget(
-                  image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4yv0ompfpbJlyp1bU0oc6rd5ypaMnJTpdEQ&usqp=CAU",
-                  date: "10-10-2023",
-                  name: "test",
-                  body: "this is the test body description"),
-            );
-          },
-          separatorBuilder: (context, index) => Gaps.hGap16,
-          itemCount: 10),
-    );
-    //   BlocProvider(
-    //   create: (context) => CourseCubit()..getReview(RefId: refId),
-    //   child: BlocConsumer<CourseCubit, CourseState>(
-    //     listener: (context, state) {
-    //       // TODO: implement listener
-    //     },
-    //     builder: (context, state) {
-    //       if (state is SuccessGetReviewData) {
-    //         return Padding(
-    //           padding: EdgeInsets.only(right: 12.w),
-    //           child: SizedBox(
-    //             height: 128.h,
-    //             child: ListView.separated(
-    //                 scrollDirection: Axis.horizontal,
-    //                 itemBuilder: (context, index) {
-    //                   return BlurWidget(
-    //                     width: 268.w,
-    //                     height: 128.h,
-    //                     borderRadius: AppConstants.borderRadius4,
-    //                     child: _buildCommentItemWidget(
-    //                         image: state.reviewModel.result!.items![index]
-    //                             .reviewer!.imageUrl
-    //                             .toString(),
-    //                         date: state
-    //                             .reviewModel.result!.items![index].creationTime
-    //                             .toString(),
-    //                         name: state.reviewModel.result!.items![index]
-    //                             .reviewer!.name
-    //                             .toString(),
-    //                         body: state
-    //                             .reviewModel.result!.items![index].comment
-    //                             .toString()),
-    //                   );
-    //                 },
-    //                 separatorBuilder: (context, index) => Gaps.hGap16,
-    //                 itemCount: state.reviewModel.result!.items!.length),
-    //           ),
-    //         );
-    //       } else {
-    //         return CircularProgressIndicator();
-    //       }
-    //     },
-    //   ),
-    // );
+    return BlocBuilder<TrainerProfileCubit,TrainerProfileState>(builder: (context, state) {
+      if(state is GetTrainerReviewsLoaded){
+        return SizedBox(
+          height: 128.h,
+          child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return BlurWidget(
+                  width: 268.w,
+                  height: 128.h,
+                  borderRadius: AppConstants.borderRadius4,
+                  child: _buildCommentItemWidget(
+                      image:
+                      state.reviews[index].reviewer!.imageUrl ?? "",
+                      date: state.reviews[index].creationTime ?? "",
+                      name: state.reviews[index].reviewer!.name ?? "",
+                      body: state.reviews[index].comment ?? ""),
+                );
+              },
+              separatorBuilder: (context, index) => Gaps.hGap16,
+              itemCount: state.reviews.length),
+        );
+      }else if(state is GetTrainerReviewsLoading){
+        return const Loader();
+      }else{
+        return const SizedBox();
+      }
+    },);
   }
 
   Widget _buildRatingWidget({
@@ -924,24 +899,24 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
               )
             ],
           ),
-          Gaps.vGap12,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomText(
-                text: Translation.of(context).certificate,
-                color: AppColors.accentColorLight,
-                fontSize: AppConstants.textSize14,
-                fontWeight: FontWeight.w700,
-              ),
-              CustomText(
-                text: TrainerProfileCubit.of(context).trainerModel!.cvUrl ?? "",
-                color: AppColors.white,
-                fontSize: AppConstants.textSize14,
-                fontWeight: FontWeight.w700,
-              )
-            ],
-          )
+          // Gaps.vGap12,
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     CustomText(
+          //       text: Translation.of(context).certificate,
+          //       color: AppColors.accentColorLight,
+          //       fontSize: AppConstants.textSize14,
+          //       fontWeight: FontWeight.w700,
+          //     ),
+          //     CustomText(
+          //       text: TrainerProfileCubit.of(context).trainerModel!.cvUrl ?? "",
+          //       color: AppColors.white,
+          //       fontSize: AppConstants.textSize14,
+          //       fontWeight: FontWeight.w700,
+          //     )
+          //   ],
+          // )
         ],
       ),
     );

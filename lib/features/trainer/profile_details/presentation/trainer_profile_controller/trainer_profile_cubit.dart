@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/models/trainer_model.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/data/repositories/home_trainer_repo.dart';
 
+import '../../../../../core/models/review_model.dart';
 import '../../../../../core/ui/toast.dart';
 import '../../data/repositories/trainer_profile_repo.dart';
 part 'trainer_profile_state.dart';
 
 class TrainerProfileCubit extends Cubit<TrainerProfileState> {
-  TrainerProfileCubit() : super(AuthInitial());
+  TrainerProfileCubit() : super(TrainerProfileInitial());
 
   static TrainerProfileCubit of(context) => BlocProvider.of(context);
 
@@ -29,6 +30,23 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
         print(res.id);
         trainerModel = res;
         emit(GetTrainerProfileLoaded());
+      },
+    );
+  }
+
+  Future getTrainerReviews(BuildContext context) async {
+    emit(GetTrainerReviewsLoading());
+    final res = await trainerProfileRepo.getTrainerReviews();
+    res.fold(
+          (err) {
+        print(err);
+        Toast.show(err);
+        emit(GetTrainerReviewsError());
+      },
+          (res) {
+        emit(GetTrainerReviewsLoaded(
+            res
+        ));
       },
     );
   }

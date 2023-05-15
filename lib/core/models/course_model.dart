@@ -1,11 +1,9 @@
 class CourseModel {
   String? imageUrl;
-  int? fee;
+  double? fee;
   String? creationTime;
-  int? creatorUserId;
-  String? createdBy;
   bool? hasDiscount;
-  String? discountPercentage;
+  int? discountPercentage;
   int? trainerId;
   Trainer? trainer;
   int? categoryId;
@@ -17,9 +15,9 @@ class CourseModel {
   String? description;
   int? bookingRequestsCount;
   int? traineesCount;
-  // List<Null>? traineesProgress;
+  List<CourseTraineeModel>? traineesProgress;
   bool? isFinished;
-  int? rate;
+  double? rate;
   RatingDetails? ratingDetails;
   bool? isActive;
   String? arName;
@@ -31,8 +29,6 @@ class CourseModel {
       {this.imageUrl,
       this.fee,
       this.creationTime,
-      this.creatorUserId,
-      this.createdBy,
       this.hasDiscount,
       this.discountPercentage,
       this.trainerId,
@@ -46,7 +42,7 @@ class CourseModel {
       this.description,
       this.bookingRequestsCount,
       this.traineesCount,
-      // this.traineesProgress,
+       this.traineesProgress,
       this.isFinished,
       this.rate,
       this.ratingDetails,
@@ -60,8 +56,6 @@ class CourseModel {
     imageUrl = json['imageUrl'];
     fee = json['fee'];
     creationTime = json['creationTime'];
-    creatorUserId = json['creatorUserId'];
-    createdBy = json['createdBy'];
     hasDiscount = json['hasDiscount'];
     discountPercentage = json['discountPercentage'];
     trainerId = json['trainerId'];
@@ -78,12 +72,12 @@ class CourseModel {
     description = json['description'];
     bookingRequestsCount = json['bookingRequestsCount'];
     traineesCount = json['traineesCount'];
-    // if (json['traineesProgress'] != null) {
-    //   traineesProgress = <Null>[];
-    //   json['traineesProgress'].forEach((v) {
-    //     traineesProgress!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['traineesProgress'] != null) {
+      traineesProgress = <CourseTraineeModel>[];
+      json['traineesProgress'].forEach((v) {
+        traineesProgress!.add(CourseTraineeModel.fromJson(v));
+      });
+    }
     isFinished = json['isFinished'];
     rate = json['rate'];
     ratingDetails = json['ratingDetails'] != null
@@ -96,46 +90,7 @@ class CourseModel {
     id = json['id'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['imageUrl'] = imageUrl;
-    data['fee'] = fee;
-    data['creationTime'] = creationTime;
-    data['creatorUserId'] = creatorUserId;
-    data['createdBy'] = createdBy;
-    data['hasDiscount'] = hasDiscount;
-    data['discountPercentage'] = discountPercentage;
-    data['trainerId'] = trainerId;
-    if (trainer != null) {
-      data['trainer'] = trainer!.toJson();
-    }
-    data['categoryId'] = categoryId;
-    if (category != null) {
-      data['category'] = category!.toJson();
-    }
-    data['trainingHoursCount'] = trainingHoursCount;
-    data['viewsCount'] = viewsCount;
-    data['arDescription'] = arDescription;
-    data['enDescription'] = enDescription;
-    data['description'] = description;
-    data['bookingRequestsCount'] = bookingRequestsCount;
-    data['traineesCount'] = traineesCount;
-    // if (this.traineesProgress != null) {
-    //   data['traineesProgress'] =
-    //       this.traineesProgress!.map((v) => v.toJson()).toList();
-    // }
-    data['isFinished'] = isFinished;
-    data['rate'] = rate;
-    if (ratingDetails != null) {
-      data['ratingDetails'] = ratingDetails!.toJson();
-    }
-    data['isActive'] = isActive;
-    data['arName'] = arName;
-    data['enName'] = enName;
-    data['name'] = name;
-    data['id'] = id;
-    return data;
-  }
+
 }
 
 class Trainer {
@@ -206,3 +161,49 @@ class RatingDetails {
     return data;
   }
 }
+
+class CourseTraineeModel {
+  int? courseId;
+  int? traineeId;
+  String? traineeName;
+  String? traineeImage;
+  int? completedHoursCount;
+  double? traineeLength;
+  double? traineeWeight;
+  double? traineeBMI;
+
+  CourseTraineeModel(
+      {this.courseId,
+        this.traineeId,
+        this.traineeName,
+        this.traineeImage,
+        this.completedHoursCount,
+        this.traineeLength,
+        this.traineeWeight,
+        this.traineeBMI});
+
+  CourseTraineeModel.fromJson(Map<String, dynamic> json) {
+    courseId = json['courseId'];
+    traineeId = json['traineeId'];
+    traineeName = json['traineeName'];
+    traineeImage = json['traineeImage'];
+    completedHoursCount = json['completedHoursCount'];
+    traineeLength = json['traineeLength'];
+    traineeWeight = json['traineeWeight'];
+    traineeBMI = json['traineeBMI'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['courseId'] = this.courseId;
+    data['traineeId'] = this.traineeId;
+    data['traineeName'] = this.traineeName;
+    data['traineeImage'] = this.traineeImage;
+    data['completedHoursCount'] = this.completedHoursCount;
+    data['traineeLength'] = this.traineeLength;
+    data['traineeWeight'] = this.traineeWeight;
+    data['traineeBMI'] = this.traineeBMI;
+    return data;
+  }
+}
+

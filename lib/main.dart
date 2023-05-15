@@ -1,6 +1,7 @@
 import 'dart:io';
 
 //import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,9 +31,7 @@ void main() async {
 
 _initAppConfigs() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // await Firebase.initializeApp();
-
+  await Firebase.initializeApp();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: SystemUiOverlay.values);
 
@@ -53,7 +52,7 @@ _initAppConfigs() async {
   _initErrorCatcher();
 
   /// In case of network handshake error
-  HttpOverrides.global = new BadCertHttpOverrides();
+  HttpOverrides.global = BadCertHttpOverrides();
 }
 
 Future<void> _initAppRotation() async {

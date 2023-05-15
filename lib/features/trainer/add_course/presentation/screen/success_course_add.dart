@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
 import '../../../../../core/common/app_colors.dart';
+import '../../../../../core/navigation/route_generator.dart';
 
 class SuccessCourseAdd extends StatelessWidget {
   const SuccessCourseAdd({Key? key}) : super(key: key);
@@ -53,7 +54,9 @@ class SuccessCourseAdd extends StatelessWidget {
             Expanded(
                 child: NewElevatedButton(
               color: null,
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, Routes.myCourseScreen, (route) => false);
+              },
               text: "الذهاب الي كورساتي",
             ))
           ],

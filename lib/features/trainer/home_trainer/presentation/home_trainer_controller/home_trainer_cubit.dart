@@ -3,16 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/data/repositories/home_trainer_repo.dart';
 
 import '../../../../../core/models/course_model.dart';
+import '../../../../../core/models/new_trainee_model.dart';
 import '../../../../../core/ui/toast.dart';
 part 'home_trainer_state.dart';
 
 class HomeTrainerCubit extends Cubit<HomeTrainerState> {
-  HomeTrainerCubit() : super(AuthInitial());
+  HomeTrainerCubit() : super(HomeTrainerInitial());
 
   static HomeTrainerCubit of(context) => BlocProvider.of(context);
 
   final homeTrainerRepo = HomeTrainerRepo();
 
+  List<CourseModel>?  topCourses = [];
   Future getMostWantedCourses(BuildContext context) async {
     emit(GetMostWantedCoursesLoading());
     final res = await homeTrainerRepo.getMostWantedCourses();
@@ -23,12 +25,15 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
         emit(GetMostWantedCoursesError());
       },
       (res) {
+        topCourses = res;
         emit(GetMostWantedCoursesLoaded(
-          res
+
         ));
       },
     );
   }
+
+  List<NewTraineeModel>?  newTrainees = [];
   Future getNewTrainees(BuildContext context) async {
     emit(GetNewTraineesLoading());
     final res = await homeTrainerRepo.getNewTrainees();
@@ -39,6 +44,7 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
         emit(GetNewTraineesError());
       },
       (res) async {
+        newTrainees = res;
         emit(GetNewTraineesLoaded());
       },
     );

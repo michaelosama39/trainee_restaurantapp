@@ -11,6 +11,7 @@ import '../../../../core/ui/widgets/route_aware_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../restaurant/add_plate/view/add_plate_view.dart';
 import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
+import '../../trainer/chat/view/chat_view.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../trainer/more_trainer/view/more_trainer_view.dart';
 import '../../trainer/profile_details/presentation/view/profile_view_screen.dart';
@@ -47,16 +48,18 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
     _pageController = PageController();
     _pages = widget.homeType==0?[
       const HomeTrainerScreen(),
-      Container(),
-      ProfileTrainerScreenView(),
+      ChatView(),
+      const ProfileTrainerScreenView(),
       // const ProfileScreen(),
       // const MoreScreen()
       const MoreTrainerScreen()
     ]:widget.homeType==1?[
       const HomeTrainerScreen(),
-      Container(),
+       ChatView(),
       // const ProfileScreen(),
       // const MoreScreen()
+      const MoreTrainerScreen(),
+      const ProfileTrainerScreenView(),
       const MoreTrainerScreen(),
       ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
@@ -68,7 +71,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
       const MoreTrainerScreen(),
     ]:[
       Container(),
-      ProfileTrainerScreenView(),
+      const ProfileTrainerScreenView(),
       // const ProfileScreen(),
       // const MoreScreen()
       const MoreTrainerScreen(),
@@ -224,8 +227,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                                         : AppColors.white,
                                   )
                                 ],
-                              ),
-                            ),
+                              ))
                           ),
                         ],
                       ),

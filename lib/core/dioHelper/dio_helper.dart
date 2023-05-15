@@ -36,7 +36,8 @@ class DioHelper {
     dioSingleton.options.headers = headers;
     return dioSingleton.get(path,
         queryParameters: query,
-        options: Options(headers: {
+        options: Options(
+            headers: {
       "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
     }));
   }

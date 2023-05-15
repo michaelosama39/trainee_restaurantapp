@@ -1,21 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call.dart';
 
+import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../data/model/chat_model.dart';
+import '../data/model/message_model.dart';
 
 class ChatDetailsView extends StatefulWidget {
-  const ChatDetailsView({Key? key}) : super(key: key);
+  final ChatModel? chatModel;
+  const ChatDetailsView({Key? key, this.chatModel}) : super(key: key);
 
   @override
   State<ChatDetailsView> createState() => _ChatDetailsViewState();
 }
 
 class _ChatDetailsViewState extends State<ChatDetailsView> {
+
+  final messageController = TextEditingController();
+
+  void sendMessage()async{
+    widget.chatModel!.messages!.add(MessageModel(AppStorage.getUserId,widget.chatModel!.traineeId, messageController.text, DateTime.now().toString()));
+    await FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).set({
+      "traineeId" : widget.chatModel!.traineeId,
+      "traineeImage" : widget.chatModel!.traineeImage,
+      "traineeName" : widget.chatModel!.traineeName,
+      "trainerId" : AppStorage.getUserId,
+      "trainerImage" : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png",
+      "trainerName" : "mohab",
+      "id" : widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString(),
+      "messages" : widget.chatModel!.messages!.map((e){
+        return {
+          "message" : e.message,
+          "senderId" : e.senderId,
+          "receiverId" : e.receiverId,
+          "messageTime" : e.messageTime
+        };
+      }).toList()
+    });
+  }
+
   callingForm() {
     return Container(
       height: 120.h,
@@ -28,7 +58,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
           Expanded(
               flex: 3,
               child: CustomText(
-                text: "رامي المصري",
+                text: widget.chatModel!.traineeName ?? "",
                 fontWeight: FontWeight.w700,
                 fontSize: AppConstants.textSize18,
               )),
@@ -39,7 +69,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(AppConstants.TRAINEE_IMG),
+                  image: NetworkImage(widget.chatModel!.traineeImage ?? ""),
                 ),
               ),
             ),
@@ -51,12 +81,12 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
               children: [
                 IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.phone,
                       color: AppColors.accentColorLight,
                     )),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
                     height: 1,
                     color: AppColors.white,
@@ -66,10 +96,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return JoinChannelVideo();
+                        return const JoinChannelVideo();
                       }));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.videocam,
                       color: AppColors.accentColorLight,
                     ))
@@ -82,7 +112,40 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
   }
 
   chatText() {
-    return Expanded(child: Container());
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.none) {
+          return const Text('Something went wrong');
+        }
+
+        else if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Loader();
+        }else{
+
+          List<MessageModel> messages = [];
+          for (var element in snapshot.data!.data()!["messages"]) {
+            messages.add(MessageModel.fromJson(element));
+          }
+          return Expanded(child: ListView.separated(itemBuilder: (context, index) {
+            if(messages[index].senderId == AppStorage.getUserId){
+              return Container(
+                padding: const EdgeInsets.all(10),
+                child: Text(messages[index].message ?? ""),);
+            }else{
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(messages[index].message ?? ""),),
+              );
+            }
+          }, separatorBuilder: (context, index) {
+            return const SizedBox(height: 10,);
+          }, itemCount: messages.length));
+        }
+    },);
+
   }
 
   chatEnterField() {
@@ -98,7 +161,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                 flex: 1,
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     FontAwesomeIcons.telegram,
                   ),
                 ),
@@ -110,7 +173,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                         border: Border.all(color: AppColors.white),
                         borderRadius: BorderRadius.circular(8)),
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter text here',
                         contentPadding: EdgeInsets.all(10.0),
@@ -124,10 +187,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     children: [
                       IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.file_copy_outlined)),
+                          icon: const Icon(Icons.file_copy_outlined)),
                       IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.emoji_emotions_outlined))
+                          icon: const Icon(Icons.emoji_emotions_outlined))
                     ],
                   ))
             ],
@@ -145,8 +208,13 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
             Expanded(
               flex: 1,
               child: IconButton(
-                onPressed: () {},
-                icon: Icon(
+                onPressed: () {
+                  if(messageController.text.isNotEmpty){
+                    sendMessage();
+                  }
+                  messageController.clear();
+                },
+                icon: const Icon(
                   FontAwesomeIcons.paperPlane,
                   color: AppColors.white,
                 ),
@@ -161,7 +229,8 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                         border: Border.all(color: AppColors.white),
                         borderRadius: BorderRadius.circular(8)),
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      controller: messageController,
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter text here',
                         enabledBorder: UnderlineInputBorder(
@@ -182,14 +251,14 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         FontAwesomeIcons.paperclip,
                         color: AppColors.white,
                       ),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         FontAwesomeIcons.faceSmile,
                         color: AppColors.white,
                       ),
@@ -203,7 +272,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TransparentAppBar(
+      appBar: const TransparentAppBar(
         title: "الرسائل",
       ),
       body: Column(
