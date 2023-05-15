@@ -42,12 +42,12 @@ class _SplashScreenState extends State<SplashScreen> {
       (value) {
         if (AppStorage.isLogged) {
           if(AppStorage.getUserInfo!.result!.restaurantId != null){
-            Navigator.pushNamed(context, Routes.navigatorScreen, arguments: 3);
+            Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 3);
           }else {
-            Navigator.pushNamed(context, Routes.navigatorScreen, arguments: 1);
+            Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 1);
           }
         } else {
-          Navigator.pushNamed(context, Routes.mainOnBoardingViewRoute);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.mainOnBoardingViewRoute,(route) => false,);
         }
       },
     );
