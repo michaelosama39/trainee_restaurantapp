@@ -12,3 +12,7 @@ class GetMostWantedCoursesError extends HomeTrainerState {}
 class GetNewTraineesLoaded extends HomeTrainerState {}
 class GetNewTraineesLoading extends HomeTrainerState {}
 class GetNewTraineesError extends HomeTrainerState {}
+
+class GetTraineeLoaded extends HomeTrainerState {}
+class GetTraineeLoading extends HomeTrainerState {}
+class GetTraineeError extends HomeTrainerState {}

@@ -10,6 +10,7 @@ import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call.dart
 
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import '../data/model/chat_model.dart';
 import '../data/model/message_model.dart';
 
@@ -32,8 +33,8 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
       "traineeImage" : widget.chatModel!.traineeImage,
       "traineeName" : widget.chatModel!.traineeName,
       "trainerId" : AppStorage.getUserId,
-      "trainerImage" : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png",
-      "trainerName" : "mohab",
+      "trainerImage" : TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
+      "trainerName" : TrainerProfileCubit.of(context).trainerModel!.name ?? "",
       "id" : widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString(),
       "messages" : widget.chatModel!.messages!.map((e){
         return {

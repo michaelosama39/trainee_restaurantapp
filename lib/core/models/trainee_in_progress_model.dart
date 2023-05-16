@@ -5,7 +5,7 @@ class TraineeInProgressModel {
   Trainee? trainee;
   double? latitude;
   double? longitude;
-  int? weight;
+  double? weight;
   int? length;
   int? completedHours;
   int? absenceCount;
@@ -77,7 +77,7 @@ class TraineeInProgressModel {
 }
 
 class Course {
-  int? fee;
+  double? fee;
   String? imageUrl;
   int? trainingHoursCount;
   int? value;

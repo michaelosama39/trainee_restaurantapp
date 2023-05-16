@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/view/home_restaurant_view.dart';
-import 'package:trainee_restaurantapp/features/trainer/my_courses/view/my_course_view.dart';
-import 'package:trainee_restaurantapp/features/trainer/my_orders/view/my_order_view.dart';
-import 'package:trainee_restaurantapp/features/trainer/trainee/view/all_trainee_screen.dart';
-
 import '../../features/Acount/presentation/screens/account_verification.dart';
 import '../../features/Acount/presentation/screens/forget_password.dart';
 import '../../features/Acount/presentation/screens/forget_password_verification.dart';
@@ -18,12 +14,12 @@ import '../../features/on_boarding/view/main_onboarding_view.dart';
 import '../../features/restaurant/restaurant_profile/view/edit_restaurant_profile.dart';
 import '../../features/trainer/add_course/presentation/screen/add_course_view.dart';
 import '../../features/trainer/home_trainer/presentation/view/home_trainer_view.dart';
-import '../../features/trainer/my_courses/view/my_course_details.dart';
+import '../../features/trainer/my_courses/presentation/view/my_course_details.dart';
+import '../../features/trainer/my_courses/presentation/view/my_course_view.dart';
+import '../../features/trainer/my_orders/presentation/view/my_order_view.dart';
 import '../../features/trainer/profile_details/presentation/view/edit_profile_trainer_screen.dart';
-import '../../features/trainer/trainee/view/trainee_profile_view.dart';
-import '../models/course_model.dart';
-import 'animations/animated_route.dart';
-import 'animations/fade_route.dart';
+import '../../features/trainer/trainee/presentation/view/all_trainee_screen.dart';
+import '../../features/trainer/trainee/presentation/view/trainee_profile_view.dart';
 import 'navigation_service.dart';
 
 class Routes {

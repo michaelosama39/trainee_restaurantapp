@@ -54,10 +54,15 @@ class HomeTrainerRepo {
     }
   }
 
-  Future<Either<String,TraineeInProgressModel>> getTrainee(int traineeId) async {
+  Future<Either<String,TraineeInProgressModel>> getTrainee(int traineeId,int courseId) async {
 
     final response = await DioHelper.get(
-      APIUrls.API_GET_TRAINEE,);
+      APIUrls.API_GET_TRAINEE,
+      query: {
+        "CourseId" : courseId,
+        "TraineeId" : traineeId
+      }
+    );
     try {
       if (response.data['success'] == true) {
 

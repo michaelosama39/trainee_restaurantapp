@@ -13,7 +13,7 @@ import '../../restaurant/add_plate/view/add_plate_view.dart';
 import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
 import '../../trainer/chat/view/chat_view.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
-import '../../trainer/more_trainer/view/more_trainer_view.dart';
+import '../../trainer/more_trainer/presentation/view/more_trainer_view.dart';
 import '../../trainer/profile_details/presentation/view/profile_view_screen.dart';
 
 class NavigatorScreen extends StatefulWidget {
@@ -61,7 +61,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
       const MoreTrainerScreen(),
       const ProfileTrainerScreenView(),
       const MoreTrainerScreen(),
-      ProfileTrainerScreenView(),
+      const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
       const HomeRestaurantScreen(),
       Container(),

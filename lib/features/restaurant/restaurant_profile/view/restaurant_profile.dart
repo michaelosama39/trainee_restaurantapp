@@ -12,7 +12,7 @@ import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../generated/l10n.dart';
-import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../data/models/restaurants_model.dart';
 
 class RestaurantProfile extends StatefulWidget {

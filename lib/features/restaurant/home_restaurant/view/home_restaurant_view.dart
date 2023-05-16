@@ -18,7 +18,8 @@ import '../../../../core/ui/widgets/clock_widget.dart';
 import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
-import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
+
 
 class HomeRestaurantScreen extends StatefulWidget {
   const HomeRestaurantScreen({Key? key}) : super(key: key);

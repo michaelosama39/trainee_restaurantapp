@@ -4,6 +4,7 @@ import 'package:trainee_restaurantapp/features/trainer/home_trainer/data/reposit
 
 import '../../../../../core/models/course_model.dart';
 import '../../../../../core/models/new_trainee_model.dart';
+import '../../../../../core/models/trainee_in_progress_model.dart';
 import '../../../../../core/ui/toast.dart';
 part 'home_trainer_state.dart';
 
@@ -46,6 +47,23 @@ class HomeTrainerCubit extends Cubit<HomeTrainerState> {
       (res) async {
         newTrainees = res;
         emit(GetNewTraineesLoaded());
+      },
+    );
+  }
+
+  TraineeInProgressModel? trainee;
+  Future getTrainee(int courseId , int traineeId) async {
+    emit(GetTraineeLoading());
+    final res = await homeTrainerRepo.getTrainee(traineeId, courseId);
+    res.fold(
+      (err) {
+        print(err);
+        Toast.show(err);
+        emit(GetTraineeError());
+      },
+      (res) async {
+        trainee = res;
+        emit(GetTraineeLoaded());
       },
     );
   }

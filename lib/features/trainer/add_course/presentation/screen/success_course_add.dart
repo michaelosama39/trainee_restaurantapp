@@ -8,6 +8,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/navigation/route_generator.dart';
+import '../../../../../generated/l10n.dart';
 
 class SuccessCourseAdd extends StatelessWidget {
   const SuccessCourseAdd({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class SuccessCourseAdd extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(context, Routes.myCourseScreen, (route) => false);
               },
-              text: "الذهاب الي كورساتي",
+              text: Translation.of(context).goto,
             ))
           ],
         ),

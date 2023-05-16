@@ -55,7 +55,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
               DottedBorder(
                 color: AppColors.white,
                 dashPattern: const [5, 3],
-                radius: Radius.circular(10),
+                radius: const Radius.circular(10),
                 borderType: BorderType.Rect,
                 strokeWidth: 1,
                 child: Container(

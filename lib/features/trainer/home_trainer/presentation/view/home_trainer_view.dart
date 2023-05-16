@@ -17,10 +17,9 @@ import '../../../../../core/models/course_model.dart';
 import '../../../../../core/models/new_trainee_model.dart';
 import '../../../../../core/ui/physics/custom_scroll_physics.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
-import '../../../../../core/ui/widgets/clock_widget.dart';
-import '../../../../../core/ui/widgets/custom_button.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../notification/presentation/view/notification_screen.dart';
 
 class HomeTrainerScreen extends StatefulWidget {
   const HomeTrainerScreen({Key? key}) : super(key: key);
@@ -90,7 +89,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                   ),
                   Expanded(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen(),));
+                        },
                         icon: const FaIcon(
                           FontAwesomeIcons.solidBell,
                           color: AppColors.white,

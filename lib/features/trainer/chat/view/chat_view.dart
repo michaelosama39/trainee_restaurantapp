@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_model.dart';
-
+import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
 import 'chat_details_view.dart';
@@ -18,41 +19,49 @@ class ChatView extends StatelessWidget {
 
 
   horizontalListView() {
-    return SizedBox(
-      height: 120.h,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 80.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  image: const DecorationImage(
-                      image: AssetImage(
-                        AppConstants.TRAINEE_IMG,
-                      ),
-                      fit: BoxFit.cover),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CustomText(
-                        text: "رامي المصرى",
-                        fontWeight: FontWeight.w700,
-                        fontSize: AppConstants.textSize10),
-                    CustomText(
-                      text: "متدرب كورس أثقال",
-                      fontWeight: FontWeight.w700,
-                      fontSize: AppConstants.textSize10,
+    return BlocBuilder<HomeTrainerCubit,HomeTrainerState>(
+      builder: (context, state) {
+      if(state is GetNewTraineesLoading){
+        return const Loader();
+      }else{
+        return SizedBox(
+          height: 120.h,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: HomeTrainerCubit.of(context).newTrainees!.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 80.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      image: const DecorationImage(
+                          image: AssetImage(
+                            AppConstants.TRAINEE_IMG,
+                          ),
+                          fit: BoxFit.cover),
                     ),
-                  ],
-                ),
-              ),
-            );
-          }),
-    );
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomText(
+                            text: HomeTrainerCubit.of(context).newTrainees![index].trainee!.name ?? "",
+                            fontWeight: FontWeight.w700,
+                            fontSize: AppConstants.textSize10),
+                        CustomText(
+                          text: HomeTrainerCubit.of(context).newTrainees![index].course!.text ?? "",
+                          fontWeight: FontWeight.w700,
+                          fontSize: AppConstants.textSize10,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+        );
+      }
+    },);
   }
 
   verticalListView() {
@@ -68,7 +77,6 @@ class ChatView extends StatelessWidget {
       }else{
         List<ChatModel> chats = [];
         for (var element in snapshot.data!.docs) {
-          print(element.data());
           if(element.data()["trainerId"] == AppStorage.getUserId){
             chats.add(ChatModel.fromJson(element.data()));
           }

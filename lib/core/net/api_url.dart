@@ -20,6 +20,10 @@ class APIUrls {
   static const API_GET_TRAINER_REVIEWS = "/services/app/Review/GetAll";
   static const API_GET_COURSE = "/services/app/Course/Get";
   static const API_GET_TRAINEE = "/services/app/Trainee/GetTraineeProgressInCourse";
+  static const API_UPDATE_TRAINEE_PROGRESS = "/services/app/Trainee/UpdateTraineeProgress";
+  static const API_GET_BOOKING_REQUESTS = "/services/app/BookingRequest/GetAll";
+  static const API_APPROVE_BOOKING_REQUEST = "/services/app/BookingRequest/Approve";
+  static const API_REJECT_BOOKING_REQUEST = "/services/app/BookingRequest/Reject";
 
   //rest
   static const API_GET_REST_PROFILE = "/services/app/Restaurant/Get";

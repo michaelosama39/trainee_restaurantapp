@@ -65,9 +65,9 @@ class _MapScreenState extends State<MapScreen> {
     return WillPopScope(
       onWillPop: () => willScope(),
       child: Scaffold(
-        appBar: TransparentAppBar(title: "Current Location"),
+        appBar: const TransparentAppBar(title: "Current Location"),
         body: _userLocation == null
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Stack(
                 children: [
                   GoogleMap(

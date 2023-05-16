@@ -11,7 +11,6 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/add_course/presentation/controller/add_course_cubit.dart';
 
-import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/style/dimens.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/ui/widgets/custom_text_field.dart';
@@ -114,7 +113,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                         EmailTextField(
                           text: "اسم الكورس باللغه الانجليزيه",
                           onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context).requestFocus(
+                                AddCourseCubit.of(context).feeFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context).enNameController,
@@ -135,7 +135,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                         EmailTextField(
                           text: "سعرالكورس",
                           onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context).requestFocus(
+                                AddCourseCubit.of(context).discountPercentageFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context).feeController,
@@ -145,7 +146,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                         EmailTextField(
                           text: "نسبه الخصم",
                           onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context).requestFocus(
+                                AddCourseCubit.of(context).trainingHoursCountFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context)
@@ -157,7 +159,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                         EmailTextField(
                           text: "عدد الساعات",
                           onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context).requestFocus(
+                                AddCourseCubit.of(context).arDescriptionFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context)
@@ -169,7 +172,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                         EmailTextField(
                           text: "تفاصيل الكورس باللغه العربيه",
                           onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context).requestFocus(
+                                AddCourseCubit.of(context).enDescriptionFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller:

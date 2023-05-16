@@ -155,7 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مطاعم\nصحية"),
         "height": MessageLookupByLibrary.simpleMessage("الطول"),
         "homePage": MessageLookupByLibrary.simpleMessage("الرئيسية"),
-        "hour": MessageLookupByLibrary.simpleMessage("ساعة"),
+        "hour": MessageLookupByLibrary.simpleMessage("ساعه"),
         "hourRate": MessageLookupByLibrary.simpleMessage("سعر الساعه"),
         "hoursNumber": MessageLookupByLibrary.simpleMessage("عدد ساعات الكورس"),
         "idNumber": MessageLookupByLibrary.simpleMessage("رقم الهويه"),
