@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
+import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/add_plate/controller/add_plate_cubit.dart';
@@ -77,144 +78,151 @@ class _AddPlateViewState extends State<AddPlateView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddPlateCubit(),
+      create: (context) => AddPlateCubit()..getCategories(),
       child: BlocBuilder<AddPlateCubit, AddPlateState>(
         buildWhen: (previous, current) =>
             previous != current || current is UploadSignUpFileState,
         builder: (context, state) {
           return Scaffold(
-            body: SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child:  Form(
-                    key: AddPlateCubit.of(context).formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: "أضافة طبق",
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: AppConstants.textSize18,
-                        ),
-                        Gaps.vGap16,
-                        EmailTextField(
-                          text: "اسم الطبق باللغه العربيه",
-                          onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
-                          },
-                          textInputAction: TextInputAction.next,
-                          controller: AddPlateCubit.of(context)
-                              .nameArPlateController,
-                          focusNode: AddPlateCubit.of(context).namePlate,
-                        ),
-                        Gaps.vGap16,
-                        EmailTextField(
-                          text: "اسم الطبق باللغه الانجليزيه",
-                          onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
-                          },
-                          textInputAction: TextInputAction.next,
-                          controller: AddPlateCubit.of(context)
-                              .nameEnPlateController,
-                          focusNode: AddPlateCubit.of(context).namePlate,
-                        ),
-                        Gaps.vGap16,
-                        uploadSignUpFile(
-                          text: "ارفق صوره تعبيريه عن الطبق",
-                          file: AddPlateCubit.of(context).file!,
-                          onTap: () async {
-                            AddPlateCubit.of(context).file =
-                            await AddPlateCubit.of(context).getImage();
-                          },
-                        ),
-                        Gaps.vGap16,
-                        DropdownButton<Items>(
-                          value:
-                          AddPlateCubit.of(context).dropdownValueCate,
-                          hint: const Text(
-                            'اختار التصنيف',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          dropdownColor: Colors.grey,
-                          underline: Container(
-                            height: 2,
-                            color: Colors.white,
-                          ),
-                          onChanged: (Items? value) {
-                            setState(() {
-                              AddPlateCubit.of(context).dropdownValueCate =
-                              value!;
-                            });
-                          },
-                          items: AddPlateCubit.of(context)
-                              .listOfCates
-                              .map<DropdownMenuItem<Items>>((Items value) {
-                            return DropdownMenuItem<Items>(
-                              value: value,
-                              child: Text(
-                                value.name ?? '',
+            body: state is GetCategoryLoading
+                ? const Loader()
+                : SingleChildScrollView(
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Form(
+                          key: AddPlateCubit.of(context).formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: "أضافة طبق",
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: AppConstants.textSize18,
                               ),
-                            );
-                          }).toList(),
-                        ),
-                        Gaps.vGap16,
-                        EmailTextField(
-                          text: "سعر الطبق",
-                          onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
-                          },
-                          textInputAction: TextInputAction.next,
-                          controller: AddPlateCubit.of(context)
-                              .pricePlateController,
-                          focusNode: AddPlateCubit.of(context).pricePlate,
-                        ),
-                        Gaps.vGap16,
-                        EmailTextField(
-                          text: "مكونات الطبق باللغه العربيه",
-                          onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
-                          },
-                          textInputAction: TextInputAction.next,
-                          controller: AddPlateCubit.of(context)
-                              .componentsArPlateController,
-                          focusNode: AddPlateCubit.of(context).descPlate,
-                        ),
-                        Gaps.vGap16,
-                        EmailTextField(
-                          text: "مكونات الطبق باللغه الانجليزيه",
-                          onFiledSubmitted: () {
-                            // FocusScope.of(context).requestFocus(passwordFocusNode);
-                          },
-                          textInputAction: TextInputAction.next,
-                          controller: AddPlateCubit.of(context)
-                              .componentsEnPlateController,
-                          focusNode: AddPlateCubit.of(context).weightPlate,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 45.0, horizontal: 20),
-                            child: CustomElevatedButton(
-                              borderRadius: 12,
-                              onTap: () {
-                                AddPlateCubit.of(context)
-                                    .createDish(context);
-                              },
-                              text: 'اضافه',
-                            ),
+                              Gaps.vGap16,
+                              EmailTextField(
+                                text: "اسم الطبق باللغه العربيه",
+                                onFiledSubmitted: () {
+                                  // FocusScope.of(context).requestFocus(passwordFocusNode);
+                                },
+                                textInputAction: TextInputAction.next,
+                                controller: AddPlateCubit.of(context)
+                                    .nameArPlateController,
+                                focusNode: AddPlateCubit.of(context).nameArPlate,
+                              ),
+                              Gaps.vGap16,
+                              EmailTextField(
+                                text: "اسم الطبق باللغه الانجليزيه",
+                                onFiledSubmitted: () {
+                                  // FocusScope.of(context).requestFocus(passwordFocusNode);
+                                },
+                                textInputAction: TextInputAction.next,
+                                controller: AddPlateCubit.of(context)
+                                    .nameEnPlateController,
+                                focusNode: AddPlateCubit.of(context).nameEnPlate,
+                              ),
+                              Gaps.vGap16,
+                              uploadSignUpFile(
+                                text: "ارفق صوره تعبيريه عن الطبق",
+                                file:
+                                    AddPlateCubit.of(context).file,
+                                onTap: () async {
+                                  AddPlateCubit.of(context).file =
+                                      await AddPlateCubit.of(context)
+                                          .getImage();
+                                  AddPlateCubit.of(context).emit(UploadSignUpFileState());
+                                },
+                              ),
+                              Gaps.vGap16,
+                              DropdownButton<Items>(
+                                value:
+                                    AddPlateCubit.of(context).dropdownValueCate,
+                                hint: const Text(
+                                  'اختار التصنيف',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                dropdownColor: Colors.grey,
+                                underline: Container(
+                                  height: 2,
+                                  color: Colors.white,
+                                ),
+                                onChanged: (Items? value) {
+                                  setState(() {
+                                    AddPlateCubit.of(context)
+                                        .dropdownValueCate = value!;
+                                  });
+                                },
+                                items: AddPlateCubit.of(context)
+                                    .listOfCates
+                                    .map<DropdownMenuItem<Items>>(
+                                        (Items value) {
+                                  return DropdownMenuItem<Items>(
+                                    value: value,
+                                    child: Text(
+                                      value.name ?? '',
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              Gaps.vGap16,
+                              EmailTextField(
+                                text: "سعر الطبق",
+                                onFiledSubmitted: () {
+                                  // FocusScope.of(context).requestFocus(passwordFocusNode);
+                                },
+                                textInputAction: TextInputAction.next,
+                                controller: AddPlateCubit.of(context)
+                                    .pricePlateController,
+                                focusNode: AddPlateCubit.of(context).pricePlate,
+                              ),
+                              Gaps.vGap16,
+                              EmailTextField(
+                                text: "مكونات الطبق باللغه العربيه",
+                                onFiledSubmitted: () {
+                                  // FocusScope.of(context).requestFocus(passwordFocusNode);
+                                },
+                                textInputAction: TextInputAction.next,
+                                controller: AddPlateCubit.of(context)
+                                    .componentsArPlateController,
+                                focusNode: AddPlateCubit.of(context).comArPlate,
+                              ),
+                              Gaps.vGap16,
+                              EmailTextField(
+                                text: "مكونات الطبق باللغه الانجليزيه",
+                                onFiledSubmitted: () {
+                                  // FocusScope.of(context).requestFocus(passwordFocusNode);
+                                },
+                                textInputAction: TextInputAction.next,
+                                controller: AddPlateCubit.of(context)
+                                    .componentsEnPlateController,
+                                focusNode:
+                                    AddPlateCubit.of(context).comEnPlate,
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 45.0, horizontal: 20),
+                                  child: CustomElevatedButton(
+                                    borderRadius: 12,
+                                    onTap: () {
+                                      AddPlateCubit.of(context)
+                                          .createDish(context);
+                                    },
+                                    text: 'اضافه',
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
           );
         },
       ),

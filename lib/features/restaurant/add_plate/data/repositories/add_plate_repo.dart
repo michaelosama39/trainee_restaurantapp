@@ -42,10 +42,12 @@ class AddPlateRepo {
         'restaurantId': AppStorage.getUserInfo!.result!.restaurantId,
         'categoryId': categoryId,
         'enComponents': enComponents,
-        'image': await MultipartFile.fromFile(image.path,
+        'image': image ==  await MultipartFile.fromFile(image.path,
             filename: image.path.split('/').last),
       },
     );
+    print(response.data);
+    print(response.statusCode);
     try {
       if (response.data['success'] == true) {
         return const Right(true);

@@ -22,11 +22,12 @@ class AddPlateCubit extends Cubit<AddPlateState> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  FocusNode namePlate = FocusNode();
-  FocusNode descPlate = FocusNode();
+  FocusNode nameArPlate = FocusNode();
+  FocusNode nameEnPlate = FocusNode();
+  FocusNode comPlate = FocusNode();
   FocusNode pricePlate = FocusNode();
-  FocusNode weightPlate = FocusNode();
-  FocusNode durationPlate = FocusNode();
+  FocusNode comArPlate = FocusNode();
+  FocusNode comEnPlate = FocusNode();
 
   TextEditingController nameArPlateController = TextEditingController();
   TextEditingController nameEnPlateController = TextEditingController();
@@ -54,7 +55,7 @@ class AddPlateCubit extends Cubit<AddPlateState> {
   }
 
   Future createDish(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate() || file != null) {
       emit(AddPlateLoading());
       final res = await addPlateRepo.createDish(
         arName: nameArPlateController.text,
@@ -79,14 +80,16 @@ class AddPlateCubit extends Cubit<AddPlateState> {
           emit(AddPlateLoaded());
         },
       );
+    }else{
+      Toast.show('استكمل البيانات');
     }
   }
 
-  getImage() async {
+  Future<File?> getImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
-      file = File(result.path);
+      return File(result.path);
     }
   }
 }

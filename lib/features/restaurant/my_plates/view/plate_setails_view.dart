@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:trainee_restaurantapp/core/ui/loader.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_plates/controller/my_plates_cubit.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_plates/models/order_model.dart';
 
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/constants/app/app_constants.dart';
+import '../../../../core/models/review_model.dart';
 import '../../../../core/navigation/route_generator.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../core/ui/widgets/custom_rating_bar_widget.dart';
@@ -13,14 +18,19 @@ import '../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../home_restaurant/data/models/dish_model.dart';
 
 class MyPlateDetails extends StatefulWidget {
+  final int dishId;
+
+  const MyPlateDetails({super.key, required this.dishId});
+
   @override
   State<MyPlateDetails> createState() => _MyPlateDetailsState();
 }
 
 class _MyPlateDetailsState extends State<MyPlateDetails> {
-  Widget _buildSubscriptionWidget() {
+  Widget _buildSubscriptionWidget(Items item) {
     return Stack(
       children: [
         Positioned(
@@ -40,10 +50,10 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: CustomText(
-                          text: "طبق دجاج بالخضار",
+                          text: item.name ?? '',
                           fontSize: AppConstants.textSize16,
                           fontWeight: FontWeight.bold,
                           textAlign: TextAlign.start,
@@ -52,8 +62,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                       const Spacer(),
                       CustomText(
                         maxLines: 2,
-                        text:
-                            "طبق شوفان , ربع كوب لوز مقطع وملعقتان صغيرتان زنجبيل و نصف كوب عسل نحل اربع ملاعق زبدة ورشه ملح , نصف كوب فاكهه , مجففه زبيب , مشمش, تفاح مجفف",
+                        text: item.components ?? '',
                         color: AppColors.white,
                         fontSize: AppConstants.textSize12,
                         fontWeight: FontWeight.w500,
@@ -85,7 +94,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                             fontWeight: FontWeight.w500,
                           ),
                           CustomText(
-                            text: " 4",
+                            text: " ${item.orderCount}",
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.w500,
@@ -104,32 +113,12 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                         children: [
                           Expanded(
                             child: CustomText(
-                              text: "2000 ريال",
+                              text: "${item.price} ريال",
                               fontSize: AppConstants.textSize14,
                               maxLines: 2,
                               textAlign: TextAlign.start,
                               fontWeight: FontWeight.w500,
                               color: AppColors.accentColorLight,
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                CustomText(
-                                  text: "60 جرام",
-                                  fontSize: AppConstants.textSize14,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.start,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.accentColorLight,
-                                ),
-                                Gaps.hGap8,
-                                SvgPicture.asset(
-                                  height: 20.h,
-                                  AppConstants.WEIGHT_ICON,
-                                ),
-                              ],
                             ),
                           ),
                         ],
@@ -184,7 +173,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                     ClipRRect(
                       borderRadius:
                           BorderRadius.circular(AppConstants.borderRadius8),
-                      child: Image.asset(
+                      child: Image.network(
                         image,
                         height: 56.h,
                         width: 46.w,
@@ -222,32 +211,33 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
     );
   }
 
-  Widget _buildCommentsWidget() {
+  Widget _buildCommentsWidget(List<ReviewModel> review) {
     return Padding(
       padding: EdgeInsets.only(right: 12.w),
       child: SizedBox(
         height: 128.h,
         child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return BlurWidget(
-                  width: 268.w,
-                  height: 128.h,
-                  borderRadius: AppConstants.borderRadius4,
-                  child: _buildCommentItemWidget(
-                    image: AppConstants.COACH3_IMAGE,
-                    date: "10-10-2023",
-                    name: "مصطفي محمد",
-                    body: "لا يوجد تعليق",
-                  ));
-            },
-            separatorBuilder: (context, index) => Gaps.hGap16,
-            itemCount: 3),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return BlurWidget(
+                width: 268.w,
+                height: 128.h,
+                borderRadius: AppConstants.borderRadius4,
+                child: _buildCommentItemWidget(
+                  image: review[index].reviewer!.imageUrl ?? '',
+                  date: review[index].creationTime ?? '',
+                  name: review[index].reviewer!.name ?? '',
+                  body: review[index].comment ?? '',
+                ));
+          },
+          separatorBuilder: (context, index) => Gaps.hGap16,
+          itemCount: review.length,
+        ),
       ),
     );
   }
 
-  Widget traineeCard({required context}) {
+  Widget traineeCard({required context, required OrderModel orderModel}) {
     return MaterialButton(
       onPressed: () {
         Navigator.of(context).pushNamed(Routes.traineeProfileScreen);
@@ -257,7 +247,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
           Expanded(
             flex: 5,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     AppColors.linearCardTrainee1Color.withOpacity(1),
@@ -265,13 +255,13 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                     AppColors.linearCardTrainee3Color.withOpacity(1),
                     AppColors.linearCardTrainee4Color.withOpacity(1),
                   ]),
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomText(
-                    text: "رامي المصري",
+                    text: orderModel.trainee!.name ?? '',
                     fontSize: AppConstants.textSize18,
                     fontWeight: FontWeight.w700,
                     color: AppColors.white,
@@ -286,7 +276,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                         fontWeight: FontWeight.w500,
                       ),
                       CustomText(
-                        text: " 4",
+                        text: " ${orderModel.items!.length}",
                         color: AppColors.accentColorLight,
                         fontSize: AppConstants.textSize14,
                         fontWeight: FontWeight.w500,
@@ -297,7 +287,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                     children: [
                       Expanded(
                         child: CustomText(
-                          text: "2000 ريال",
+                          text: "${orderModel.price ?? ''} ريال",
                           fontSize: AppConstants.textSize14,
                           maxLines: 2,
                           textAlign: TextAlign.start,
@@ -307,7 +297,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
                       ),
                       Expanded(
                         child: CustomText(
-                          text: "${DateTime.now().toString().substring(0,10)}",
+                          text: DateTime.now().toString().substring(0, 10),
                           fontSize: AppConstants.textSize14,
                           maxLines: 2,
                           textAlign: TextAlign.start,
@@ -325,7 +315,7 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
           Expanded(
             flex: 2,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(AppConstants.COACH1_IMAGE),
                       fit: BoxFit.cover),
@@ -337,8 +327,8 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
     );
   }
 
-  Widget _trainee() {
-    return Container(
+  Widget _trainee(List<OrderModel> listOfOrders) {
+    return SizedBox(
       height: 200.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -353,17 +343,16 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
               subtitleSize: AppConstants.textSize14,
             ),
             Expanded(
-              child: Container(
-                child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: traineeCard(context: context),
-                      );
-                    }),
-              ),
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: listOfOrders.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: traineeCard(
+                          context: context, orderModel: listOfOrders[index]),
+                    );
+                  }),
             )
           ],
         ),
@@ -434,39 +423,64 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScrollView(slivers: <Widget>[
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: CustomSliverDelegate(
-            image: AppConstants.YOGA_IMG,
-            expandedHeight: 260.h,
-            child: _buildSubscriptionWidget(),
-          ),
-        ),
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Gaps.vGap10,
-                _trainee(),
-                _buildRatingWidget(
-                    average: 2.4,
-                    fifthRate: 4.2,
-                    firstRate: 1.3,
-                    forthRate: 2.2,
-                    secondRate: 2.5,
-                    thirdRate: 1),
-                Gaps.vGap24,
-                _buildCommentsWidget(),
-                Gaps.vGap24,
-              ],
-            ),
-          ),
-        ),
-      ]),
+    return BlocProvider(
+      create: (context) => MyPlatesCubit()
+        ..getDishDetails(widget.dishId)
+        ..getDishReviews(widget.dishId),
+      child: BlocBuilder<MyPlatesCubit, MyPlatesState>(
+        builder: (context, state) {
+          Items? item = MyPlatesCubit.of(context).item;
+          List<ReviewModel> listOfReviews =
+              MyPlatesCubit.of(context).listOfReviews;
+          List<OrderModel> listOfOrders =
+              MyPlatesCubit.of(context).listOfOrders;
+          if (state is GetDishDetailsLoading ||
+              state is GetDishReviewsLoading ||
+              state is GetDishOrdersLoading) {
+            return const Loader();
+          } else {
+            return SafeArea(
+              child: CustomScrollView(slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverDelegate(
+                    image: item!.images!.first ?? '',
+                    expandedHeight: 260.h,
+                    child: _buildSubscriptionWidget(item),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Gaps.vGap10,
+                        listOfOrders.isEmpty
+                            ? const SizedBox()
+                            : _trainee(listOfOrders),
+                        _buildRatingWidget(
+                          average: item.rate!.toDouble(),
+                          fifthRate: item.ratingDetails!.i5!.toDouble(),
+                          firstRate: item.ratingDetails!.i1!.toDouble(),
+                          forthRate: item.ratingDetails!.i4!.toDouble(),
+                          secondRate: item.ratingDetails!.i2!.toDouble(),
+                          thirdRate: item.ratingDetails!.i3!.toDouble(),
+                        ),
+                        Gaps.vGap24,
+                        listOfReviews.isEmpty
+                            ? const SizedBox()
+                            : _buildCommentsWidget(listOfReviews),
+                        Gaps.vGap24,
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
+        },
+      ),
     );
   }
 }

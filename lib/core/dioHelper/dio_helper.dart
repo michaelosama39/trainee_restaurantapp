@@ -15,6 +15,9 @@ class DioHelper {
           validateStatus: (_) => true,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
+            headers: {
+              "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+            }
         ));
   }
 
@@ -27,6 +30,9 @@ class DioHelper {
           validateStatus: (_) => true,
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
+            headers: {
+              "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+            }
         ));
   }
 

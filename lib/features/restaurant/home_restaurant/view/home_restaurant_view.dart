@@ -8,6 +8,7 @@ import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/controller/home_restaurant_cubit.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
@@ -20,7 +21,9 @@ import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../my_plates/view/plate_setails_view.dart';
 import '../data/models/dish_model.dart';
+import '../data/models/recent_dishes_model.dart';
 
 class HomeRestaurantScreen extends StatefulWidget {
   const HomeRestaurantScreen({Key? key}) : super(key: key);
@@ -183,19 +186,18 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   Widget _buildMyCourseItemWidget(Items item) {
     return MaterialButton(
       onPressed: () {
-        // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        //   return CourseView(
-        //     courseModel: courseModel,
-        //   );
-        // }));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MyPlateDetails(
+                  dishId: item.id!,
+                )));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
-            image: const DecorationImage(
-              image: AssetImage(AppConstants.RESTAURANT_IMG),
+            image: DecorationImage(
+              image: NetworkImage(item.images!.first),
               fit: BoxFit.cover,
             ),
             boxShadow: [
@@ -307,7 +309,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             child: TitleWidget(
               title: "الاطباق الأكثر طلبا",
               subtitleColorTapped: () {
-                Navigator.pushNamed(context, Routes.myCourseScreen);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AllPlatesScreen()));
               },
               titleColor: AppColors.accentColorLight,
               subtitle: "اظهار الكل",
@@ -470,7 +473,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
     );
   }
 
-  Widget getPlate() {
+  Widget getPlate(List<RecentDishes> listOfRecentDishes) {
     return Container(
         height: 400.h,
         padding: const EdgeInsets.all(8),
@@ -481,15 +484,15 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                 mainAxisSpacing: 10,
                 childAspectRatio: 1.2,
                 crossAxisSpacing: 10),
-            itemCount: 4,
+            itemCount: listOfRecentDishes.length,
             itemBuilder: (context, v) {
               return DishesView(
-                  onTap: () {},
-                  restaurantName: "موتشي",
-                  price: "200",
-                  imagePlate:
-                      "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-                  plateName: "طبق السمك و الافوكادو");
+                onTap: () {},
+                restaurantName: listOfRecentDishes[v].category!.text ?? '',
+                price: (listOfRecentDishes[v].price ?? 0).toString(),
+                imagePlate: listOfRecentDishes[v].images!.first,
+                plateName: listOfRecentDishes[v].name ?? '',
+              );
             }));
   }
 
@@ -499,8 +502,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
       if (state is GetRestProfileLoading) {
         return const Loader();
       } else {
-        var restaurantsModel =
-            RestProfileCubit.of(context).restaurantsModel;
+        var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
@@ -535,13 +537,15 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                  text: restaurantsModel!.subscription!.name??'',
+                                  text: restaurantsModel!.subscription!.name ??
+                                      '',
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.white,
                                   fontSize: AppConstants.textSize16,
                                 ),
                                 CustomText(
-                                  text: "${restaurantsModel.subscription!.fee} ريال سعودي",
+                                  text:
+                                      "${restaurantsModel.subscription!.fee} ريال سعودي",
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.white,
                                   fontSize: AppConstants.textSize16,
@@ -557,7 +561,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                               border: Border.all(
-                                  color: AppColors.transparent.withOpacity(0.2)),
+                                  color:
+                                      AppColors.transparent.withOpacity(0.2)),
                               borderRadius: const BorderRadius.all(
                                   Radius.circular(AppConstants.blurDegree10)),
                               gradient: LinearGradient(colors: [
@@ -684,15 +689,20 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeRestaurantCubit()..getAllDishMostOrderedHome(),
+      create: (context) => HomeRestaurantCubit()
+        ..getAllDishMostOrderedHome()
+        ..getRecentOrderedDishes(),
       child: BlocBuilder<RestProfileCubit, RestProfileState>(
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
-          if (state is GetRestProfileLoading) {
+          if (state is GetRestProfileLoading ||
+              state is GetRecentOrderedDishesLoading || state is GetAllDishMostOrderedHomeLoading) {
             return const Loader();
           } else {
             var restaurantsModel =
                 RestProfileCubit.of(context).restaurantsModel;
+            List<RecentDishes> listOfRecentDishes =
+                HomeRestaurantCubit.of(context).listOfRecentDishes;
             return SafeArea(
               child: CustomScrollView(slivers: [
                 SliverPersistentHeader(
@@ -711,29 +721,30 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                       children: [
                         BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
                           builder: (context, state) {
-                            if (state is GetAllDishMostOrderedHomeLoaded) {
-                              return mostWantedCourse(
-                                  HomeRestaurantCubit.of(context).listOfDishs);
-                            } else {
-                              return const Loader();
-                            }
+                            return mostWantedCourse(
+                                HomeRestaurantCubit.of(context).listOfDishs);
                           },
                         ),
                         Gaps.vGap16,
                         // _buildSectionWidget(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: TitleWidget(
-                            title: "أحدث الأطباق",
-                            subtitleColorTapped: () {
-                              // Navigator.pushNamed(context, Routes.traineeScreen);
-                            },
-                            subtitle: Translation.of(context).see_all,
-                            titleColor: AppColors.accentColorLight,
-                          ),
-                        ),
+                        listOfRecentDishes.isEmpty
+                            ? const SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                child: TitleWidget(
+                                  title: "أحدث الأطباق",
+                                  subtitleColorTapped: () {
+                                    // Navigator.pushNamed(context, Routes.traineeScreen);
+                                  },
+                                  subtitle: Translation.of(context).see_all,
+                                  titleColor: AppColors.accentColorLight,
+                                ),
+                              ),
                         Gaps.vGap16,
-                        getPlate(),
+                        listOfRecentDishes.isEmpty
+                            ? const SizedBox()
+                            : getPlate(listOfRecentDishes),
                         restaurantBouquet(),
                         Gaps.vGap60,
                       ],

@@ -29,6 +29,9 @@ class APIUrls {
   static const API_Create_Dish = "/services/app/Dish/Create";
   static const API_GetAll_Category = "/services/app/Category/GetAll";
   static const API_GetAll_Dish_MostOrdered = "/services/app/Dish/GetAll?Sorting=MostOrdered&MaxResultCount=10";
+  static const API_GetAll_Dish = "/services/app/Dish/GetAll";
+  static const API_Get_Dish_Details = "/services/app/Dish/Get";
   static const API_GetAll_New_Ordered = "/services/app/Dish/GetNewOrderedDishes?MaxResultCount=10";
-
+  static const API_GetAll_Order = "/services/app/Order/GetAll";
+  static const API_GetNewOrderedDishes_Dish = "/services/app/Dish/GetNewOrderedDishes";
 }

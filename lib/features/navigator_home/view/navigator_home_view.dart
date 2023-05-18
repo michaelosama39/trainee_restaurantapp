@@ -11,7 +11,7 @@ import '../../../../core/ui/widgets/route_aware_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../restaurant/add_plate/view/add_plate_view.dart';
 import '../../restaurant/more_restaurant/more_restaurant_view.dart';
-import '../../restaurant/my_orders_restaurant/view/my_order_view.dart';
+import '../../restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
 import '../../trainer/chat/view/chat_view.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
