@@ -34,4 +34,5 @@ class APIUrls {
   static const API_GetAll_New_Ordered = "/services/app/Dish/GetNewOrderedDishes?MaxResultCount=10";
   static const API_GetAll_Order = "/services/app/Order/GetAll";
   static const API_GetNewOrderedDishes_Dish = "/services/app/Dish/GetNewOrderedDishes";
+  static const API_ChangeStatus_Order = "/services/app/Order/ChangeStatus";
 }

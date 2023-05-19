@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/my_orders/view/my_order_view.dart';
 
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -210,17 +213,17 @@ class MoreRestaurantScreen extends StatelessWidget {
                 // spacing: 40.w,
                 // runSpacing: 16.h,
                 children: [
-                  // _buildChipWidget(
-                  //     title: Translation.of(context).courses,
-                  //     imgPath: AppConstants.SWIMMING_IMG,
-                  //     onPressed: () {
-                  //       Navigator.pushNamed(context, Routes.myCourseScreen);
-                  //     }),
+                  _buildChipWidget(
+                      title: 'اطباقي',
+                      imgPath: AppConstants.SWIMMING_IMG,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AllPlatesScreen()));
+                      }),
                   _buildChipWidget(
                       title: Translation.of(context).my_orders,
                       imgPath: AppConstants.MOTCHY2_IMG,
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.myOrderScreen);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyOrderRestaurantView()));
 
                       }),
                   _buildChipWidget(

@@ -103,11 +103,12 @@ class AllPlatesScreen extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(AppConstants.RESTAURANT_IMG),
+                          image: NetworkImage(
+                              dish.images!.isEmpty ? '' : dish.images!.first),
                           fit: BoxFit.cover),
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
                 ),
               ),
             ],
@@ -133,12 +134,15 @@ class AllPlatesScreen extends StatelessWidget {
                 : Column(
                     children: [
                       Expanded(
-                        child: ListView.builder(
-                            itemCount: listOfDishs.length,
-                            itemBuilder: (context, index) {
-                              return traineeCard(
-                                  context: context, dish: listOfDishs[index]);
-                            }),
+                        child: listOfDishs.isEmpty
+                            ? const SizedBox()
+                            : ListView.builder(
+                                itemCount: listOfDishs.length,
+                                itemBuilder: (context, index) {
+                                  return traineeCard(
+                                      context: context,
+                                      dish: listOfDishs[index]);
+                                }),
                       )
                     ],
                   );

@@ -28,7 +28,7 @@ class AddPlateRepo {
   Future<Either<String, bool>> createDish(
       {required String arName,
       required String enName,
-      required double price,
+      required int price,
       required int categoryId,
       required String enComponents,
       required String arComponents,
@@ -42,12 +42,14 @@ class AddPlateRepo {
         'restaurantId': AppStorage.getUserInfo!.result!.restaurantId,
         'categoryId': categoryId,
         'enComponents': enComponents,
+        'arComponents': arComponents,
         'image': image ==  await MultipartFile.fromFile(image.path,
             filename: image.path.split('/').last),
       },
     );
+    print(AppStorage.getUserInfo!.result!.restaurantId);
+    print(categoryId);
     print(response.data);
-    print(response.statusCode);
     try {
       if (response.data['success'] == true) {
         return const Right(true);

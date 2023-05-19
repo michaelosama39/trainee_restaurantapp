@@ -10,8 +10,9 @@ class OrderModel {
   String? creationTime;
   int? paymentMethod;
   Null? transactionId;
-  int? paidAmount;
-  int? price;
+  double? paidAmount;
+  double? price;
+  List<Null>? actions;
   List<Item>? items;
   bool? isWithDelivery;
   int? id;
@@ -30,6 +31,7 @@ class OrderModel {
         this.transactionId,
         this.paidAmount,
         this.price,
+        this.actions,
         this.items,
         this.isWithDelivery,
         this.id});
@@ -141,9 +143,9 @@ class Item {
   int? dishId;
   Dish? dish;
   int? productId;
-  int? price;
+  double? price;
   int? quantity;
-  String? product;
+  Null? product;
   String? creationTime;
   int? id;
 

@@ -197,7 +197,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius12),
             image: DecorationImage(
-              image: NetworkImage(item.images!.first),
+              image:
+                  NetworkImage(item.images!.isEmpty ? '' : item.images!.first),
               fit: BoxFit.cover,
             ),
             boxShadow: [
@@ -487,7 +488,10 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             itemCount: listOfRecentDishes.length,
             itemBuilder: (context, v) {
               return DishesView(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AllPlatesScreen()));
+                },
                 restaurantName: listOfRecentDishes[v].category!.text ?? '',
                 price: (listOfRecentDishes[v].price ?? 0).toString(),
                 imagePlate: listOfRecentDishes[v].images!.first,
@@ -696,7 +700,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state is GetRestProfileLoading ||
-              state is GetRecentOrderedDishesLoading || state is GetAllDishMostOrderedHomeLoading) {
+              state is GetRecentOrderedDishesLoading ||
+              state is GetAllDishMostOrderedHomeLoading) {
             return const Loader();
           } else {
             var restaurantsModel =

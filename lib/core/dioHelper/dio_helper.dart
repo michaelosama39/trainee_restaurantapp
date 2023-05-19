@@ -16,7 +16,7 @@ class DioHelper {
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
             headers: {
-              "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+              "Authorization" : AppStorage.isLogged ? "Bearer ${AppStorage.getUserInfo!.result!.accessToken}" : null
             }
         ));
   }
@@ -31,7 +31,7 @@ class DioHelper {
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
             headers: {
-              "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+              "Authorization" : AppStorage.isLogged ? "Bearer ${AppStorage.getUserInfo!.result!.accessToken}" : null
             }
         ));
   }
@@ -44,7 +44,7 @@ class DioHelper {
         queryParameters: query,
         options: Options(
             headers: {
-      "Authorization" : "Bearer ${AppStorage.getUserInfo!.result!.accessToken}"
+      "Authorization" : AppStorage.isLogged ? "Bearer ${AppStorage.getUserInfo!.result!.accessToken}" : null
     }));
   }
 }

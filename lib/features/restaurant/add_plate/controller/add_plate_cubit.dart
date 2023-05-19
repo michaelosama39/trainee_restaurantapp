@@ -10,6 +10,7 @@ import '../../../../core/ui/toast.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
 import '../data/models/categories_model.dart';
 import '../data/repositories/add_plate_repo.dart';
+import '../view/success_plate_add.dart';
 
 part 'add_plate_state.dart';
 
@@ -55,12 +56,12 @@ class AddPlateCubit extends Cubit<AddPlateState> {
   }
 
   Future createDish(BuildContext context) async {
-    if (formKey.currentState!.validate() || file != null) {
+    if (formKey.currentState!.validate() && file != null) {
       emit(AddPlateLoading());
       final res = await addPlateRepo.createDish(
         arName: nameArPlateController.text,
         enName: nameEnPlateController.text,
-        price: double.parse(pricePlateController.text),
+        price: int.parse(pricePlateController.text),
         categoryId: dropdownValueCate == null ? 0 : dropdownValueCate!.id ?? 0,
         enComponents: componentsEnPlateController.text,
         arComponents: componentsArPlateController.text,
@@ -72,11 +73,10 @@ class AddPlateCubit extends Cubit<AddPlateState> {
           emit(AddPlateError());
         },
         (res) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => NavigatorScreen(homeType: 3)),
-              (route) => false);
+                  builder: (context) => const SuccessPlateAdd()));
           emit(AddPlateLoaded());
         },
       );
