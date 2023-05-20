@@ -17,7 +17,7 @@ import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
-import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../../home_restaurant/data/models/dish_model.dart';
 
 class MyPlateDetails extends StatefulWidget {
