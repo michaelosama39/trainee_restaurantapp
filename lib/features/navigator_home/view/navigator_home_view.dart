@@ -10,6 +10,8 @@ import '../../../../core/navigation/nav.dart';
 import '../../../../core/ui/widgets/route_aware_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../restaurant/add_plate/view/add_plate_view.dart';
+import '../../restaurant/more_restaurant/more_restaurant_view.dart';
+import '../../restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
 import '../../trainer/chat/view/chat_view.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
@@ -63,11 +65,11 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
       // const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
       const HomeRestaurantScreen(),
-      Container(),
+      MyOrderRestaurantView(),
       // const ProfileScreen(),
       // const MoreScreen()
       const RestaurantProfile(),
-      const MoreTrainerScreen(),
+      const MoreRestaurantScreen(),
     ]:[
       Container(),
       const ProfileTrainerScreenView(),
@@ -144,7 +146,35 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                               ),
                             ),
                           ),
-                          InkWell(
+                          widget.homeType==3 ? InkWell(
+                            onTap: () {
+                              _onItemTapped(1);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ImageIcon(
+                                    const AssetImage(
+                                      AppConstants.MAIL_ICON,
+                                    ),
+                                    color: _selectedPage == 1
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                    size: AppConstants.textSize18.h,
+                                  ),
+                                  CustomText(
+                                    text: Translation.of(context).myOrder,
+                                    color: _selectedPage == 1
+                                        ? AppColors.accentColorLight
+                                        : AppColors.white,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ) : InkWell(
                             onTap: () {
                               _onItemTapped(1);
                             },

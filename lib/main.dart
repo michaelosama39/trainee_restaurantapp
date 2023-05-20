@@ -131,7 +131,7 @@ void _initErrorCatcher() {
                       style: const TextStyle(color: Colors.white),
                     ),
                     onPressed: () {},
-                  )
+                  ),
                 ],
               ),
             ),

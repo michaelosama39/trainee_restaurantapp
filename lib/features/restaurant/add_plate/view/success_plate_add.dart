@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 
 import '../../../../core/common/app_colors.dart';
+import '../../my_plates/view/all_plates_screen.dart';
 
 class SuccessPlateAdd extends StatelessWidget {
   const SuccessPlateAdd({Key? key}) : super(key: key);
@@ -21,45 +22,48 @@ class SuccessPlateAdd extends StatelessWidget {
           children: [
             Expanded(
                 flex: 4,
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AvatarGlow(
-                        endRadius: 100.0,
-                        glowColor: AppColors.white,
-                        child: Material(
-                          // Replace this child with your own
-                          elevation: 8.0,
-                          shape: CircleBorder(),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[400],
-                            child: const FaIcon(
-                              FontAwesomeIcons.check,
-                              size: 50,
-                              color: AppColors.white,
-                            ),
-                            radius: 50.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AvatarGlow(
+                      endRadius: 100.0,
+                      glowColor: AppColors.white,
+                      child: Material(
+                        // Replace this child with your own
+                        elevation: 8.0,
+                        shape: const CircleBorder(),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey[400],
+                          radius: 50.0,
+                          child: const FaIcon(
+                            FontAwesomeIcons.check,
+                            size: 50,
+                            color: AppColors.white,
                           ),
                         ),
                       ),
-                      CustomText(
-                        text: "تمت اضافة طبقك بنجاح",
-                        color: AppColors.white,
-                        fontSize: AppConstants.textSize18,
-                        fontWeight: FontWeight.w600,
-                      )
-                    ],
-                  ),
+                    ),
+                    CustomText(
+                      text: "تمت اضافة طبقك بنجاح",
+                      color: AppColors.white,
+                      fontSize: AppConstants.textSize18,
+                      fontWeight: FontWeight.w600,
+                    )
+                  ],
                 )),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 30),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
                   child: NewElevatedButton(
-              color: null,
-              onTap: () {},
-              text: "الذهاب الي كورساتي",
-            ),
+                    color: null,
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => const AllPlatesScreen()));
+                    },
+                    text: "الذهاب الي اطباقي",
+                  ),
                 ))
           ],
         ),
