@@ -47,6 +47,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
     });
   }
 
+
   callingForm() {
     return Container(
       height: 120.h,
@@ -97,7 +98,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const JoinChannelVideo();
+                        return const VideoCallScreen(channelName: '',);
                       }));
                     },
                     icon: const Icon(
@@ -123,27 +124,34 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
         else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loader();
         }else{
+          print(snapshot.data!.data());
 
-          List<MessageModel> messages = [];
-          for (var element in snapshot.data!.data()!["messages"]) {
-            messages.add(MessageModel.fromJson(element));
-          }
-          return Expanded(child: ListView.separated(itemBuilder: (context, index) {
-            if(messages[index].senderId == AppStorage.getUserId){
-              return Container(
-                padding: const EdgeInsets.all(10),
-                child: Text(messages[index].message ?? ""),);
-            }else{
-              return Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(messages[index].message ?? ""),),
-              );
-            }
-          }, separatorBuilder: (context, index) {
-            return const SizedBox(height: 10,);
-          }, itemCount: messages.length));
+
+if(snapshot.data!.data() != null){
+  List<MessageModel> messages = [];
+  for (var element in snapshot.data!.data()?["messages"]) {
+    messages.add(MessageModel.fromJson(element));
+  }
+  return Expanded(child: ListView.separated(itemBuilder: (context, index) {
+    if(messages[index].senderId == AppStorage.getUserId){
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(messages[index].message ?? ""),);
+    }else{
+      return Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(messages[index].message ?? ""),),
+      );
+    }
+  }, separatorBuilder: (context, index) {
+    return const SizedBox(height: 10,);
+  }, itemCount: messages.length));
+}else{
+  return const SizedBox();
+}
+
         }
     },);
 

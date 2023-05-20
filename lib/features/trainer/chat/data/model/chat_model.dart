@@ -11,14 +11,14 @@ class ChatModel{
   List<MessageModel>? messages;
 
   ChatModel(
-      this.id,
+      {this.id,
       this.traineeId,
       this.trainerId,
       this.traineeName,
       this.trainerName,
       this.traineeImage,
       this.trainerImage,
-      this.messages);
+      this.messages});
 
   ChatModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

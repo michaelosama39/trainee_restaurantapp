@@ -56,12 +56,11 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
     ]:widget.homeType==1?[
       const HomeTrainerScreen(),
        ChatView(),
-      // const ProfileScreen(),
-      // const MoreScreen()
-      const MoreTrainerScreen(),
       const ProfileTrainerScreenView(),
       const MoreTrainerScreen(),
-      const ProfileTrainerScreenView(),
+      //
+      // const MoreTrainerScreen(),
+      // const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
       const HomeRestaurantScreen(),
       Container(),

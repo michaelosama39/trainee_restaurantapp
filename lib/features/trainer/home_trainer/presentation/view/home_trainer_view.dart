@@ -20,6 +20,7 @@ import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../notification/presentation/view/notification_screen.dart';
+import '../../../subscription/presentation/view/subscription_screen.dart';
 
 class HomeTrainerScreen extends StatefulWidget {
   const HomeTrainerScreen({Key? key}) : super(key: key);
@@ -530,7 +531,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                 ])),
                             child: Center(
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                                },
                                 icon: const Icon(
                                   Icons.arrow_forward,
                                   color: AppColors.white,
@@ -541,9 +544,6 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                           ),
                         ),
 
-                        // widgets.length > 3
-                        //     ?
-                        // : const SizedBox.shrink(),
                       ],
                     ),
                   );

@@ -433,7 +433,7 @@ class _MyCourseDetailsState extends State<MyCourseDetails> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    image: AppConstants.YOGA_IMG,
+                    image: CoursesCubit.of(context).courseModel!.imageUrl ?? "",
                     expandedHeight: 230.h,
                     child: _buildSubscriptionWidget(),
                   ),

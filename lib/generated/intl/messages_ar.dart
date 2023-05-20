@@ -278,7 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مدربين\nرياضيين"),
         "stores": MessageLookupByLibrary.simpleMessage("متاجر\nمكملات"),
         "subject": MessageLookupByLibrary.simpleMessage("الموضوع"),
-        "subscribe": MessageLookupByLibrary.simpleMessage("اشترك"),
+        "subscribe": MessageLookupByLibrary.simpleMessage("اشتراك"),
         "subscription_type":
             MessageLookupByLibrary.simpleMessage("نوع الاشتراك"),
         "supplements": MessageLookupByLibrary.simpleMessage("المكملات"),

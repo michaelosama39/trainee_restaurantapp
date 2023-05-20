@@ -10,6 +10,7 @@ import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_mode
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'chat_details_view.dart';
 
 class ChatView extends StatelessWidget {
@@ -32,29 +33,38 @@ class ChatView extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 80.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      image: const DecorationImage(
-                          image: AssetImage(
-                            AppConstants.TRAINEE_IMG,
-                          ),
-                          fit: BoxFit.cover),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CustomText(
-                            text: HomeTrainerCubit.of(context).newTrainees![index].trainee!.name ?? "",
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetailsView(chatModel: ChatModel(
+                          traineeId: HomeTrainerCubit.of(context).newTrainees![index].traineeId,
+                          traineeImage: HomeTrainerCubit.of(context).newTrainees![index].trainee!.imageUrl ?? "",
+                          traineeName: HomeTrainerCubit.of(context).newTrainees![index].trainee!.name,
+                          messages: [],)),));
+                    },
+                    child: Container(
+                      width: 80.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              HomeTrainerCubit.of(context).newTrainees![index].trainee!.imageUrl ?? "",
+                            ),
+                            fit: BoxFit.cover),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomText(
+                              text: HomeTrainerCubit.of(context).newTrainees![index].trainee!.name ?? "",
+                              fontWeight: FontWeight.w700,
+                              fontSize: AppConstants.textSize10),
+                          CustomText(
+                            text: HomeTrainerCubit.of(context).newTrainees![index].course!.text ?? "",
                             fontWeight: FontWeight.w700,
-                            fontSize: AppConstants.textSize10),
-                        CustomText(
-                          text: HomeTrainerCubit.of(context).newTrainees![index].course!.text ?? "",
-                          fontWeight: FontWeight.w700,
-                          fontSize: AppConstants.textSize10,
-                        ),
-                      ],
+                            fontSize: AppConstants.textSize10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -132,7 +142,7 @@ class ChatView extends StatelessWidget {
                                           ),
                                         ),
                                         CustomText(
-                                          text: chats[index].messages!.last.messageTime ?? "",
+                                          text: chats[index].messages!.last.messageTime!.substring(0,10),
                                           fontSize: AppConstants.textSize14,
                                           fontWeight: FontWeight.w500,
                                           color: AppColors.grey,

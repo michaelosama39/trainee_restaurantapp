@@ -17,6 +17,7 @@ import '../../../../../core/ui/widgets/custom_rating_bar_widget.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../notification/presentation/view/notification_screen.dart';
 
 
 class ProfileTrainerScreenView extends StatefulWidget {
@@ -932,9 +933,14 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
               },
               child: const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
-          const Icon(
-            Icons.notifications,
-            color: AppColors.white,
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen(),));
+            },
+            child: const Icon(
+              Icons.notifications,
+              color: AppColors.white,
+            ),
           ),
           Gaps.hGap20,
         ],

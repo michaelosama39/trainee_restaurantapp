@@ -12,6 +12,8 @@ import '../../../../../core/ui/widgets/custom_button.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../chat/data/model/chat_model.dart';
+import '../../../chat/view/chat_details_view.dart';
 import 'add_new_trainee_entry_screen.dart';
 
 
@@ -45,6 +47,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                     pinned: true,
                     delegate: CustomSliverDelegate(
                       expandedHeight: 230.h,
+                      image: HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ?? "",
                       child: _buildSubscriptionWidget(),
                     ),
                   ),
@@ -117,12 +120,21 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ImageIcon(
-                            const AssetImage(
-                              AppConstants.CHAT_ICON,
+                          InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetailsView(chatModel: ChatModel(
+                                traineeId: HomeTrainerCubit.of(context).trainee!.traineeId,
+                                traineeImage: HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ?? "",
+                                traineeName: HomeTrainerCubit.of(context).trainee!.trainee!.name,
+                                messages: [],)),));
+                            },
+                            child: ImageIcon(
+                              const AssetImage(
+                                AppConstants.CHAT_ICON,
+                              ),
+                              color: AppColors.white,
+                              size: 20.h,
                             ),
-                            color: AppColors.white,
-                            size: 20.h,
                           ),
                           ImageIcon(
                             const AssetImage(
@@ -301,7 +313,7 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                   //       )
                   //     :
                 mainTopWidget??  Image.network(
-                image ?? AppConstants.TRAINEE_IMG,
+                image ?? "",
                 fit: BoxFit.cover,
                 height: 250.h,
               ),

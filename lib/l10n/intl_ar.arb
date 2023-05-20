@@ -254,6 +254,11 @@
     "weight" : "الوزن",
     "fatPercentage" : "نسبة الدهون",
     "completedHours" : "الساعات المنجزة",
-    "absenceCount" : "عدد مرات الغياب"
+    "absenceCount" : "عدد مرات الغياب",
+    "notifications" : "الاشعارات",
+    "subscriptions" : "باقات الاشتراك",
+    "everyYear" : "كل سنة",
+    "subscribe" : "اشتراك",
+    "noNotificationsYet" : "لا يوجد اشعارات"
 
 }

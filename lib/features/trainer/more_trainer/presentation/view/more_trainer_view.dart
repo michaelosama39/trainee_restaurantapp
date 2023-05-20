@@ -14,6 +14,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../subscription/presentation/view/subscription_screen.dart';
 
 
 class MoreTrainerScreen extends StatelessWidget {
@@ -112,7 +113,7 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen(),));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -146,7 +147,7 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackScreen(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedbackScreen(),));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -159,7 +160,7 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => AboutAppScreen(),));
+             Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppScreen(),));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -234,7 +235,9 @@ class MoreTrainerScreen extends StatelessWidget {
                   _buildChipWidget(
                       title: Translation.of(context).bouquet,
                       imgPath: AppConstants.VEGGIE2_IMG,
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                      }),
                   // _buildChipWidget(
                   //     title: Translation.of(context).supplements,
                   //     imgPath: AppConstants.KCAL2_IMG,

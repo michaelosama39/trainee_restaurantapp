@@ -24,6 +24,9 @@ class APIUrls {
   static const API_GET_BOOKING_REQUESTS = "/services/app/BookingRequest/GetAll";
   static const API_APPROVE_BOOKING_REQUEST = "/services/app/BookingRequest/Approve";
   static const API_REJECT_BOOKING_REQUEST = "/services/app/BookingRequest/Reject";
+  static const API_GET_SUBSCRIPTIONS = "/services/app/Subscription/GetAll";
+  static const API_GET_NOTIFICATIONS = "/services/app/Notification/GetAll";
+  static const API_CREATE_REPORT = "/services/app/Report/Create";
 
   //rest
   static const API_GET_REST_PROFILE = "/services/app/Restaurant/Get";
