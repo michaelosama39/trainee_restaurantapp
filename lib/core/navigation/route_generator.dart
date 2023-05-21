@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:trainee_restaurantapp/features/Acount/presentation/screens/register_screen_restaurant.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/view/home_restaurant_view.dart';
+import 'package:trainee_restaurantapp/features/shop/shop_profile/view/edit_shop_profile.dart';
 import '../../features/Acount/presentation/screens/account_verification.dart';
 import '../../features/Acount/presentation/screens/forget_password.dart';
 import '../../features/Acount/presentation/screens/forget_password_verification.dart';
@@ -43,6 +43,7 @@ class Routes {
   static const String traineeScreen = "/traineeScreen";
   static const String editProfileScreen = "/editProfileScreen";
   static const String editRestProfileScreen = "/editRestProfileScreen";
+  static const String editShopProfileScreen = "/editShopProfileScreen";
   static const String resetPass = "/resetPass";
 }
 
@@ -144,6 +145,9 @@ class AppRoute {
         case Routes.editRestProfileScreen:
         return MaterialPageRoute(
             builder: (context) => EditRestaurantScreenContent());
+      case Routes.editShopProfileScreen:
+        return MaterialPageRoute(
+            builder: (context) => EditShopScreenContent());
       case Routes.navigatorScreen:
         return MaterialPageRoute(
             builder: (context) => NavigatorScreen(

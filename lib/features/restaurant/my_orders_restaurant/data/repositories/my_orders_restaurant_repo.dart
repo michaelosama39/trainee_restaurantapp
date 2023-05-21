@@ -3,7 +3,7 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 
 import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/net/api_url.dart';
-import '../../../my_plates/models/order_model.dart';
+import '../../../../../core/models/order_model.dart';
 
 class MyOrdersRestaurantRepo{
   Future<Either<String, List<OrderModel>>> getMyOrders(int statusId) async {

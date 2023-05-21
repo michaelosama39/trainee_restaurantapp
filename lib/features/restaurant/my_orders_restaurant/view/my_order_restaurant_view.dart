@@ -7,12 +7,11 @@ import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_appbar.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
-
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';
 import '../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../generated/l10n.dart';
-import '../../my_plates/models/order_model.dart';
+import '../../../../core/models/order_model.dart';
 
 class MyOrderRestaurantView extends StatefulWidget {
   const MyOrderRestaurantView({Key? key}) : super(key: key);

@@ -42,4 +42,12 @@ class APIUrls {
   static const API_GetAll_Order = "/services/app/Order/GetAll";
   static const API_GetNewOrderedDishes_Dish = "/services/app/Dish/GetNewOrderedDishes";
   static const API_ChangeStatus_Order = "/services/app/Order/ChangeStatus";
+
+  // product
+  static const API_GetAll_Product_MostOrdered = "/services/app/Product/GetAll?Sorting=CreationTime&MaxResultCount=10";
+  static const API_GET_SHOP_PROFILE = "/services/app/Shop/Get";
+  static const API_UPDATE_SHOP_PROFILE = "/services/app/Shop/Update";
+  static const API_Create_Product = "/services/app/Product/Create";
+  static const API_GetAll_Product = "/services/app/Product/GetAll";
+  static const API_Get_Product_Details = "/services/app/Product/Get";
 }

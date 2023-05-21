@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/ui/toast.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
-import '../data/models/categories_model.dart';
+import '../../../../core/models/categories_model.dart';
 import '../data/repositories/add_plate_repo.dart';
 import '../view/success_plate_add.dart';
 

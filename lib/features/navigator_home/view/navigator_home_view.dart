@@ -4,6 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/home_restaurant/view/home_restaurant_view.dart';
+import 'package:trainee_restaurantapp/features/shop/add_product/view/add_product_view.dart';
+import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
+import 'package:trainee_restaurantapp/features/shop/shop_profile/view/shop_profile.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/nav.dart';
@@ -13,6 +16,8 @@ import '../../restaurant/add_plate/view/add_plate_view.dart';
 import '../../restaurant/more_restaurant/more_restaurant_view.dart';
 import '../../restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import '../../restaurant/restaurant_profile/view/restaurant_profile.dart';
+import '../../shop/home_shop/view/home_shop_view.dart';
+import '../../shop/more_shop/more_shop_view.dart';
 import '../../trainer/chat/view/chat_view.dart';
 import '../../trainer/home_trainer/presentation/view/home_trainer_view.dart';
 import '../../trainer/more_trainer/presentation/view/more_trainer_view.dart';
@@ -65,18 +70,16 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
       // const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
       const HomeRestaurantScreen(),
-      MyOrderRestaurantView(),
+      const MyOrderRestaurantView(),
       // const ProfileScreen(),
       // const MoreScreen()
       const RestaurantProfile(),
       const MoreRestaurantScreen(),
     ]:[
-      Container(),
-      const ProfileTrainerScreenView(),
-      // const ProfileScreen(),
-      // const MoreScreen()
-      const MoreTrainerScreen(),
-      const HomeTrainerScreen(),
+      const HomeShopScreen(),
+      const MyOrderShopView(),
+      const ShopProfile(),
+      const MoreShopScreen(),
     ];
 
     // DynamicLinkService dynamicLinkService = DynamicLinkService();
@@ -194,7 +197,7 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                                     size: AppConstants.textSize18.h,
                                   ),
                                   CustomText(
-                                    text: Translation.of(context).mail,
+                                    text: Translation.of(context).myOrder,
                                     color: _selectedPage == 1
                                         ? AppColors.accentColorLight
                                         : AppColors.white,
@@ -274,7 +277,9 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
                     onTap: () {
                       if(widget.homeType == 3){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPlateView()));
-                      }else{
+                      }else if(widget.homeType == 4){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddProductView()));
+                      } else{
                         Navigator.of(context).pushNamed(Routes.addCourseScreen);
                       }
                     },
