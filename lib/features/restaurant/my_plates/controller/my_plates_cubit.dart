@@ -6,7 +6,7 @@ import 'package:trainee_restaurantapp/features/restaurant/my_plates/data/reposit
 import '../../../../core/models/review_model.dart';
 import '../../../../core/ui/toast.dart';
 import '../../home_restaurant/data/models/dish_model.dart';
-import '../models/order_model.dart';
+import '../../../../core/models/order_model.dart';
 
 part 'my_plates_state.dart';
 

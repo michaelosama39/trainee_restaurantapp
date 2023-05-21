@@ -23,13 +23,6 @@
             </list>
           </value>
         </entry>
-        <entry key="agora_rtc_engine">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/agora_rtc_engine-6.1.0/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="analyzer">
           <value>
             <list>
@@ -425,7 +418,7 @@
         <entry key="flutter">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter/lib" />
+              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter/lib" />
             </list>
           </value>
         </entry>
@@ -523,7 +516,7 @@
         <entry key="flutter_localizations">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_localizations/lib" />
+              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_localizations/lib" />
             </list>
           </value>
         </entry>
@@ -586,7 +579,7 @@
         <entry key="flutter_test">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_test/lib" />
+              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_test/lib" />
             </list>
           </value>
         </entry>
@@ -600,7 +593,7 @@
         <entry key="flutter_web_plugins">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_web_plugins/lib" />
+              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_web_plugins/lib" />
             </list>
           </value>
         </entry>
@@ -909,13 +902,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/io-1.0.4/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="iris_event">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/iris_event-2.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -1412,7 +1398,7 @@
         <entry key="sky_engine">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/bin/cache/pkg/sky_engine/lib" />
+              <option value="$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/bin/cache/pkg/sky_engine/lib" />
             </list>
           </value>
         </entry>
@@ -1730,7 +1716,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-55.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/after_layout-1.2.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/agora_rtc_engine-6.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/analyzer-5.7.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/animated_theme_switcher-2.0.8/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/archive-3.3.6/lib" />
@@ -1853,7 +1838,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/intl-0.17.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/intl_phone_number_input-0.7.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/io-1.0.4/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/iris_event-2.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/js-0.6.5/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/json_annotation-4.8.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/json_serializable-6.6.1/lib" />
@@ -1968,11 +1952,11 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/xdg_directories-1.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/xml-6.2.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/yaml-3.1.1/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_localizations/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_test/lib" />
-      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2/flutter/packages/flutter_web_plugins/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/bin/cache/pkg/sky_engine/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_localizations/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_test/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter sdk/2.19.2(2)/flutter/packages/flutter_web_plugins/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

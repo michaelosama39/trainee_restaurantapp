@@ -6,7 +6,7 @@ import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/models/review_model.dart';
 import '../../../../../core/net/api_url.dart';
 import '../../../home_restaurant/data/models/dish_model.dart';
-import '../../models/order_model.dart';
+import '../../../../../core/models/order_model.dart';
 
 class MyPlatesRepo {
   Future<Either<String, DishModel>> getAllDishs() async {

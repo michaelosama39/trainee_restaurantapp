@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/data/repositories/my_orders_restaurant_repo.dart';
 
 import '../../../../core/ui/toast.dart';
-import '../../my_plates/models/order_model.dart';
+import '../../../../core/models/order_model.dart';
 
 part 'my_orders_restaurant_state.dart';
 

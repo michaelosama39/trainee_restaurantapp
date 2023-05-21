@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
-import 'package:trainee_restaurantapp/features/restaurant/add_plate/data/models/categories_model.dart';
+import 'package:trainee_restaurantapp/core/models/categories_model.dart';
 
 import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/net/api_url.dart';
@@ -47,9 +47,6 @@ class AddPlateRepo {
             filename: image.path.split('/').last),
       },
     );
-    print(AppStorage.getUserInfo!.result!.restaurantId);
-    print(categoryId);
-    print(response.data);
     try {
       if (response.data['success'] == true) {
         return const Right(true);

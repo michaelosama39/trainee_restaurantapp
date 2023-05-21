@@ -10,6 +10,7 @@ import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call.dart
 
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import '../data/model/chat_model.dart';
 import '../data/model/message_model.dart';
 
@@ -32,8 +33,8 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
       "traineeImage" : widget.chatModel!.traineeImage,
       "traineeName" : widget.chatModel!.traineeName,
       "trainerId" : AppStorage.getUserId,
-      "trainerImage" : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png",
-      "trainerName" : "mohab",
+      "trainerImage" : TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
+      "trainerName" : TrainerProfileCubit.of(context).trainerModel!.name ?? "",
       "id" : widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString(),
       "messages" : widget.chatModel!.messages!.map((e){
         return {
@@ -45,6 +46,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
       }).toList()
     });
   }
+
 
   callingForm() {
     return Container(
@@ -94,10 +96,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return const JoinChannelVideo();
-                      }));
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) {
+                      //   return const VideoCallScreen(channelName: '',);
+                      // }));
                     },
                     icon: const Icon(
                       Icons.videocam,
@@ -122,27 +124,34 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
         else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loader();
         }else{
+          print(snapshot.data!.data());
 
-          List<MessageModel> messages = [];
-          for (var element in snapshot.data!.data()!["messages"]) {
-            messages.add(MessageModel.fromJson(element));
-          }
-          return Expanded(child: ListView.separated(itemBuilder: (context, index) {
-            if(messages[index].senderId == AppStorage.getUserId){
-              return Container(
-                padding: const EdgeInsets.all(10),
-                child: Text(messages[index].message ?? ""),);
-            }else{
-              return Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(messages[index].message ?? ""),),
-              );
-            }
-          }, separatorBuilder: (context, index) {
-            return const SizedBox(height: 10,);
-          }, itemCount: messages.length));
+
+if(snapshot.data!.data() != null){
+  List<MessageModel> messages = [];
+  for (var element in snapshot.data!.data()?["messages"]) {
+    messages.add(MessageModel.fromJson(element));
+  }
+  return Expanded(child: ListView.separated(itemBuilder: (context, index) {
+    if(messages[index].senderId == AppStorage.getUserId){
+      return Container(
+        padding: const EdgeInsets.all(10),
+        child: Text(messages[index].message ?? ""),);
+    }else{
+      return Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Text(messages[index].message ?? ""),),
+      );
+    }
+  }, separatorBuilder: (context, index) {
+    return const SizedBox(height: 10,);
+  }, itemCount: messages.length));
+}else{
+  return const SizedBox();
+}
+
         }
     },);
 

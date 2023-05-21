@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/controller/my_plates_cubit.dart';
-import 'package:trainee_restaurantapp/features/restaurant/my_plates/models/order_model.dart';
+import 'package:trainee_restaurantapp/core/models/order_model.dart';
 
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/common/style/gaps.dart';

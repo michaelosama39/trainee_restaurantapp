@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
         if (AppStorage.isLogged) {
           if(AppStorage.getUserInfo!.result!.restaurantId != null){
             Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 3);
-          }else {
-            Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 1);
+          }else if(AppStorage.getUserInfo!.result!.shopId != null){
+            Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 4);
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(context, Routes.mainOnBoardingViewRoute,(route) => false,);

@@ -1,0 +1,519 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:trainee_restaurantapp/features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
+import '../../../../core/common/app_colors.dart';
+import '../../../../core/common/style/gaps.dart';
+import '../../../../core/constants/app/app_constants.dart';
+import '../../../../core/navigation/route_generator.dart';
+import '../../../../core/ui/loader.dart';
+import '../../../../core/ui/widgets/custom_appbar.dart';
+import '../../../../core/ui/widgets/custom_text.dart';
+import '../../../../generated/l10n.dart';
+import '../../../trainer/trainee/view/trainee_profile_view.dart';
+import '../../../../core/models/shop_model.dart';
+
+class ShopProfile extends StatefulWidget {
+  const ShopProfile({super.key});
+
+  @override
+  State<ShopProfile> createState() => _ShopProfileState();
+}
+
+class _ShopProfileState extends State<ShopProfile> {
+  Widget _buildSubscriptionWidget(ShopModel restaurantsModel) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 147.h,
+            decoration: BoxDecoration(
+                color: AppColors.grey,
+                borderRadius:
+                    BorderRadius.circular(AppConstants.borderRadius10)),
+            child: Padding(
+              padding: EdgeInsets.all(12.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 50.w,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  restaurantsModel.logo ?? ''),
+                              fit: BoxFit.fill),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: restaurantsModel.name ?? "",
+                            fontSize: AppConstants.textSize16,
+                            fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    FontAwesomeIcons.phone,
+                                    color: AppColors.accentColorLight,
+                                    size: 14,
+                                  ),
+                                  Gaps.hGap4,
+                                  CustomText(
+                                    maxLines: 2,
+                                    text: restaurantsModel.phoneNumber ?? "",
+                                    color: AppColors.white,
+                                    fontSize: AppConstants.textSize14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                              Gaps.hGap8,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    FontAwesomeIcons.locationDot,
+                                    color: AppColors.accentColorLight,
+                                    size: 14,
+                                  ),
+                                  Gaps.hGap4,
+                                  CustomText(
+                                    maxLines: 2,
+                                    text:
+                                    "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
+                                    color: AppColors.white,
+                                    fontSize: AppConstants.textSize14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  CustomText(
+                    textAlign: TextAlign.start,
+                    maxLines: 3,
+                    textOverflow: TextOverflow.ellipsis,
+                    text: restaurantsModel.description ?? "",
+                    color: AppColors.white,
+                    fontSize: AppConstants.textSize12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget traineeCard({required context}) {
+    return MaterialButton(
+      onPressed: () {
+        Navigator.of(context).pushNamed(Routes.traineeProfileScreen);
+      },
+      child: Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    AppColors.linearCardTrainee1Color.withOpacity(1),
+                    AppColors.linearCardTrainee2Color.withOpacity(1),
+                    AppColors.linearCardTrainee3Color.withOpacity(1),
+                    AppColors.linearCardTrainee4Color.withOpacity(1),
+                  ]),
+                  borderRadius: const BorderRadius.all(Radius.circular(8))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CustomText(
+                    text: "رامي المصري",
+                    fontSize: AppConstants.textSize18,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.white,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: "العدد: ",
+                        color: AppColors.white,
+                        fontSize: AppConstants.textSize14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      CustomText(
+                        text: " 4",
+                        color: AppColors.accentColorLight,
+                        fontSize: AppConstants.textSize14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomText(
+                          text: "2000 ريال",
+                          fontSize: AppConstants.textSize14,
+                          maxLines: 2,
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.accentColorLight,
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomText(
+                          text: DateTime.now().toString().substring(0, 10),
+                          fontSize: AppConstants.textSize14,
+                          maxLines: 2,
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.backgroundColorLight,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Gaps.hGap4,
+          Expanded(
+            flex: 2,
+            child: Container(
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(AppConstants.COACH1_IMAGE),
+                      fit: BoxFit.cover),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _restaurantProfileData(ShopModel shopModel) {
+    final List<String> restaurantProfileMochitDataList = [
+      shopModel.phoneNumber ?? '',
+      "commercialRegisterNumber",
+      "commercialRegisterDocument",
+      // restaurantsModel.commercialRegisterDocument!.split("/").last,
+      shopModel.manager?.name ?? '',
+      shopModel.city?.text ?? '',
+      shopModel.city?.text ?? '',
+      shopModel.street ?? '',
+      "بناء رقم ${shopModel.buildingNumber}"
+    ];
+    return SizedBox(
+      height: 450.h,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      text: ShopProfileCubit.of(context)
+                          .restaurantProfileConstantList[index],
+                      color: AppColors.accentColorLight,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppConstants.textSize14,
+                    ),
+                    CustomText(
+                      text: restaurantProfileMochitDataList[index],
+                      color: AppColors.white.withOpacity(0.6),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppConstants.textSize12,
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                height: 2,
+                color: AppColors.grey,
+              );
+            },
+            itemCount: 8),
+      ),
+    );
+  }
+
+  Widget _restaurantProfileWorkingHours(ShopModel restaurantsModel) {
+    return SizedBox(
+      height: 320.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: CustomText(
+              text: "أيام وساعات العمل",
+              fontWeight: FontWeight.w600,
+              fontSize: AppConstants.textSize18,
+              color: AppColors.white,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.access_time,
+                                size: 14,
+                                color: AppColors.accentColorLight,
+                              ),
+                              Gaps.hGap8,
+                              CustomText(
+                                text: ShopProfileCubit.of(context).convertDays(
+                                    restaurantsModel.openingDays![index].day!),
+                                color: AppColors.accentColorLight,
+                                fontWeight: FontWeight.w500,
+                                fontSize: AppConstants.textSize14,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text:
+                                  "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
+                            ),
+                            CustomText(
+                              text:
+                                  "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
+                            ),
+                          ],
+                        )),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Container(
+                    height: 2,
+                    color: AppColors.grey,
+                  );
+                },
+                itemCount: restaurantsModel.openingDays!.length,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _restaurantProfileSocialMedia(ShopModel restaurantsModel) {
+    List<SocialModel> listOfSocial = [
+      SocialModel(
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? ''),
+      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? ''),
+      SocialModel(
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? ''),
+      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? ''),
+    ];
+    return SizedBox(
+      height: 300.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: CustomText(
+              text: "مواقع التواصل الأجتماعي",
+              fontWeight: FontWeight.w600,
+              fontSize: AppConstants.textSize18,
+              color: AppColors.white,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              color: AppColors.accentColorLight,
+                              child: Icon(
+                                listOfSocial[index].iconData,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 2,
+                              color: AppColors.grey,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: CustomText(
+                              textAlign: TextAlign.end,
+                              text: listOfSocial[index].text,
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AppConstants.textSize14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      height: 2,
+                      color: AppColors.grey,
+                    );
+                  },
+                  itemCount: 4),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  TextEditingController commentController = TextEditingController();
+
+  @override
+  void initState() {
+    ShopProfileCubit.of(context).getShopProfile(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: TransparentAppBar(
+        title: Translation.of(context).welcome,
+        actions: [
+          GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.editShopProfileScreen);
+              },
+              child: const ImageIcon(
+                  AssetImage(AppConstants.EDIT_PROFILE_ICON))),
+          Gaps.hGap16,
+          const Icon(
+            Icons.notifications,
+            color: AppColors.white,
+          ),
+          Gaps.hGap20,
+        ],
+      ),
+      body: BlocBuilder<ShopProfileCubit, ShopProfileState>(
+        buildWhen: (previous, current) =>
+        previous != current,
+        builder: (context, state) {
+          if (state is GetShopProfileLoading) {
+            return const Loader();
+          } else {
+              var restaurantsModel =
+                  ShopProfileCubit.of(context).shopModel;
+            return SafeArea(
+              child: CustomScrollView(slivers: <Widget>[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CustomSliverDelegate(
+                    image: restaurantsModel!.cover??'',
+                    expandedHeight: 220.h,
+                    child: _buildSubscriptionWidget(restaurantsModel),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Gaps.vGap10,
+                        _restaurantProfileData(restaurantsModel),
+                        _restaurantProfileWorkingHours(restaurantsModel),
+                        _restaurantProfileSocialMedia(restaurantsModel)
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class SocialModel {
+  final IconData iconData;
+  final String text;
+
+  SocialModel(this.iconData, this.text);
+}

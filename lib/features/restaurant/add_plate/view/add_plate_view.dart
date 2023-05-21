@@ -11,7 +11,7 @@ import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_button.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/restaurant/add_plate/controller/add_plate_cubit.dart';
-import 'package:trainee_restaurantapp/features/restaurant/add_plate/data/models/categories_model.dart';
+import 'package:trainee_restaurantapp/core/models/categories_model.dart';
 
 import '../../../../core/common/style/dimens.dart';
 import '../../../../core/common/style/gaps.dart';

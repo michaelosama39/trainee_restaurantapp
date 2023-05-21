@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
+import 'package:trainee_restaurantapp/features/shop/my_orders_shop/controller/my_orders_shop_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/courses_controller/courses_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
@@ -15,6 +16,7 @@ import 'core/common/provider_list.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/localization/flutter_localization.dart';
 import 'core/navigation/route_generator.dart';
+import 'features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
 import 'generated/l10n.dart';
 
@@ -53,12 +55,17 @@ class _AppState extends State<App> {
             ),
             BlocProvider(
               create: (context) =>
+              ShopProfileCubit()..getShopProfile(context),
+            ),
+            BlocProvider(
+              create: (context) =>
                   HomeTrainerCubit()..getMostWantedCourses(context),
             ),
             BlocProvider(create: (context) => TrainerProfileCubit()..getTrainerProfile(context),),
             BlocProvider(create: (context) => HomeTrainerCubit()..getMostWantedCourses(context)..getNewTrainees(context),),
             BlocProvider(create: (context) => CoursesCubit()),
             BlocProvider(create: (context) => MyOrdersRestaurantCubit()),
+            BlocProvider(create: (context) => MyOrdersShopCubit()),
           ],
           child: Consumer<LocalizationProvider>(
             builder: (_, provider, __) {
