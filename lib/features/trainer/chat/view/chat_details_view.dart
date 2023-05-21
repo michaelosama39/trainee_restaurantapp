@@ -6,7 +6,8 @@ import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
-import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_call_screen.dart';
 
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
@@ -82,7 +83,12 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return const VoiceCallScreen(channelName: "",);
+                      }));
+                    },
                     icon: const Icon(
                       Icons.phone,
                       color: AppColors.accentColorLight,
@@ -98,7 +104,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const VideoCallScreen(channelName: '',);
+                        return const VideoCallScreen();
                       }));
                     },
                     icon: const Icon(
