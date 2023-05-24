@@ -19,7 +19,6 @@ import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../notification/presentation/view/notification_screen.dart';
 
-
 class ProfileTrainerScreenView extends StatefulWidget {
   const ProfileTrainerScreenView({super.key});
 
@@ -35,6 +34,7 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
     TrainerProfileCubit.of(context).getTrainerReviews(context);
     super.initState();
   }
+
   Widget profileScreenDetails() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -42,13 +42,13 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
         height: 300.h,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          image:   DecorationImage(
+          image: DecorationImage(
             onError: (exception, stackTrace) {
               const AssetImage(AppConstants.COACH1_IMAGE);
             },
             image: NetworkImage(
-                TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
-                ),
+              TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
+            ),
             fit: BoxFit.cover,
           ),
           boxShadow: [
@@ -84,7 +84,10 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
-                                text: TrainerProfileCubit.of(context).trainerModel!.name ?? "",
+                                text: TrainerProfileCubit.of(context)
+                                        .trainerModel!
+                                        .name ??
+                                    "",
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.white,
                                 fontSize: AppConstants.textSize16,
@@ -98,13 +101,18 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
-                                text: TrainerProfileCubit.of(context).trainerModel!.specialization!.text ?? "",
+                                text: TrainerProfileCubit.of(context)
+                                        .trainerModel!
+                                        .specialization!
+                                        .text ??
+                                    "",
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.white,
                                 fontSize: AppConstants.textSize14,
                               ),
                               CustomText(
-                                text: "${TrainerProfileCubit.of(context).trainerModel!.hourPrice ?? 0} ${Translation.of(context).pricePerHour}" ,
+                                text:
+                                    "${TrainerProfileCubit.of(context).trainerModel!.hourPrice ?? 0} ${Translation.of(context).pricePerHour}",
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.accentColorLight,
                                 fontSize: AppConstants.textSize12,
@@ -146,7 +154,10 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                               ),
                               Gaps.hGap8,
                               CustomText(
-                                text: TrainerProfileCubit.of(context).trainerModel!.phoneNumber ?? "",
+                                text: TrainerProfileCubit.of(context)
+                                        .trainerModel!
+                                        .phoneNumber ??
+                                    "",
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.white,
                                 fontSize: AppConstants.textSize14,
@@ -214,13 +225,18 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: TrainerProfileCubit.of(context).trainerModel!.subscription!.name ?? "",
+                              text: TrainerProfileCubit.of(context)
+                                      .trainerModel!
+                                      .subscription!
+                                      .name ??
+                                  "",
                               fontWeight: FontWeight.w600,
                               color: AppColors.white,
                               fontSize: AppConstants.textSize16,
                             ),
                             CustomText(
-                              text: "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
+                              text:
+                                  "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
                               fontWeight: FontWeight.w600,
                               color: AppColors.white,
                               fontSize: AppConstants.textSize16,
@@ -301,34 +317,35 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
   }
 
   Widget _buildCommentsWidget() {
-    return BlocBuilder<TrainerProfileCubit,TrainerProfileState>(builder: (context, state) {
-      if(state is GetTrainerReviewsLoaded){
-        return SizedBox(
-          height: 128.h,
-          child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return BlurWidget(
-                  width: 268.w,
-                  height: 128.h,
-                  borderRadius: AppConstants.borderRadius4,
-                  child: _buildCommentItemWidget(
-                      image:
-                      state.reviews[index].reviewer!.imageUrl ?? "",
-                      date: state.reviews[index].creationTime ?? "",
-                      name: state.reviews[index].reviewer!.name ?? "",
-                      body: state.reviews[index].comment ?? ""),
-                );
-              },
-              separatorBuilder: (context, index) => Gaps.hGap16,
-              itemCount: state.reviews.length),
-        );
-      }else if(state is GetTrainerReviewsLoading){
-        return const Loader();
-      }else{
-        return const SizedBox();
-      }
-    },);
+    return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
+      builder: (context, state) {
+        if (state is GetTrainerReviewsLoaded) {
+          return SizedBox(
+            height: 128.h,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return BlurWidget(
+                    width: 268.w,
+                    height: 128.h,
+                    borderRadius: AppConstants.borderRadius4,
+                    child: _buildCommentItemWidget(
+                        image: state.reviews[index].reviewer!.imageUrl ?? "",
+                        date: state.reviews[index].creationTime ?? "",
+                        name: state.reviews[index].reviewer!.name ?? "",
+                        body: state.reviews[index].comment ?? ""),
+                  );
+                },
+                separatorBuilder: (context, index) => Gaps.hGap16,
+                itemCount: state.reviews.length),
+          );
+        } else if (state is GetTrainerReviewsLoading) {
+          return const Loader();
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
   }
 
   Widget _buildRatingWidget({
@@ -747,7 +764,10 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                             Gaps.vGap16,
                             Center(
                               child: CustomRatingBarWidget(
-                                rate: TrainerProfileCubit.of(context).trainerModel!.rate ?? 0.0,
+                                rate: TrainerProfileCubit.of(context)
+                                        .trainerModel!
+                                        .rate ??
+                                    0.0,
                                 itemSize: 30.w,
                                 onRatingUpdate: (value) {
                                   setState(() {
@@ -931,11 +951,16 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
               onTap: () {
                 Navigator.pushNamed(context, Routes.editProfileScreen);
               },
-              child: const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
+              child:
+                  const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
           GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen(),));
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationScreen(),
+                  ));
             },
             child: const Icon(
               Icons.notifications,
@@ -945,9 +970,11 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
           Gaps.hGap20,
         ],
       ),
-      body: BlocBuilder<TrainerProfileCubit,TrainerProfileState>(
+      body: BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
+        buildWhen: (previous, current) =>
+        previous != current,
         builder: (context, state) {
-         if(TrainerProfileCubit.of(context).trainerModel != null){
+          if (TrainerProfileCubit.of(context).trainerModel != null) {
             return SafeArea(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -958,12 +985,34 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                     trainerBouquet(),
                     Gaps.vGap24,
                     _buildRatingWidget(
-                      average: TrainerProfileCubit.of(context).trainerModel!.rate ?? 0.0,
-                      fifthRate: TrainerProfileCubit.of(context).trainerModel!.ratingDetails!.i5!.toDouble(),
-                      firstRate: TrainerProfileCubit.of(context).trainerModel!.ratingDetails!.i1!.toDouble(),
-                      forthRate: TrainerProfileCubit.of(context).trainerModel!.ratingDetails!.i4!.toDouble(),
-                      secondRate: TrainerProfileCubit.of(context).trainerModel!.ratingDetails!.i2!.toDouble(),
-                      thirdRate: TrainerProfileCubit.of(context).trainerModel!.ratingDetails!.i3!.toDouble(),
+                      average:
+                          TrainerProfileCubit.of(context).trainerModel!.rate ??
+                              0.0,
+                      fifthRate: TrainerProfileCubit.of(context)
+                          .trainerModel!
+                          .ratingDetails!
+                          .i5!
+                          .toDouble(),
+                      firstRate: TrainerProfileCubit.of(context)
+                          .trainerModel!
+                          .ratingDetails!
+                          .i1!
+                          .toDouble(),
+                      forthRate: TrainerProfileCubit.of(context)
+                          .trainerModel!
+                          .ratingDetails!
+                          .i4!
+                          .toDouble(),
+                      secondRate: TrainerProfileCubit.of(context)
+                          .trainerModel!
+                          .ratingDetails!
+                          .i2!
+                          .toDouble(),
+                      thirdRate: TrainerProfileCubit.of(context)
+                          .trainerModel!
+                          .ratingDetails!
+                          .i3!
+                          .toDouble(),
                     ),
                     Gaps.vGap24,
                     _buildCommentsWidget(),
@@ -972,10 +1021,10 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                 ),
               ),
             );
-          }else{
+          } else {
             return const SizedBox();
-         }
-         },
+          }
+        },
       ),
     );
   }

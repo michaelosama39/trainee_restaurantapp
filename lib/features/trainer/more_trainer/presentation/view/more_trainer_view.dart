@@ -5,6 +5,7 @@ import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 
+import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -14,6 +15,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../on_boarding/view/main_onboarding_view.dart';
 import '../../../subscription/presentation/view/subscription_screen.dart';
 
 
@@ -173,7 +175,8 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //    logout();
+              AppStorage.signOut();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(

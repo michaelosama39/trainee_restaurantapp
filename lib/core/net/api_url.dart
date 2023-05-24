@@ -50,4 +50,6 @@ class APIUrls {
   static const API_Create_Product = "/services/app/Product/Create";
   static const API_GetAll_Product = "/services/app/Product/GetAll";
   static const API_Get_Product_Details = "/services/app/Product/Get";
+  static const API_Get_Payment_Create = "/services/app/Payment/Create";
+  static const API_UPDATE_TRAINER_PROFILE = "/services/app/Trainer/Update";
 }

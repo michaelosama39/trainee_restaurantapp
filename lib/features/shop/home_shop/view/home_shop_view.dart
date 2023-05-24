@@ -20,6 +20,7 @@ import '../../../../core/ui/widgets/clock_widget.dart';
 import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
+import '../../../trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../../shop_profile/shop_profile_controller/shop_profile_cubit.dart';
 import '../data/models/product_model.dart';
@@ -268,7 +269,9 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                               ])),
                           child: Center(
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                              },
                               child: const Icon(
                                 Icons.arrow_forward,
                                 color: AppColors.white,

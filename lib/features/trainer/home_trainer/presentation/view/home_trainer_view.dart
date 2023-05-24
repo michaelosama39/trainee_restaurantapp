@@ -33,9 +33,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   Widget trainerProfile() {
     return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
       buildWhen: (previous, current) =>
-          previous != current ||
-          current is GetTrainerProfileLoaded ||
-          current is GetTrainerProfileLoading,
+          previous != current,
       builder: (context, state) {
         if (state is GetTrainerProfileLoading) {
           return const Loader();
@@ -91,7 +89,12 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                   Expanded(
                     child: IconButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationScreen(),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const NotificationScreen(),
+                              ));
                         },
                         icon: const FaIcon(
                           FontAwesomeIcons.solidBell,
@@ -108,13 +111,11 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     );
   }
 
-
-
   Widget _buildMyCourseItemWidget(CourseModel courseModel) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(Routes.MyCourseDetailsScreen,arguments: courseModel.id);
-
+        Navigator.of(context)
+            .pushNamed(Routes.MyCourseDetailsScreen, arguments: courseModel.id);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -211,7 +212,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: courseModel.isActive == true ? AppColors.greenColorButton : AppColors.red,
+                                      color: courseModel.isActive == true
+                                          ? AppColors.greenColorButton
+                                          : AppColors.red,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10))),
                                   child: Padding(
@@ -317,91 +320,145 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
               titleColor: AppColors.accentColorLight,
             ),
             Gaps.vGap14,
-            BlocBuilder<HomeTrainerCubit,HomeTrainerState>(
-
+            BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
               builder: (context, state) {
-                if(HomeTrainerCubit.of(context).newTrainees != null){
-                  if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
+                if (HomeTrainerCubit.of(context).newTrainees != null) {
+                  if (HomeTrainerCubit.of(context).newTrainees!.isNotEmpty) {
                     return Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                          flex: 4,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                             if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty)
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    if(HomeTrainerCubit.of(context).newTrainees!.isNotEmpty)
-                                    Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(Routes.traineeProfileScreen,arguments: {
-                                              "courseId" : HomeTrainerCubit.of(context).newTrainees!.first.course!.value,
-                                              "traineeId" : HomeTrainerCubit.of(context).newTrainees!.first.trainee!.id
-                                            });
-                                          },
-                                          child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees!.first),
-                                        )),
-                                    // : const SizedBox.shrink(),
-                                    SizedBox(
-                                      height: 8.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                if (HomeTrainerCubit.of(context)
+                                    .newTrainees!
+                                    .isNotEmpty)
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        if (HomeTrainerCubit.of(context)
+                                            .newTrainees!
+                                            .isNotEmpty)
+                                          Expanded(
+                                              child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  Routes.traineeProfileScreen,
+                                                  arguments: {
+                                                    "courseId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees!
+                                                            .first
+                                                            .course!
+                                                            .value,
+                                                    "traineeId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees!
+                                                            .first
+                                                            .trainee!
+                                                            .id
+                                                  });
+                                            },
+                                            child: imageWithNameTrainee(
+                                                HomeTrainerCubit.of(context)
+                                                    .newTrainees!
+                                                    .first),
+                                          )),
+                                        // : const SizedBox.shrink(),
+                                        SizedBox(
+                                          height: 8.w,
+                                        ),
+                                        if (HomeTrainerCubit.of(context)
+                                                .newTrainees!
+                                                .length >
+                                            1)
+                                          Expanded(
+                                              child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context).pushNamed(
+                                                  Routes.traineeProfileScreen,
+                                                  arguments: {
+                                                    "courseId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees![1]
+                                                            .course!
+                                                            .value,
+                                                    "traineeId":
+                                                        HomeTrainerCubit.of(
+                                                                context)
+                                                            .newTrainees![1]
+                                                            .trainee!
+                                                            .id
+                                                  });
+                                            },
+                                            child: imageWithNameTrainee(
+                                                HomeTrainerCubit.of(context)
+                                                    .newTrainees![1]),
+                                          ))
+                                        // : const SizedBox.shrink(),
+                                      ],
                                     ),
-                                    if(HomeTrainerCubit.of(context).newTrainees!.length > 1)
-                                    Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed(Routes.traineeProfileScreen, arguments: {
-                                              "courseId" : HomeTrainerCubit.of(context).newTrainees![1].course!.value,
-                                              "traineeId" : HomeTrainerCubit.of(context).newTrainees![1].trainee!.id
-                                            });
-                                          },
-                                          child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees![1]),
-                                        ))
-                                    // : const SizedBox.shrink(),
-                                  ],
+                                  ),
+                                SizedBox(
+                                  width: 8.w,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              if(HomeTrainerCubit.of(context).newTrainees!.length > 2)
-
-                              Expanded(
-                                  flex: 2,
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pushNamed(Routes.traineeProfileScreen, arguments: {
-                                          "courseId" : HomeTrainerCubit.of(context).newTrainees![2].course!.value,
-                                          "traineeId" : HomeTrainerCubit.of(context).newTrainees![2].trainee!.id
-                                        });                                      },
-                                      child: imageWithNameTrainee(HomeTrainerCubit.of(context).newTrainees![2]))),
-                              //: const SizedBox.shrink(),
-                            ],
+                                if (HomeTrainerCubit.of(context)
+                                        .newTrainees!
+                                        .length >
+                                    2)
+                                  Expanded(
+                                      flex: 2,
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                                Routes.traineeProfileScreen,
+                                                arguments: {
+                                                  "courseId":
+                                                      HomeTrainerCubit.of(
+                                                              context)
+                                                          .newTrainees![2]
+                                                          .course!
+                                                          .value,
+                                                  "traineeId":
+                                                      HomeTrainerCubit.of(
+                                                              context)
+                                                          .newTrainees![2]
+                                                          .trainee!
+                                                          .id
+                                                });
+                                          },
+                                          child: imageWithNameTrainee(
+                                              HomeTrainerCubit.of(context)
+                                                  .newTrainees![2]))),
+                                //: const SizedBox.shrink(),
+                              ],
+                            ),
                           ),
-                        ),
 
-                        // widgets.length > 3
-                        //     ?
-                        // : const SizedBox.shrink(),
-                      ],
-                    ),
-                  );
-                  }else{
-    return const Center(
-    child: Text("لا يوجد متدربين"),
-    );
+                          // widgets.length > 3
+                          //     ?
+                          // : const SizedBox.shrink(),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("لا يوجد متدربين"),
+                    );
                   }
-                }else{
+                } else {
                   return const Loader();
                 }
               },
-
             )
           ],
         ),
@@ -532,7 +589,12 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             child: Center(
                               child: IconButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubscriptionScreen(),
+                                      ));
                                 },
                                 icon: const Icon(
                                   Icons.arrow_forward,
@@ -543,7 +605,6 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   );

@@ -20,6 +20,7 @@ import '../../../../core/ui/widgets/clock_widget.dart';
 import '../../../../core/ui/widgets/custom_button.dart';
 import '../../../../core/ui/widgets/title_widget.dart';
 import '../../../../generated/l10n.dart';
+import '../../../trainer/subscription/presentation/view/subscription_screen.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 import '../../my_plates/view/plate_setails_view.dart';
 import '../data/models/dish_model.dart';
@@ -575,7 +576,9 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               ])),
                           child: Center(
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SubscriptionScreen()));
+                              },
                               child: const Icon(
                                 Icons.arrow_forward,
                                 color: AppColors.white,
@@ -731,7 +734,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                           },
                         ),
                         Gaps.vGap16,
-                        // _buildSectionWidget(),
                         listOfRecentDishes.isEmpty
                             ? const SizedBox()
                             : Padding(
@@ -740,7 +742,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                                 child: TitleWidget(
                                   title: "أحدث الأطباق",
                                   subtitleColorTapped: () {
-                                    // Navigator.pushNamed(context, Routes.traineeScreen);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const AllPlatesScreen()));
                                   },
                                   subtitle: Translation.of(context).see_all,
                                   titleColor: AppColors.accentColorLight,

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
+import 'package:trainee_restaurantapp/features/trainer/profile_details/data/models/update_trainer_profile_model.dart';
 import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/models/review_model.dart';
 import '../../../../../core/models/trainer_model.dart';
@@ -49,4 +50,21 @@ class TrainerProfileRepo {
     }
   }
 
+  Future<Either<String, bool>> updateTrainerProfile(
+      UpdateTrainerProfileModel updateTrainerProfileModel) async {
+    final response = await DioHelper.put(
+      APIUrls.API_UPDATE_TRAINER_PROFILE,
+      body: await updateTrainerProfileModel.toJson(),
+    );
+    try {
+      if (response.data['success'] == true) {
+        return const Right(true);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      print(e);
+      return Left(e.toString());
+    }
+  }
 }

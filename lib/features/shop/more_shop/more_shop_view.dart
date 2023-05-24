@@ -11,6 +11,9 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../core/appStorage/app_storage.dart';
+import '../../on_boarding/view/main_onboarding_view.dart';
+import '../../trainer/subscription/presentation/view/subscription_screen.dart';
 
 class MoreShopScreen extends StatelessWidget {
   const MoreShopScreen({Key? key}) : super(key: key);
@@ -168,7 +171,8 @@ class MoreShopScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //    logout();
+              AppStorage.signOut();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -227,7 +231,9 @@ class MoreShopScreen extends StatelessWidget {
                   _buildChipWidget(
                     title: Translation.of(context).bouquet,
                     imgPath: AppConstants.VEGGIE2_IMG,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                    },
                   ),
                 ],
               ),

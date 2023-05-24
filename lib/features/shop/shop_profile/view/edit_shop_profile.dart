@@ -36,26 +36,71 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TransparentAppBar(
-        title: Translation.of(context).edit_profile,
+        title: Translation
+            .of(context)
+            .edit_profile,
       ),
       body: BlocConsumer<ShopProfileCubit, ShopProfileState>(
         listener: (context, state) {
-          ShopProfileCubit.of(context).imageNetwork =
-              ShopProfileCubit.of(context).shopModel!.logo;
-          ShopProfileCubit.of(context).nameArController.text =
-              ShopProfileCubit.of(context).shopModel!.arName ?? '';
-          ShopProfileCubit.of(context).nameEnController.text =
-              ShopProfileCubit.of(context).shopModel!.enName ?? '';
-          ShopProfileCubit.of(context).logoArNetwork =
-              ShopProfileCubit.of(context).shopModel!.arLogo ?? '';
-          ShopProfileCubit.of(context).logoEnNetwork =
-              ShopProfileCubit.of(context).shopModel!.enLogo ?? '';
-          ShopProfileCubit.of(context).coveArNetwork =
-              ShopProfileCubit.of(context).shopModel!.arCover ?? '';
-          ShopProfileCubit.of(context).coveEnNetwork =
-              ShopProfileCubit.of(context).shopModel!.enCover ?? '';
-          ShopProfileCubit.of(context).phoneController.text =
-              ShopProfileCubit.of(context).shopModel!.phoneNumber ?? '';
+          ShopProfileCubit
+              .of(context)
+              .imageNetwork =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .logo;
+          ShopProfileCubit
+              .of(context)
+              .nameArController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .arName ?? '';
+          ShopProfileCubit
+              .of(context)
+              .nameEnController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .enName ?? '';
+          ShopProfileCubit
+              .of(context)
+              .logoArNetwork =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .arLogo ?? '';
+          ShopProfileCubit
+              .of(context)
+              .logoEnNetwork =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .enLogo ?? '';
+          ShopProfileCubit
+              .of(context)
+              .coveArNetwork =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .arCover ?? '';
+          ShopProfileCubit
+              .of(context)
+              .coveEnNetwork =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .enCover ?? '';
+          ShopProfileCubit
+              .of(context)
+              .phoneController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .phoneNumber ?? '';
           // ShopProfileCubit.of(context).commercialRegisterNumberController.text =
           //     ShopProfileCubit.of(context)
           //             .shopModel!
@@ -66,22 +111,72 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
           //             .shopModel!
           //             .commercialRegisterDocument ??
           //         '';
-          ShopProfileCubit.of(context).cityController.text =
-              ShopProfileCubit.of(context).shopModel!.city!.text ?? '';
-          ShopProfileCubit.of(context).streetController.text =
-              ShopProfileCubit.of(context).shopModel!.street ?? '';
-          ShopProfileCubit.of(context).buildNumController.text =
-              ShopProfileCubit.of(context).shopModel!.buildingNumber ?? '';
-          ShopProfileCubit.of(context).mangerController.text =
-              ShopProfileCubit.of(context).shopModel!.manager!.name ?? '';
-          ShopProfileCubit.of(context).facebookController.text =
-              ShopProfileCubit.of(context).shopModel!.facebookUrl ?? '';
-          ShopProfileCubit.of(context).instegramController.text =
-              ShopProfileCubit.of(context).shopModel!.instagramUrl ?? '';
-          ShopProfileCubit.of(context).twitterController.text =
-              ShopProfileCubit.of(context).shopModel!.twitterUrl ?? '';
-          ShopProfileCubit.of(context).websiteController.text =
-              ShopProfileCubit.of(context).shopModel!.websiteUrl ?? '';
+          ShopProfileCubit
+              .of(context)
+              .cityController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .city!
+                  .text ?? '';
+          ShopProfileCubit
+              .of(context)
+              .streetController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .street ?? '';
+          ShopProfileCubit
+              .of(context)
+              .buildNumController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .buildingNumber ?? '';
+          ShopProfileCubit
+              .of(context)
+              .mangerController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .manager!
+                  .name ?? '';
+          ShopProfileCubit
+              .of(context)
+              .facebookController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .facebookUrl ?? '';
+          ShopProfileCubit
+              .of(context)
+              .instegramController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .instagramUrl ?? '';
+          ShopProfileCubit
+              .of(context)
+              .twitterController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .twitterUrl ?? '';
+          ShopProfileCubit
+              .of(context)
+              .websiteController
+              .text =
+              ShopProfileCubit
+                  .of(context)
+                  .shopModel!
+                  .websiteUrl ?? '';
         },
         builder: (context, state) {
           if (state is GetShopProfileLoading) {
@@ -95,25 +190,35 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                   child: Column(
                     children: [
                       _buildImageWidget(
-                          ShopProfileCubit.of(context).file ?? File('')),
+                          ShopProfileCubit
+                              .of(context)
+                              .file ?? File('')),
                       SizedBox(
                         height: 55.h,
                       ),
                       _buildTextFiledWidget(
                           title: "أسم المطعم باللغه العربيه",
                           textEditingController:
-                              ShopProfileCubit.of(context).nameArController),
+                          ShopProfileCubit
+                              .of(context)
+                              .nameArController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "أسم المطعم باللغه الانجيليزيه",
                           textEditingController:
-                              ShopProfileCubit.of(context).nameEnController),
+                          ShopProfileCubit
+                              .of(context)
+                              .nameEnController),
                       Gaps.vGap24,
                       uploadSignUpFile(
                         text: "لوغو المطعم بالعربي",
                         file:
-                            ShopProfileCubit.of(context).fileLogoAr ?? File(''),
-                        image: ShopProfileCubit.of(context).logoArNetwork ?? '',
+                        ShopProfileCubit
+                            .of(context)
+                            .fileLogoAr ?? File(''),
+                        image: ShopProfileCubit
+                            .of(context)
+                            .logoArNetwork ?? '',
                         onTap: () async {
                           await ShopProfileCubit.of(context).getImage();
                           ShopProfileCubit.of(context).emit(GetImageState());
@@ -123,8 +228,12 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                       uploadSignUpFile(
                         text: "لوغو المطعم بالأنجليزي",
                         file:
-                            ShopProfileCubit.of(context).fileLogoEn ?? File(''),
-                        image: ShopProfileCubit.of(context).logoEnNetwork ?? '',
+                        ShopProfileCubit
+                            .of(context)
+                            .fileLogoEn ?? File(''),
+                        image: ShopProfileCubit
+                            .of(context)
+                            .logoEnNetwork ?? '',
                         onTap: () async {
                           await ShopProfileCubit.of(context).getImage();
                           ShopProfileCubit.of(context).emit(GetImageState());
@@ -134,8 +243,12 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                       uploadSignUpFile(
                         text: "صورة الغلاف بالأنجليزي",
                         file:
-                            ShopProfileCubit.of(context).fileCoveEn ?? File(''),
-                        image: ShopProfileCubit.of(context).coveEnNetwork ?? '',
+                        ShopProfileCubit
+                            .of(context)
+                            .fileCoveEn ?? File(''),
+                        image: ShopProfileCubit
+                            .of(context)
+                            .coveEnNetwork ?? '',
                         onTap: () async {
                           await ShopProfileCubit.of(context).getImage();
                           ShopProfileCubit.of(context).emit(GetImageState());
@@ -145,31 +258,42 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                       uploadSignUpFile(
                         text: "صورة الغلاف بالعربي",
                         file:
-                            ShopProfileCubit.of(context).fileCoveAr ?? File(''),
-                        image: ShopProfileCubit.of(context).coveArNetwork ?? '',
+                        ShopProfileCubit
+                            .of(context)
+                            .fileCoveAr ?? File(''),
+                        image: ShopProfileCubit
+                            .of(context)
+                            .coveArNetwork ?? '',
                         onTap: () async {
                           await ShopProfileCubit.of(context).getImage();
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
                       _buildTextFiledWidget(
-                          title: Translation.of(context).phone,
+                          title: Translation
+                              .of(context)
+                              .phone,
                           isPhoneNumber: true,
                           textEditingController:
-                              ShopProfileCubit.of(context).phoneController),
+                          ShopProfileCubit
+                              .of(context)
+                              .phoneController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "رقم السجل التجاري",
-                          textEditingController: ShopProfileCubit.of(context)
+                          textEditingController: ShopProfileCubit
+                              .of(context)
                               .commercialRegisterNumberController),
                       Gaps.vGap24,
                       uploadSignUpFile(
                         text: "ملف السجل التجاري",
-                        file: ShopProfileCubit.of(context)
-                                .fileCommercialRegisterDoc ??
+                        file: ShopProfileCubit
+                            .of(context)
+                            .fileCommercialRegisterDoc ??
                             File(''),
-                        image: ShopProfileCubit.of(context)
-                                .commercialRegisterDoc ??
+                        image: ShopProfileCubit
+                            .of(context)
+                            .commercialRegisterDoc ??
                             '',
                         onTap: () async {
                           await ShopProfileCubit.of(context).getImage();
@@ -178,24 +302,34 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                       ),
                       Gaps.vGap8,
                       _buildTextFiledWidget(
-                          title: Translation.of(context).cityName,
+                          title: Translation
+                              .of(context)
+                              .cityName,
                           textEditingController:
-                              ShopProfileCubit.of(context).cityController),
+                          ShopProfileCubit
+                              .of(context)
+                              .cityController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "اسم الشارع",
                           textEditingController:
-                              ShopProfileCubit.of(context).streetController),
+                          ShopProfileCubit
+                              .of(context)
+                              .streetController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "رقم البناء",
                           textEditingController:
-                              ShopProfileCubit.of(context).buildNumController),
+                          ShopProfileCubit
+                              .of(context)
+                              .buildNumController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "اسم مدير المطعم",
                           textEditingController:
-                              ShopProfileCubit.of(context).mangerController),
+                          ShopProfileCubit
+                              .of(context)
+                              .mangerController),
                       Gaps.vGap24,
                       Row(
                         children: [
@@ -233,7 +367,9 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                         height: 44.h,
                         width: 217.w,
                         child: CustomElevatedButton(
-                          text: Translation.of(context).save,
+                          text: Translation
+                              .of(context)
+                              .save,
                           onTap: () {
                             ShopProfileCubit.of(context)
                                 .updateShopProfile(context);
@@ -311,7 +447,9 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
           child: _buildTextFiledWidget(
               title: title,
               textEditingController:
-                  ShopProfileCubit.of(context).facebookController),
+              ShopProfileCubit
+                  .of(context)
+                  .facebookController),
         ),
         Gaps.hGap8,
         Column(
@@ -345,11 +483,13 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
             borderRadius: BorderRadius.circular(AppConstants.borderRadius8),
             image: file.path.isEmpty
                 ? DecorationImage(
-                    image: NetworkImage(
-                        ShopProfileCubit.of(context).imageNetwork ?? ''),
-                    fit: BoxFit.cover)
+                image: NetworkImage(
+                    ShopProfileCubit
+                        .of(context)
+                        .imageNetwork ?? ''),
+                fit: BoxFit.cover)
                 : DecorationImage(
-                    image: FileImage(File(file.path)), fit: BoxFit.cover),
+                image: FileImage(File(file.path)), fit: BoxFit.cover),
           ),
           child: Container(
             color: AppColors.primaryColorLight.withOpacity(0.7),
@@ -388,47 +528,47 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
         Gaps.vGap4,
         isPhoneNumber
             ? Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.white,
-                    ),
-                    borderRadius:
-                        BorderRadius.circular(AppConstants.borderRadius6)),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: PhoneNumberTextField(
-                    border: InputBorder.none,
-                    hint: "",
-                    textEditingController: textEditingController,
-                    onInputChanged: (p0) {},
-                  ),
-                ),
-              )
-            : TextFormField(
-                controller: textEditingController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.white,
-                  )),
-                ),
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.white,
               ),
+              borderRadius:
+              BorderRadius.circular(AppConstants.borderRadius6)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: PhoneNumberTextField(
+              border: InputBorder.none,
+              hint: "",
+              textEditingController: textEditingController,
+              onInputChanged: (p0) {},
+            ),
+          ),
+        )
+            : TextFormField(
+          controller: textEditingController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.white,
+                )),
+            disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.white,
+                )),
+            errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.white,
+                )),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.white,
+                )),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.white,
+                )),
+          ),
+        ),
       ],
     );
   }
@@ -454,13 +594,13 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
   };
 
   List<Weekdays> weekdaysList = [
-    Weekdays(id: 0, day: getDay(0), selectedDays: false),
-    Weekdays(id: 1, day: getDay(1), selectedDays: false),
-    Weekdays(id: 2, day: getDay(2), selectedDays: false),
-    Weekdays(id: 3, day: getDay(3), selectedDays: false),
-    Weekdays(id: 4, day: getDay(4), selectedDays: false),
-    Weekdays(id: 5, day: getDay(5), selectedDays: false),
-    Weekdays(id: 6, day: getDay(6), selectedDays: false)
+    Weekdays(id: 0, day: getDay(0), selectedDays: false , selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 1, day: getDay(1), selectedDays: false, selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 2, day: getDay(2), selectedDays: false, selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 3, day: getDay(3), selectedDays: false, selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 4, day: getDay(4), selectedDays: false, selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 5, day: getDay(5), selectedDays: false, selectedFrom: '' , selectedTo: ''),
+    Weekdays(id: 6, day: getDay(6), selectedDays: false, selectedFrom: '' , selectedTo: '')
   ];
 
   String formattedTime(String dateTime) {
@@ -471,13 +611,16 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
     return BlocBuilder<ShopProfileCubit, ShopProfileState>(
       builder: (context, state) {
         List<OpeningDays> openingDays =
-            ShopProfileCubit.of(context).shopModel!.openingDays ?? [];
+            ShopProfileCubit
+                .of(context)
+                .shopModel!
+                .openingDays ?? [];
         weekdaysList.forEach((element) {
           openingDays.forEach((elementOpeningDays) {
             if (element.id == elementOpeningDays.day) {
+              element.selectedFrom = DateFormat.jm().format(DateTime.parse(elementOpeningDays.from??''));
+              element.selectedTo = DateFormat.jm().format(DateTime.parse(elementOpeningDays.to??''));
               element.selectedDays = true;
-              print(formattedTime(elementOpeningDays.from ?? ''));
-              print(formattedTime(elementOpeningDays.to ?? ''));
             }
           });
         });
@@ -527,11 +670,11 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
+                            const BorderRadius.all(Radius.circular(5)),
                             border: Border.all(color: AppColors.white),
                           ),
                           height: 30.h,
-                          child: HourDropDown(),
+                          child: HourDropDown(selectedHour: '٢:٠٠ ص',),
                         )),
                     Gaps.hGap4,
                     Expanded(
@@ -546,10 +689,10 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
+                              const BorderRadius.all(Radius.circular(5)),
                               border: Border.all(color: AppColors.white)),
                           height: 30.h,
-                          child: HourDropDown(),
+                          child: HourDropDown(selectedHour: '٢:٠٠ ص',),
                         )),
                   ],
                 ),
@@ -563,37 +706,42 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
 }
 
 class HourDropDown extends StatefulWidget {
+
+  String? selectedHour;
+
+  HourDropDown({super.key, required this.selectedHour});
+
   @override
   _HourDropDownState createState() => _HourDropDownState();
 }
 
 class _HourDropDownState extends State<HourDropDown> {
-  String selectedHour = '01:00 AM'; // Default selected hour
+  // String selectedHour = '01:00 AM'; // Default selected hour
   List<String> hoursList = [
-    '01:00 AM',
-    '02:00 AM',
-    '03:00 AM',
-    '04:00 AM',
-    '05:00 AM',
-    '06:00 AM',
-    '07:00 AM',
-    '08:00 AM',
-    '09:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '12:00 AM',
-    '01:00 PM',
-    '02:00 PM',
-    '03:00 PM',
-    '04:00 PM',
-    '05:00 PM',
-    '06:00 PM',
-    '07:00 PM',
-    '08:00 PM',
-    '09:00 PM',
-    '10:00 PM',
-    '11:00 PM',
-    '12:00 PM'
+    '١:٠٠ ص',
+    '٢:٠٠ ص',
+    '٣:٠٠ ص',
+    '٤:٠٠ ص',
+    '٥:٠٠ ص',
+    '٦:٠٠ ص',
+    '٧:٠٠ ص',
+    '٨:٠٠ ص',
+    '٩:٠٠ ص',
+    '١٠:٠٠ ص',
+    '١١:٠٠ ص',
+    '١٢:٠٠ ص',
+    '١:٠٠ م',
+    '٢:٠٠ م',
+    '٣:٠٠ م',
+    '٤:٠٠ م',
+    '٥:٠٠ م',
+    '٦:٠٠ م',
+    '٧:٠٠ م',
+    '٨:٠٠ م',
+    '٩:٠٠ م',
+    '١٠:٠٠ م',
+    '١١:٠٠ م',
+    '١٢:٠٠ م'
   ]; // List of hours
 
   @override
@@ -601,14 +749,14 @@ class _HourDropDownState extends State<HourDropDown> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: DropdownButton<String>(
-        value: selectedHour,
+        value: widget.selectedHour,
         icon: const Icon(
           Icons.arrow_drop_down,
           color: AppColors.accentColorLight,
         ),
         onChanged: (String? newValue) {
           setState(() {
-            selectedHour = newValue!;
+            widget.selectedHour = newValue!;
           });
         },
         items: hoursList.map<DropdownMenuItem<String>>((String hour) {
@@ -631,6 +779,8 @@ class Weekdays {
   String? day;
   int? id;
   bool? selectedDays;
+  String? selectedFrom;
+  String? selectedTo;
 
-  Weekdays({required this.day, required this.id, required this.selectedDays});
+  Weekdays({required this.day, required this.id, required this.selectedDays, required this.selectedFrom, required this.selectedTo});
 }

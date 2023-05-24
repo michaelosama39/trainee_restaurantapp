@@ -38,11 +38,11 @@ class HomeRestaurantCubit extends Cubit<HomeRestaurantState> {
     emit(GetRecentOrderedDishesLoading());
     final res = await homeRestaurantRepo.getRecentOrderedDishes();
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
       },
-          (res) {
-            listOfRecentDishes.addAll(res.result??[]);
+      (res) {
+        listOfRecentDishes.addAll(res.result ?? []);
         emit(GetRecentOrderedDishesLoaded());
       },
     );

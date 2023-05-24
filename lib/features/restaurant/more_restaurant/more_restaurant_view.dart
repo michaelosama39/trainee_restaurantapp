@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/subscription/presentation/view/subscription_screen.dart';
 
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -13,6 +15,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../on_boarding/view/main_onboarding_view.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
   const MoreRestaurantScreen({Key? key}) : super(key: key);
@@ -172,7 +175,8 @@ class MoreRestaurantScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //    logout();
+              AppStorage.signOut();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -228,7 +232,9 @@ class MoreRestaurantScreen extends StatelessWidget {
                   _buildChipWidget(
                       title: Translation.of(context).bouquet,
                       imgPath: AppConstants.VEGGIE2_IMG,
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SubscriptionScreen()));
+                      }),
                   // _buildChipWidget(
                   //     title: Translation.of(context).supplements,
                   //     imgPath: AppConstants.KCAL2_IMG,

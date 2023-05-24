@@ -67,9 +67,9 @@ class TrainerModel {
         : null;
     neighbourhood = json['neighbourhood'];
     // if (json['experienceFiles'] != null) {
-    //   experienceFiles = <Null>[];
+    //   experienceFiles = <String>[];
     //   json['experienceFiles'].forEach((v) {
-    //     experienceFiles!.add(new Null.fromJson(v));
+    //     experienceFiles!.add(v);
     //   });
     // }
 

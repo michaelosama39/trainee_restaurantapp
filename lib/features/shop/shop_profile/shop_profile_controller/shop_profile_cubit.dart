@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/data/models/update_shop_profile_model.dart';
 import '../../../../core/ui/toast.dart';
@@ -98,6 +99,12 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
       },
       (res) {
         shopModel = res;
+        res.openingDays!.forEach((element) {
+          print(element.day);
+          print(DateFormat('HH:mm').format(DateTime.parse(element.from??'')));
+          print(DateFormat('HH:mm').format(DateTime.parse(element.to??'')));
+          print("----------------------------");
+        });
         emit(GetShopProfileLoaded());
       },
     );

@@ -10,6 +10,7 @@ import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/datasources/shared_preference.dart';
 import '../../../../core/navigation/nav.dart';
+import '../../../../core/notifications/notification_service.dart';
 import '../../../on_boarding/view/main_onboarding_view.dart';
 import 'intro_screen.dart';
 
@@ -38,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //       */
     //
     // });
+    setupNotifications();
     Future.delayed(const Duration(seconds: 3)).then(
       (value) {
         if (AppStorage.isLogged) {
@@ -45,6 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
             Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 3);
           }else if(AppStorage.getUserInfo!.result!.shopId != null){
             Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 4);
+          }else{
+            Navigator.pushNamedAndRemoveUntil(context, Routes.navigatorScreen,(route) => false, arguments: 1);
           }
         } else {
           Navigator.pushNamedAndRemoveUntil(context, Routes.mainOnBoardingViewRoute,(route) => false,);

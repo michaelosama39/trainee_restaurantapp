@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -31,6 +33,10 @@ class MyPlatesCubit extends Cubit<MyPlatesState> {
         Toast.show(err);
       },
       (res) {
+        res.result!.items!.forEach((element) {
+          log(element.images!.isNotEmpty ? element.images!.first : '');
+          log("________________________");
+        });
         listOfDishs.addAll(res.result!.items ?? []);
         emit(GetAllDishLoaded());
       },
