@@ -12,18 +12,6 @@
 @import agora_rtc_engine;
 #endif
 
-#if __has_include(<agora_rtm/AgoraRtmPlugin.h>)
-#import <agora_rtm/AgoraRtmPlugin.h>
-#else
-@import agora_rtm;
-#endif
-
-#if __has_include(<agora_uikit/AgoraUikitPlugin.h>)
-#import <agora_uikit/AgoraUikitPlugin.h>
-#else
-@import agora_uikit;
-#endif
-
 #if __has_include(<cloud_firestore/FLTFirebaseFirestorePlugin.h>)
 #import <cloud_firestore/FLTFirebaseFirestorePlugin.h>
 #else
@@ -220,8 +208,6 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AgoraRtcNgPlugin registerWithRegistrar:[registry registrarForPlugin:@"AgoraRtcNgPlugin"]];
-  [AgoraRtmPlugin registerWithRegistrar:[registry registrarForPlugin:@"AgoraRtmPlugin"]];
-  [AgoraUikitPlugin registerWithRegistrar:[registry registrarForPlugin:@"AgoraUikitPlugin"]];
   [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [FilePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FilePickerPlugin"]];

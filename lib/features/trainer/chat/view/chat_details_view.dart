@@ -7,6 +7,7 @@ import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_call_screen.dart';
 
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
@@ -26,8 +27,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
 
   final messageController = TextEditingController();
 
-  void sendMessage()async{
-    widget.chatModel!.messages!.add(MessageModel(AppStorage.getUserId,widget.chatModel!.traineeId, messageController.text, DateTime.now().toString()));
+  Future<void> sendMessage()async{
     await FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).set({
       "traineeId" : widget.chatModel!.traineeId,
       "traineeImage" : widget.chatModel!.traineeImage,
@@ -36,14 +36,12 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
       "trainerImage" : TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
       "trainerName" : TrainerProfileCubit.of(context).trainerModel!.name ?? "",
       "id" : widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString(),
-      "messages" : widget.chatModel!.messages!.map((e){
-        return {
-          "message" : e.message,
-          "senderId" : e.senderId,
-          "receiverId" : e.receiverId,
-          "messageTime" : e.messageTime
-        };
-      }).toList()
+    });
+    await FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).collection("messages").doc().set({
+      "message" : messageController.text,
+      "senderId" : AppStorage.getUserId,
+      "receiverId" : widget.chatModel!.traineeId,
+      "messageTime": DateTime.now().toString()
     });
   }
 
@@ -82,7 +80,12 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                      }));
+                    },
                     icon: const Icon(
                       Icons.phone,
                       color: AppColors.accentColorLight,
@@ -98,7 +101,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     onPressed: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const VideoCallScreen();
+                        return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
                       }));
                     },
                     icon: const Icon(
@@ -115,7 +118,7 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
 
   chatText() {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).snapshots(),
+      stream: FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).collection("messages").orderBy("messageTime",descending: true).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return const Text('Something went wrong');
@@ -124,15 +127,14 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
         else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loader();
         }else{
-          print(snapshot.data!.data());
 
-
-if(snapshot.data!.data() != null){
   List<MessageModel> messages = [];
-  for (var element in snapshot.data!.data()?["messages"]) {
-    messages.add(MessageModel.fromJson(element));
+  for (var element in snapshot.data!.docs) {
+    messages.add(MessageModel.fromJson(element.data()));
   }
-  return Expanded(child: ListView.separated(itemBuilder: (context, index) {
+  return Expanded(child: ListView.separated(
+    reverse: true,
+      itemBuilder: (context, index) {
     if(messages[index].senderId == AppStorage.getUserId){
       return Container(
         padding: const EdgeInsets.all(10),
@@ -148,63 +150,9 @@ if(snapshot.data!.data() != null){
   }, separatorBuilder: (context, index) {
     return const SizedBox(height: 10,);
   }, itemCount: messages.length));
-}else{
-  return const SizedBox();
 }
+        },);
 
-        }
-    },);
-
-  }
-
-  chatEnterField() {
-    return Expanded(
-      flex: 1,
-      child: Container(
-          decoration: BoxDecoration(
-              color: AppColors.transparent.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10)),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    FontAwesomeIcons.telegram,
-                  ),
-                ),
-              ),
-              Expanded(
-                  flex: 5,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.white),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Enter text here',
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
-                    ),
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.file_copy_outlined)),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.emoji_emotions_outlined))
-                    ],
-                  ))
-            ],
-          )),
-    );
   }
 
   chatFloatingActionButton() {
@@ -214,23 +162,19 @@ if(snapshot.data!.data() != null){
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                onPressed: () {
-                  if(messageController.text.isNotEmpty){
-                    sendMessage();
-                  }
-                  messageController.clear();
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.paperPlane,
-                  color: AppColors.white,
-                ),
+            IconButton(
+              onPressed: () async{
+                if(messageController.text.isNotEmpty){
+                  await sendMessage();
+                }
+                messageController.clear();
+              },
+              icon: const Icon(
+                FontAwesomeIcons.paperPlane,
+                color: AppColors.white,
               ),
             ),
             Expanded(
-                flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Container(
@@ -253,27 +197,25 @@ if(snapshot.data!.data() != null){
                     ),
                   ),
                 )),
-            Expanded(
-                flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesomeIcons.paperclip,
-                        color: AppColors.white,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesomeIcons.faceSmile,
-                        color: AppColors.white,
-                      ),
-                    )
-                  ],
-                ))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    FontAwesomeIcons.paperclip,
+                    color: AppColors.white,
+                  ),
+                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(
+                //     FontAwesomeIcons.faceSmile,
+                //     color: AppColors.white,
+                //   ),
+                // )
+              ],
+            )
           ],
         ));
   }

@@ -21,7 +21,7 @@ import 'generated/l10n.dart';
 
 void main() async {
   await _initAppConfigs();
-  AppStorage.init();
+ await AppStorage.init();
   BlocOverrides.runZoned(
       () => runApp(
             const App(),

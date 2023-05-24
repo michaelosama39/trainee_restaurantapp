@@ -8,8 +8,6 @@ class ChatModel{
   String? trainerName;
   String? traineeImage;
   String? trainerImage;
-  List<MessageModel>? messages;
-
   ChatModel(
       {this.id,
       this.traineeId,
@@ -17,8 +15,7 @@ class ChatModel{
       this.traineeName,
       this.trainerName,
       this.traineeImage,
-      this.trainerImage,
-      this.messages});
+      this.trainerImage,});
 
   ChatModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -28,11 +25,5 @@ class ChatModel{
     trainerName = json['trainerName'];
     traineeImage = json['traineeImage'];
     trainerImage = json['trainerImage'];
-    if (json['messages'] != null) {
-      messages = <MessageModel>[];
-      json['messages'].forEach((v) {
-        messages!.add(MessageModel.fromJson(v));
-      });
-    }
   }
 }

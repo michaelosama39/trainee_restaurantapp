@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -14,6 +15,8 @@ import '../../../../../core/ui/widgets/precentage_show.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../chat/data/model/chat_model.dart';
 import '../../../chat/view/chat_details_view.dart';
+import '../../../chat/view/video_call_screen.dart';
+import '../../../chat/view/voice_call_screen.dart';
 import 'add_new_trainee_entry_screen.dart';
 
 
@@ -126,7 +129,7 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                                 traineeId: HomeTrainerCubit.of(context).trainee!.traineeId,
                                 traineeImage: HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ?? "",
                                 traineeName: HomeTrainerCubit.of(context).trainee!.trainee!.name,
-                                messages: [],)),));
+                              )),));
                             },
                             child: ImageIcon(
                               const AssetImage(
@@ -136,19 +139,35 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                               size: 20.h,
                             ),
                           ),
-                          ImageIcon(
-                            const AssetImage(
-                              AppConstants.PHONE_CALL_ICON,
+                          InkWell(
+                            onTap: (){
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return VoiceCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                              }));
+                            },
+                            child: ImageIcon(
+                              const AssetImage(
+                                AppConstants.PHONE_CALL_ICON,
+                              ),
+                              color: AppColors.white,
+                              size: 20.h,
                             ),
-                            color: AppColors.white,
-                            size: 20.h,
                           ),
-                          ImageIcon(
-                            const AssetImage(
-                              AppConstants.VIDEO_CALL_ICON,
+                          InkWell(
+                            onTap: (){
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return VideoCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                              }));
+                            },
+                            child: ImageIcon(
+                              const AssetImage(
+                                AppConstants.VIDEO_CALL_ICON,
+                              ),
+                              color: AppColors.white,
+                              size: 20.h,
                             ),
-                            color: AppColors.white,
-                            size: 20.h,
                           ),
                         ],
                       )

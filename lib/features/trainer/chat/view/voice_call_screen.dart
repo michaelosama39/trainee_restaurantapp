@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
+import '../../../../core/ui/widgets/custom_appbar.dart';
 import 'agoraConfig.dart';
+
 
 class VoiceCallScreen extends StatefulWidget {
   final String channelName;
@@ -14,19 +17,14 @@ class VoiceCallScreen extends StatefulWidget {
 }
 
 class _VoiceCallScreenState extends State<VoiceCallScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Set up an instance of Agora engine
-    setupVoiceSDKEngine();
-  }
-  String channelName = "<--Insert channel name here-->";
-  String token = "<--Insert authentication token here-->";
+  String channelName = "test";
+  String token = "007eJxTYOjz/Pqob+2c4J69W+qOnvzwV/jcypSJmgv+zwrPTq/eF9KvwGCSYmlpmpZsYm6cZGxiYp5maWlulmpqbpqYnJZqmGRg+vdOTkpDICNDhfsGRkYGCATxWRhKUotLGBgAfREjZg==";
 
   int uid = 0; // uid of the local user
 
   int? _remoteUid; // uid of the remote user
   bool _isJoined = false; // Indicates if the local user has joined the channel
+  bool muted = false; // Indicates if the local user has joined the channel
   late RtcEngine agoraEngine; // Agora engine instance
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey
@@ -36,6 +34,15 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
     scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
       content: Text(message),
     ));
+  }// Global key to access the scaffold
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Set up an instance of Agora engine
+    setupVoiceSDKEngine();
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -72,11 +79,7 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
         },
       ),
     );
-  }
 
-  void  join() async {
-
-    // Set channel options including the client role and channel profile
     ChannelMediaOptions options = const ChannelMediaOptions(
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
       channelProfile: ChannelProfileType.channelProfileCommunication,
@@ -90,56 +93,88 @@ class _VoiceCallScreenState extends State<VoiceCallScreen> {
     );
   }
 
-  void leave() {
+
+  void leave() async{
     setState(() {
       _isJoined = false;
       _remoteUid = null;
     });
-    agoraEngine.leaveChannel();
+    await agoraEngine.leaveChannel();
+    Navigator.pop(context);
+
   }
 
+
+  // Clean up the resources when you leave
   @override
   void dispose() async {
     await agoraEngine.leaveChannel();
     super.dispose();
   }
+
+  // Build UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Get started with Voice Calling'),
+        appBar: const TransparentAppBar(
+          title: "",
         ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          children: [
-            // Status text
-            SizedBox(
-                height: 40,
-                child:Center(
-                    child:_status()
-                )
-            ),
-            // Button Row
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Join"),
-                    onPressed: () => {join()},
-                  ),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+
+            children: [
+              // Status text
+              SizedBox(
+                  height: 40,
+                  child:Center(
+                      child:_status()
+                  )
+              ),
+              // Button Row
+              if(_isJoined)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          muted = !muted;
+                        });
+                        agoraEngine.muteLocalAudioStream(muted);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(color: Colors.red,shape: BoxShape.circle),
+                        child: Icon(muted ? Icons.mic : Icons.mic_off,color: Colors.white,),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => leave(),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(color: Colors.red,shape: BoxShape.circle),
+                        child: const Icon(Icons.call_end,color: Colors.white,),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (){
+                        agoraEngine.switchCamera();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(color: Colors.red,shape: BoxShape.circle),
+                        child: const Icon(Icons.camera_alt,color: Colors.white,),
+                      ),
+                    ),
+
+                  ],
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Leave"),
-                    onPressed: () => {leave()},
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ));
   }
+
 
   Widget _status(){
     String statusText;

@@ -10,8 +10,8 @@ import 'package:trainee_restaurantapp/features/trainer/chat/data/model/chat_mode
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import '../../../../core/appStorage/app_storage.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
-import '../../profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
 import 'chat_details_view.dart';
+import '../data/model/message_model.dart';
 
 class ChatView extends StatelessWidget {
    ChatView({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class ChatView extends StatelessWidget {
                           traineeId: HomeTrainerCubit.of(context).newTrainees![index].traineeId,
                           traineeImage: HomeTrainerCubit.of(context).newTrainees![index].trainee!.imageUrl ?? "",
                           traineeName: HomeTrainerCubit.of(context).newTrainees![index].trainee!.name,
-                          messages: [],)),));
+                          )),));
                     },
                     child: Container(
                       width: 80.w,
@@ -129,26 +129,36 @@ class ChatView extends StatelessWidget {
                                       fontSize: AppConstants.textSize18,
                                       fontWeight: FontWeight.w600,
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            textAlign: TextAlign.start,
-                                            text: chats[index].messages!.last.message ?? "",
-                                            textOverflow: TextOverflow.ellipsis,
-                                            fontSize: AppConstants.textSize14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        CustomText(
-                                          text: chats[index].messages!.last.messageTime!.substring(0,10),
-                                          fontSize: AppConstants.textSize14,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.grey,
-                                        ),
-                                      ],
-                                    )
+                                    StreamBuilder
+                                      (
+                                      stream: FirebaseFirestore.instance.collection('chats').doc(chats[index].traineeId.toString() + AppStorage.getUserId.toString()).collection("messages").orderBy("messageTime",descending: false).snapshots(),
+                                      builder: (context, snapshot) {
+                                        if(snapshot.connectionState == ConnectionState.active){
+                                          MessageModel message = MessageModel.fromJson(snapshot.data!.docs.last.data());
+                                          return Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: CustomText(
+                                                  textAlign: TextAlign.start,
+                                                  text: message.message ?? "",
+                                                  textOverflow: TextOverflow.ellipsis,
+                                                  fontSize: AppConstants.textSize14,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              CustomText(
+                                                text: message.messageTime!.substring(0,10),
+                                                fontSize: AppConstants.textSize14,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppColors.grey,
+                                              ),
+                                            ],
+                                          );
+                                        }else if(snapshot.connectionState == ConnectionState.waiting){
+                                          return const SizedBox();
+                                        }return const SizedBox();
+                                      },)
                                   ],
                                 ))
                           ],
