@@ -103,6 +103,7 @@ class AppConstants {
   static const MARKER_ICON = "assets/images/png/marker_icon.png";
   static const WEIGHT_ICON = "assets/images/png/weight.svg";
   static const TALL_ICON = "assets/images/png/tall.svg";
+  static const PIN_ICON = "assets/images/png/pin.png";
   static const PLACE_MARKER_RED_ICON =
       "assets/images/png/place_marker_red_icon.png";
   static const PLACE_MARKER_YELLOW_ICON =

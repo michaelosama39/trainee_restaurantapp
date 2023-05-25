@@ -16,8 +16,12 @@ import 'core/common/provider_list.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/localization/flutter_localization.dart';
 import 'core/navigation/route_generator.dart';
+import 'features/restaurant/home_restaurant/controller/home_restaurant_cubit.dart';
+import 'features/restaurant/my_plates/controller/my_plates_cubit.dart';
+import 'features/shop/my_products/controller/my_products_cubit.dart';
 import 'features/shop/shop_profile/shop_profile_controller/shop_profile_cubit.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
+import 'features/trainer/my_orders/presentation/controller/booking_request_cubit.dart';
 import 'generated/l10n.dart';
 
 class App extends StatefulWidget {
@@ -45,6 +49,7 @@ class _AppState extends State<App> {
         ],
         child: MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => BookingRequestCubit()),
             BlocProvider(
               create: (context) =>
                   TrainerProfileCubit()..getTrainerProfile(context),
@@ -65,6 +70,9 @@ class _AppState extends State<App> {
             BlocProvider(create: (context) => HomeTrainerCubit()..getMostWantedCourses(context)..getNewTrainees(context),),
             BlocProvider(create: (context) => CoursesCubit()),
             BlocProvider(create: (context) => MyOrdersRestaurantCubit()),
+            BlocProvider(create: (context) => HomeRestaurantCubit()),
+            BlocProvider(create: (context) => MyPlatesCubit()),
+            BlocProvider(create: (context) => MyProductsCubit()),
             BlocProvider(create: (context) => MyOrdersShopCubit()),
           ],
           child: Consumer<LocalizationProvider>(

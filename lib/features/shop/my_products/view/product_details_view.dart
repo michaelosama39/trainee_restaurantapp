@@ -208,29 +208,43 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     );
   }
 
-  Widget _buildCommentsWidget(List<ReviewModel> review) {
-    return Padding(
-      padding: EdgeInsets.only(right: 12.w),
-      child: SizedBox(
-        height: 128.h,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return BlurWidget(
-                width: 268.w,
+  Widget _buildCommentsWidget() {
+    return BlocBuilder<MyProductsCubit, MyProductsState>(
+      builder: (context, state) {
+        List<ReviewModel> listOfReviews =
+            MyProductsCubit.of(context).listOfReviews;
+        if (state is GetProductReviewsLoading) {
+          return const Loader();
+        } else {
+          if (listOfReviews.isNotEmpty) {
+            return Padding(
+              padding: EdgeInsets.only(right: 12.w),
+              child: SizedBox(
                 height: 128.h,
-                borderRadius: AppConstants.borderRadius4,
-                child: _buildCommentItemWidget(
-                  image: review[index].reviewer!.imageUrl ?? '',
-                  date: review[index].creationTime ?? '',
-                  name: review[index].reviewer!.name ?? '',
-                  body: review[index].comment ?? '',
-                ));
-          },
-          separatorBuilder: (context, index) => Gaps.hGap16,
-          itemCount: review.length,
-        ),
-      ),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return BlurWidget(
+                        width: 268.w,
+                        height: 128.h,
+                        borderRadius: AppConstants.borderRadius4,
+                        child: _buildCommentItemWidget(
+                          image: listOfReviews[index].reviewer!.imageUrl ?? '',
+                          date: listOfReviews[index].creationTime ?? '',
+                          name: listOfReviews[index].reviewer!.name ?? '',
+                          body: listOfReviews[index].comment ?? '',
+                        ));
+                  },
+                  separatorBuilder: (context, index) => Gaps.hGap16,
+                  itemCount: listOfReviews.length,
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        }
+      },
     );
   }
 
@@ -324,36 +338,52 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     );
   }
 
-  Widget _trainee(List<OrderModel> listOfOrders) {
-    return SizedBox(
-      height: 200.h,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: Column(
-          children: [
-            TitleWidget(
-              title: "الطلبات",
-              subtitleColorTapped: () {},
-              titleColor: AppColors.white,
-              subtitleColor: AppColors.accentColorLight,
-              subtitle: "اظهار الكل",
-              subtitleSize: AppConstants.textSize14,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listOfOrders.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: traineeCard(
-                          context: context, orderModel: listOfOrders[index]),
-                    );
-                  }),
-            )
-          ],
-        ),
-      ),
+  Widget _trainee() {
+    return BlocBuilder<MyProductsCubit, MyProductsState>(
+      builder: (context, state) {
+        List<OrderModel> listOfOrders =
+            MyProductsCubit.of(context).listOfOrders;
+        if (state is GetProductOrdersLoading) {
+          return const Loader();
+        } else {
+          if (listOfOrders.isNotEmpty) {
+            return SizedBox(
+              height: 200.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                child: Column(
+                  children: [
+                    TitleWidget(
+                      title: "الطلبات",
+                      subtitleColorTapped: () {},
+                      titleColor: AppColors.white,
+                      subtitleColor: AppColors.accentColorLight,
+                      subtitle: "اظهار الكل",
+                      subtitleSize: AppConstants.textSize14,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: listOfOrders.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: traineeCard(
+                                  context: context,
+                                  orderModel: listOfOrders[index]),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        }
+      },
     );
   }
 
@@ -416,68 +446,59 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     );
   }
 
-  TextEditingController commentController = TextEditingController();
+  @override
+  void initState() {
+    MyProductsCubit.of(context).getProductDetails(widget.productId);
+    MyProductsCubit.of(context).getProductReviews(widget.productId);
+    MyProductsCubit.of(context).getProductOrders(widget.productId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MyProductsCubit()
-        ..getProductDetails(widget.productId)
-        ..getProductReviews(widget.productId),
-      child: BlocBuilder<MyProductsCubit, MyProductsState>(
-        builder: (context, state) {
-          Items? item = MyProductsCubit.of(context).item;
-          List<ReviewModel> listOfReviews =
-              MyProductsCubit.of(context).listOfReviews;
-          List<OrderModel> listOfOrders =
-              MyProductsCubit.of(context).listOfOrders;
-          if (state is GetProductDetailsLoading ||
-              state is GetProductReviewsLoading ||
-              state is GetProductOrdersLoading) {
-            return const Loader();
-          } else {
-            return SafeArea(
-              child: CustomScrollView(slivers: <Widget>[
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomSliverDelegate(
-                    image: item!.images!.isEmpty ? '' : item.images!.first ?? '',
-                    expandedHeight: 260.h,
-                    child: _buildSubscriptionWidget(item),
+    return BlocBuilder<MyProductsCubit, MyProductsState>(
+      builder: (context, state) {
+        Items? item = MyProductsCubit.of(context).item;
+        if (item == null) {
+          return const Loader();
+        } else {
+          return SafeArea(
+            child: CustomScrollView(slivers: <Widget>[
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: CustomSliverDelegate(
+                  image: item.images!.isEmpty ? '' : item.images!.first ?? '',
+                  expandedHeight: 260.h,
+                  child: _buildSubscriptionWidget(item),
+                ),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      Gaps.vGap10,
+                      _trainee(),
+                      // _buildRatingWidget(
+                      //   average: item.rate!.toDouble(),
+                      //   fifthRate: item.ratingDetails!.i5!.toDouble(),
+                      //   firstRate: item.ratingDetails!.i1!.toDouble(),
+                      //   forthRate: item.ratingDetails!.i4!.toDouble(),
+                      //   secondRate: item.ratingDetails!.i2!.toDouble(),
+                      //   thirdRate: item.ratingDetails!.i3!.toDouble(),
+                      // ),
+                      Gaps.vGap24,
+                      _buildCommentsWidget(),
+                      Gaps.vGap24,
+                    ],
                   ),
                 ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Gaps.vGap10,
-                        listOfOrders.isEmpty
-                            ? const SizedBox()
-                            : _trainee(listOfOrders),
-                        // _buildRatingWidget(
-                        //   average: item.rate!.toDouble(),
-                        //   fifthRate: item.ratingDetails!.i5!.toDouble(),
-                        //   firstRate: item.ratingDetails!.i1!.toDouble(),
-                        //   forthRate: item.ratingDetails!.i4!.toDouble(),
-                        //   secondRate: item.ratingDetails!.i2!.toDouble(),
-                        //   thirdRate: item.ratingDetails!.i3!.toDouble(),
-                        // ),
-                        Gaps.vGap24,
-                        listOfReviews.isEmpty
-                            ? const SizedBox()
-                            : _buildCommentsWidget(listOfReviews),
-                        Gaps.vGap24,
-                      ],
-                    ),
-                  ),
-                ),
-              ]),
-            );
-          }
-        },
-      ),
+              ),
+            ]),
+          );
+        }
+      },
     );
   }
 }

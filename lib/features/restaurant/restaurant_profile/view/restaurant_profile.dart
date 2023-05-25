@@ -90,25 +90,25 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                                 ],
                               ),
                               Gaps.hGap8,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.locationDot,
-                                    color: AppColors.accentColorLight,
-                                    size: 14,
-                                  ),
-                                  Gaps.hGap4,
-                                  CustomText(
-                                    maxLines: 2,
-                                    text:
-                                    "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
-                                    color: AppColors.white,
-                                    fontSize: AppConstants.textSize14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     const Icon(
+                              //       FontAwesomeIcons.locationDot,
+                              //       color: AppColors.accentColorLight,
+                              //       size: 14,
+                              //     ),
+                              //     Gaps.hGap4,
+                              //     CustomText(
+                              //       maxLines: 2,
+                              //       text:
+                              //       "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
+                              //       color: AppColors.white,
+                              //       fontSize: AppConstants.textSize14,
+                              //       fontWeight: FontWeight.w500,
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ],
@@ -232,13 +232,13 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
       restaurantsModel.commercialRegisterNumber ?? '',
       restaurantsModel.commercialRegisterDocument!.split("/").last,
       restaurantsModel.manager?.name ?? '',
-      restaurantsModel.city?.text ?? '',
-      restaurantsModel.city?.text ?? '',
-      restaurantsModel.street ?? '',
+      // restaurantsModel.city?.text ?? '',
+      // restaurantsModel.city?.text ?? '',
+      // restaurantsModel.street ?? '',
       "بناء رقم ${restaurantsModel.buildingNumber}"
     ];
     return SizedBox(
-      height: 450.h,
+      height: 300.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
@@ -272,7 +272,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                 color: AppColors.grey,
               );
             },
-            itemCount: 8),
+            itemCount: 5),
       ),
     );
   }

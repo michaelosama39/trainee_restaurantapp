@@ -18,9 +18,10 @@ import '../../../../../generated/l10n.dart';
 import '../../../../on_boarding/view/main_onboarding_view.dart';
 import '../../../subscription/presentation/view/subscription_screen.dart';
 
-
 class MoreTrainerScreen extends StatelessWidget {
-  const MoreTrainerScreen({Key? key}) : super(key: key);
+  const MoreTrainerScreen({Key? key, required this.typeUser}) : super(key: key);
+
+  final int typeUser;
 
   Widget _buildChipWidget(
       {required String title,
@@ -44,7 +45,8 @@ class MoreTrainerScreen extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius32),
+                borderRadius:
+                    BorderRadius.circular(AppConstants.borderRadius32),
                 child: Image.asset(
                   imgPath,
                   height: 45.h,
@@ -115,7 +117,11 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -149,7 +155,11 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedbackScreen(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FeedbackScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -162,7 +172,11 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutAppScreen(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutAppScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -176,7 +190,8 @@ class MoreTrainerScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -233,13 +248,18 @@ class MoreTrainerScreen extends StatelessWidget {
                       imgPath: AppConstants.MOTCHY2_IMG,
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.myOrderScreen);
-
                       }),
                   _buildChipWidget(
                       title: Translation.of(context).bouquet,
                       imgPath: AppConstants.VEGGIE2_IMG,
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SubscriptionScreen(
+                                typeUser: typeUser,
+                              ),
+                            ));
                       }),
                   // _buildChipWidget(
                   //     title: Translation.of(context).supplements,

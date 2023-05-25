@@ -14,9 +14,9 @@ class UpdateRestProfileModel {
   File? enCover;
   String? commercialRegisterNumber;
   File? commercialRegisterDocument;
-  int? cityId;
-  String? street;
-  int? buildingNumber;
+  // int? cityId;
+  // String? street;
+  String? buildingNumber;
   String? phoneNumber;
   String? facebookUrl;
   String? instagramUrl;
@@ -33,8 +33,8 @@ class UpdateRestProfileModel {
     required this.enCover,
     required this.commercialRegisterNumber,
     required this.commercialRegisterDocument,
-    required this.cityId,
-    required this.street,
+    // required this.cityId,
+    // required this.street,
     required this.buildingNumber,
     required this.phoneNumber,
     required this.facebookUrl,
@@ -69,8 +69,8 @@ class UpdateRestProfileModel {
           ? null
           : await MultipartFile.fromFile(commercialRegisterDocument!.path,
               filename: commercialRegisterDocument!.path.split('/').last),
-      "cityId": cityId,
-      "street": street,
+      // "cityId": cityId,
+      // "street": street,
       "buildingNumber": buildingNumber,
       "phoneNumber": phoneNumber,
       "facebookUrl": facebookUrl,

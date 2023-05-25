@@ -233,13 +233,13 @@ class _ShopProfileState extends State<ShopProfile> {
       "commercialRegisterDocument",
       // restaurantsModel.commercialRegisterDocument!.split("/").last,
       shopModel.manager?.name ?? '',
-      shopModel.city?.text ?? '',
-      shopModel.city?.text ?? '',
-      shopModel.street ?? '',
+      // shopModel.city?.text ?? '',
+      // shopModel.city?.text ?? '',
+      // shopModel.street ?? '',
       "بناء رقم ${shopModel.buildingNumber}"
     ];
     return SizedBox(
-      height: 450.h,
+      height: 300.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
@@ -273,7 +273,7 @@ class _ShopProfileState extends State<ShopProfile> {
                 color: AppColors.grey,
               );
             },
-            itemCount: 8),
+            itemCount: 5),
       ),
     );
   }

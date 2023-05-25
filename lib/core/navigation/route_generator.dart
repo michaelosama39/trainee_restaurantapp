@@ -123,12 +123,12 @@ class AppRoute {
                   phone: arg.phone,
                   code: arg.code,
                 ));
-      case Routes.homeTrainerScreen:
-        return MaterialPageRoute(
-            builder: (context) => const HomeTrainerScreen());
-      case Routes.homeRestScreen:
-        return MaterialPageRoute(
-            builder: (context) => const HomeRestaurantScreen());
+      // case Routes.homeTrainerScreen:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const HomeTrainerScreen());
+      // case Routes.homeRestScreen:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const HomeRestaurantScreen());
       case Routes.traineeProfileScreen:
         return MaterialPageRoute(builder: (context) => TraineeProfileScreen(args: settings.arguments as Map,));
       case Routes.MyCourseDetailsScreen:

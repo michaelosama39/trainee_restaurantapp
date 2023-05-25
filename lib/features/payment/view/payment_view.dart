@@ -9,11 +9,13 @@ import 'package:unicode_moyasar/unicode_moyasar.dart';
 import '../../../core/ui/toast.dart';
 
 class PaymentView extends StatefulWidget {
-  const PaymentView({Key? key, required this.amount, required this.userId})
+  const PaymentView({Key? key, required this.amount, required this.userId, required this.typeUser, required this.subscriptionId})
       : super(key: key);
 
   final num amount;
   final int userId;
+  final int typeUser;
+  final int subscriptionId;
 
   @override
   State<PaymentView> createState() => _PaymentViewState();
@@ -46,6 +48,7 @@ class _PaymentViewState extends State<PaymentView> {
               onPaymentSucess: (response) {
                 PaymentCubit.of(context)
                     .createPayment(context, widget.userId, widget.amount);
+                PaymentCubit.of(context).assignSubscriptionToUser(context, widget.subscriptionId, widget.typeUser);
                 debugPrint("Success ------> ${response.toMap()}");
                 Navigator.of(context).pop();
               },

@@ -14,7 +14,6 @@ import '../../../../../core/ui/loader.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../generated/l10n.dart';
 
-
 class MyOrderView extends StatefulWidget {
   const MyOrderView({Key? key}) : super(key: key);
 
@@ -40,135 +39,142 @@ class _MyOrderViewState extends State<MyOrderView>
       appBar: TransparentAppBar(
         title: Translation.of(context).my_orders,
       ),
-      body:   BlocProvider(
-      create: (context) => BookingRequestCubit()..getBookingRequests(context, 0),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 60.h,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          tabbed = 1;
-                          BookingRequestCubit.of(context).getBookingRequests(context, 0);
-                          tabController!.animateTo(0);
-                        });
-                      },
-                      child: Container(
-                          decoration: tabbed == 1
-                              ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
-                              : null,
-                          child: Center(
-                            child: CustomText(
-                              text: "قيد الأنتظار",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: AppConstants.textSize16,
-                            ),
-                          )),
+      body: BlocProvider(
+          create: (context) =>
+              BookingRequestCubit()..getBookingRequests(context, 0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 60.h,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              tabbed = 1;
+                              BookingRequestCubit.of(context)
+                                  .getBookingRequests(context, 0);
+                              tabController!.animateTo(0);
+                            });
+                          },
+                          child: Container(
+                              decoration: tabbed == 1
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                          color:
+                                              AppColors.grey.withOpacity(0.5)),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      gradient: LinearGradient(colors: [
+                                        AppColors.transparent.withOpacity(0.3),
+                                        AppColors.transparent.withOpacity(0),
+                                      ]))
+                                  : null,
+                              child: Center(
+                                child: CustomText(
+                                  text: "قيد الأنتظار",
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: AppConstants.textSize16,
+                                ),
+                              )),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          tabbed = 2;
-                          BookingRequestCubit.of(context).getBookingRequests(context, 1);
-                          tabController!.animateTo(1);
-                        });
-                      },
-                      child: Container(
-                          decoration: tabbed == 2
-                              ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
-                              : null,
-                          child: Center(
-                            child: CustomText(
-                              text: "الموافق عليها",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: AppConstants.textSize16,
-                            ),
-                          )),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              tabbed = 2;
+                              BookingRequestCubit.of(context)
+                                  .getBookingRequests(context, 1);
+                              tabController!.animateTo(1);
+                            });
+                          },
+                          child: Container(
+                              decoration: tabbed == 2
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                          color:
+                                              AppColors.grey.withOpacity(0.5)),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      gradient: LinearGradient(colors: [
+                                        AppColors.transparent.withOpacity(0.3),
+                                        AppColors.transparent.withOpacity(0),
+                                      ]))
+                                  : null,
+                              child: Center(
+                                child: CustomText(
+                                  text: "الموافق عليها",
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: AppConstants.textSize16,
+                                ),
+                              )),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          tabbed = 3;
-                          BookingRequestCubit.of(context).getBookingRequests(context, 2);
-                          tabController!.animateTo(2);
-                        });
-                      },
-                      child: Container(
-                          decoration: tabbed == 3
-                              ? BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.grey.withOpacity(0.5)),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.3),
-                                AppColors.transparent.withOpacity(0),
-                              ]))
-                              : null,
-                          child: Center(
-                            child: CustomText(
-                              text: "الملغاه",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: AppConstants.textSize16,
-                            ),
-                          )),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              tabbed = 3;
+                              BookingRequestCubit.of(context)
+                                  .getBookingRequests(context, 2);
+                              tabController!.animateTo(2);
+                            });
+                          },
+                          child: Container(
+                              decoration: tabbed == 3
+                                  ? BoxDecoration(
+                                      border: Border.all(
+                                          color:
+                                              AppColors.grey.withOpacity(0.5)),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      gradient: LinearGradient(colors: [
+                                        AppColors.transparent.withOpacity(0.3),
+                                        AppColors.transparent.withOpacity(0),
+                                      ]))
+                                  : null,
+                              child: Center(
+                                child: CustomText(
+                                  text: "الملغاه",
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: AppConstants.textSize16,
+                                ),
+                              )),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: tabController,
-                    children: const <Widget>[
-                      WaitingList(),
-                      AcceptedList(),
-                      RefusedList(),
-                    ],
-                  ),
-                )
-        ],
-      )),
+              ),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: tabController,
+                  children: const <Widget>[
+                    WaitingList(),
+                    AcceptedList(),
+                    RefusedList(),
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }
@@ -178,24 +184,24 @@ class WaitingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-     BlocBuilder<BookingRequestCubit,BookingRequestState>(
+    return BlocBuilder<BookingRequestCubit, BookingRequestState>(
         builder: (context, state) {
-      if(state is GetBookingRequestsLoading){
+      if (state is GetBookingRequestsLoading) {
         return const Loader();
-        }else{
-       return ListView.builder(
+      } else {
+        return ListView.builder(
             itemCount: BookingRequestCubit.of(context).bookingRequests.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CardDetails(selectedCard: false,bookingRequestModel: BookingRequestCubit.of(context).bookingRequests[index]),
+                child: CardDetails(
+                    selectedCard: false,
+                    bookingRequestModel:
+                        BookingRequestCubit.of(context).bookingRequests[index]),
               );
             });
       }
-        }
-      );
-
+    });
   }
 }
 
@@ -204,22 +210,24 @@ class AcceptedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return BlocBuilder<BookingRequestCubit,BookingRequestState>(
+    return BlocBuilder<BookingRequestCubit, BookingRequestState>(
         builder: (context, state) {
-          if(state is GetBookingRequestsLoading){
-            return const Loader();
-          }else{
-            return ListView.builder(
-                itemCount: BookingRequestCubit.of(context).bookingRequests.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CardDetails(selectedCard: true,bookingRequestModel: BookingRequestCubit.of(context).bookingRequests[index]),
-                  );
-                });
-          }
-        }
-    );
+      if (state is GetBookingRequestsLoading) {
+        return const Loader();
+      } else {
+        return ListView.builder(
+            itemCount: BookingRequestCubit.of(context).bookingRequests.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CardDetails(
+                    selectedCard: true,
+                    bookingRequestModel:
+                        BookingRequestCubit.of(context).bookingRequests[index]),
+              );
+            });
+      }
+    });
   }
 }
 
@@ -228,28 +236,32 @@ class RefusedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingRequestCubit,BookingRequestState>(
+    return BlocBuilder<BookingRequestCubit, BookingRequestState>(
         builder: (context, state) {
-          if(state is GetBookingRequestsLoading){
-            return const Loader();
-          }else{
-            return ListView.builder(
-                itemCount: BookingRequestCubit.of(context).bookingRequests.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CardDetails(selectedCard: true,bookingRequestModel: BookingRequestCubit.of(context).bookingRequests[index]),
-                  );
-                });
-          }
-        }
-    );
+      if (state is GetBookingRequestsLoading) {
+        return const Loader();
+      } else {
+        return ListView.builder(
+            itemCount: BookingRequestCubit.of(context).bookingRequests.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CardDetails(
+                    selectedCard: true,
+                    bookingRequestModel:
+                        BookingRequestCubit.of(context).bookingRequests[index]),
+              );
+            });
+      }
+    });
   }
 }
 
 class ImageWithNameTrainee extends StatelessWidget {
   final BookingRequestModel bookingRequestModel;
-  const ImageWithNameTrainee({Key? key, required this.bookingRequestModel}) : super(key: key);
+
+  const ImageWithNameTrainee({Key? key, required this.bookingRequestModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +303,10 @@ class CardDetails extends StatelessWidget {
   final bool selectedCard;
   final BookingRequestModel bookingRequestModel;
 
-  const CardDetails({super.key, required this.selectedCard, required this.bookingRequestModel });
+  const CardDetails(
+      {super.key,
+      required this.selectedCard,
+      required this.bookingRequestModel});
 
   @override
   Widget build(BuildContext context) {
@@ -308,64 +323,73 @@ class CardDetails extends StatelessWidget {
         children: [
           Expanded(
               child: Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                        backgroundImage: NetworkImage(bookingRequestModel.course!.imageUrl ?? "")),
-                    title: CustomText(
-                      text: bookingRequestModel.course!.text ?? "",
-                      fontSize: AppConstants.textSize14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
-                    ),
-                    subtitle: CustomText(
-                      text: "${bookingRequestModel.id!}",
-                      fontSize: AppConstants.textSize14,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  CustomText(
-                    text: "${bookingRequestModel.paidAmount ?? 0} ${Translation.of(context).saudi_riyal}",
-                    color: AppColors.accentColorLight,
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppConstants.textSize14,
-                  ),
-                  selectedCard
-                      ? const SizedBox()
-                      : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          BookingRequestCubit.of(context).approveBookingRequest(context, bookingRequestModel.id!);
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: AppColors.green,
-                          child: Icon(
-                            FontAwesomeIcons.check,
-                            color: AppColors.white,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        bookingRequestModel.course!.imageUrl ?? "")),
+                title: CustomText(
+                  text: bookingRequestModel.course!.text ?? "",
+                  fontSize: AppConstants.textSize14,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.white,
+                ),
+                subtitle: CustomText(
+                  text: "${bookingRequestModel.id!}",
+                  fontSize: AppConstants.textSize14,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.white,
+                ),
+              ),
+              CustomText(
+                text:
+                    "${bookingRequestModel.paidAmount ?? 0} ${Translation.of(context).saudi_riyal}",
+                color: AppColors.accentColorLight,
+                fontWeight: FontWeight.w600,
+                fontSize: AppConstants.textSize14,
+              ),
+              selectedCard
+                  ? const SizedBox()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            BookingRequestCubit.of(context)
+                                .approveBookingRequest(
+                                    context, bookingRequestModel.id!);
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: AppColors.green,
+                            child: Icon(
+                              FontAwesomeIcons.check,
+                              color: AppColors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      Gaps.hGap12,
-                      InkWell(
-                        onTap: () {
-                          BookingRequestCubit.of(context).rejectBookingRequest(context, bookingRequestModel.id!);
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: AppColors.red,
-                          child: Icon(
-                            FontAwesomeIcons.xmark,
-                            color: AppColors.white,
+                        Gaps.hGap12,
+                        InkWell(
+                          onTap: () {
+                            BookingRequestCubit.of(context)
+                                .rejectBookingRequest(
+                                    context, bookingRequestModel.id!);
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: AppColors.red,
+                            child: Icon(
+                              FontAwesomeIcons.xmark,
+                              color: AppColors.white,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              )),
-          Expanded(child: ImageWithNameTrainee(bookingRequestModel: bookingRequestModel,))
+                        )
+                      ],
+                    ),
+            ],
+          )),
+          Expanded(
+              child: ImageWithNameTrainee(
+            bookingRequestModel: bookingRequestModel,
+          ))
         ],
       ),
     );

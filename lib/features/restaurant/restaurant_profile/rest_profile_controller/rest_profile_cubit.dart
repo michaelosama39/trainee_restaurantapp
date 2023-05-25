@@ -62,9 +62,9 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       enCover: fileCoveEn,
       commercialRegisterNumber: commercialRegisterNumberController.text,
       commercialRegisterDocument: fileCommercialRegisterDoc,
-      cityId: 0,
-      street: streetController.text,
-      buildingNumber: int.parse(buildNumController.text),
+      // cityId: 0,
+      // street: streetController.text,
+      buildingNumber: buildNumController.text,
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,
       instagramUrl: instegramController.text,
@@ -98,6 +98,8 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       },
           (res) {
         restaurantsModel = res;
+        print(restaurantsModel!.buildingNumber);
+        print('?????????????????');
         emit(GetRestProfileLoaded());
       },
     );
@@ -128,9 +130,9 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     "رقم السجل التجاري",
     "السجيل التجاري",
     "مدير المطعم",
-    "البلد",
-    "المدينه",
-    "الشارع",
+    //"البلد",
+    //"المدينه",
+    //"الشارع",
     "رقم البناء"
   ];
 

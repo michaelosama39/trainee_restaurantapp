@@ -16,7 +16,9 @@ import '../../on_boarding/view/main_onboarding_view.dart';
 import '../../trainer/subscription/presentation/view/subscription_screen.dart';
 
 class MoreShopScreen extends StatelessWidget {
-  const MoreShopScreen({Key? key}) : super(key: key);
+  const MoreShopScreen({Key? key, required this.typeUser}) : super(key: key);
+
+  final int typeUser;
 
   Widget _buildChipWidget(
       {required String title,
@@ -232,7 +234,7 @@ class MoreShopScreen extends StatelessWidget {
                     title: Translation.of(context).bouquet,
                     imgPath: AppConstants.VEGGIE2_IMG,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SubscriptionScreen(typeUser: typeUser,),));
                     },
                   ),
                 ],

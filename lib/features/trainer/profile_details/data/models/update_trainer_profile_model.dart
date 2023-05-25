@@ -4,29 +4,44 @@ import 'package:dio/dio.dart';
 
 class UpdateTrainerProfileModel {
   int? id;
-  int? specializationId;
+  File? imageUrl;
   String? name;
+  File? cvUrl;
   String? phoneNumber;
+  double? latitude;
+  double? longitude;
   String? idNumber;
-  // int? hourPrice;
+  double? hourPrice;
+  int? specializationId;
 
   UpdateTrainerProfileModel({
     required this.id,
-    required this.specializationId,
+    required this.imageUrl,
     required this.name,
+    required this.cvUrl,
     required this.phoneNumber,
+    required this.latitude,
+    required this.longitude,
     required this.idNumber,
-    // required this.hourPrice,
+    required this.hourPrice,
+    required this.specializationId,
   });
 
   Future<Map<String, dynamic>> toJson() async {
     return {
-      "id": id,
-      "name": name,
-      "phoneNumber": phoneNumber,
-      "idNumber": idNumber,
       "specializationId": specializationId,
-      // "hourPrice": hourPrice,
+      "imageUrl": imageUrl == await MultipartFile.fromFile(imageUrl!.path,
+          filename: imageUrl!.path.split('/').last),
+      "name": name,
+      "cvUrl": cvUrl == await MultipartFile.fromFile(cvUrl!.path,
+          filename: cvUrl!.path.split('/').last),
+      "phoneNumber": phoneNumber,
+      "countryCode": 966,
+      "latitude": latitude,
+      "longitude": longitude,
+      "idNumber": idNumber,
+      "hourPrice": hourPrice,
+      "id": id,
     };
   }
 }

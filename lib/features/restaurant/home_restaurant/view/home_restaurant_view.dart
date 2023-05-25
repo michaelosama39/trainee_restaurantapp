@@ -27,7 +27,10 @@ import '../data/models/dish_model.dart';
 import '../data/models/recent_dishes_model.dart';
 
 class HomeRestaurantScreen extends StatefulWidget {
-  const HomeRestaurantScreen({Key? key}) : super(key: key);
+  const HomeRestaurantScreen({Key? key, required this.typeUser})
+      : super(key: key);
+
+  final int typeUser;
 
   @override
   State<HomeRestaurantScreen> createState() => _HomeRestaurantScreenState();
@@ -475,30 +478,65 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
     );
   }
 
-  Widget getPlate(List<RecentDishes> listOfRecentDishes) {
-    return Container(
-        height: 400.h,
-        padding: const EdgeInsets.all(8),
-        child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1.2,
-                crossAxisSpacing: 10),
-            itemCount: listOfRecentDishes.length,
-            itemBuilder: (context, v) {
-              return DishesView(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AllPlatesScreen()));
-                },
-                restaurantName: listOfRecentDishes[v].category!.text ?? '',
-                price: (listOfRecentDishes[v].price ?? 0).toString(),
-                imagePlate: listOfRecentDishes[v].images!.first,
-                plateName: listOfRecentDishes[v].name ?? '',
-              );
-            }));
+  Widget getPlate() {
+    return BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
+      builder: (context, state) {
+        List<RecentDishes> listOfRecentDishes =
+            HomeRestaurantCubit.of(context).listOfRecentDishes;
+        if (state is GetRecentOrderedDishesLoading) {
+          return const Loader();
+        } else {
+          if (listOfRecentDishes.isNotEmpty) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: TitleWidget(
+                    title: "أحدث الأطباق",
+                    subtitleColorTapped: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AllPlatesScreen()));
+                    },
+                    subtitle: Translation.of(context).see_all,
+                    titleColor: AppColors.accentColorLight,
+                  ),
+                ),
+                Gaps.vGap16,
+                Container(
+                    height: 400.h,
+                    padding: const EdgeInsets.all(8),
+                    child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 1.2,
+                                crossAxisSpacing: 10),
+                        itemCount: listOfRecentDishes.length,
+                        itemBuilder: (context, v) {
+                          return DishesView(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AllPlatesScreen()));
+                            },
+                            restaurantName:
+                                listOfRecentDishes[v].category!.text ?? '',
+                            price:
+                                (listOfRecentDishes[v].price ?? 0).toString(),
+                            imagePlate: listOfRecentDishes[v].images!.first,
+                            plateName: listOfRecentDishes[v].name ?? '',
+                          );
+                        })),
+              ],
+            );
+          } else {
+            return const SizedBox();
+          }
+        }
+      },
+    );
   }
 
   Widget restaurantBouquet() {
@@ -577,7 +615,10 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                           child: Center(
                             child: MaterialButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SubscriptionScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => SubscriptionScreen(
+                                          typeUser: widget.typeUser,
+                                        )));
                               },
                               child: const Icon(
                                 Icons.arrow_forward,
@@ -601,12 +642,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         );
       }
     });
-  }
-
-  @override
-  void initState() {
-    RestProfileCubit.of(context).getRestaurantProfile(context);
-    super.initState();
   }
 
   Widget _buildSubscriptionWidget() {
@@ -694,75 +729,53 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   }
 
   @override
+  void initState() {
+    RestProfileCubit.of(context).getRestaurantProfile(context);
+    HomeRestaurantCubit.of(context).getAllDishMostOrderedHome();
+    HomeRestaurantCubit.of(context).getRecentOrderedDishes();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeRestaurantCubit()
-        ..getAllDishMostOrderedHome()
-        ..getRecentOrderedDishes(),
-      child: BlocBuilder<RestProfileCubit, RestProfileState>(
-        buildWhen: (previous, current) => previous != current,
-        builder: (context, state) {
-          if (state is GetRestProfileLoading ||
-              state is GetRecentOrderedDishesLoading ||
-              state is GetAllDishMostOrderedHomeLoading) {
-            return const Loader();
-          } else {
-            var restaurantsModel =
-                RestProfileCubit.of(context).restaurantsModel;
-            List<RecentDishes> listOfRecentDishes =
-                HomeRestaurantCubit.of(context).listOfRecentDishes;
-            return SafeArea(
-              child: CustomScrollView(slivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomSliverDelegate(
-                    image: restaurantsModel!.cover ?? '',
-                    expandedHeight: 230.h,
-                    child: _buildSubscriptionWidget(),
-                  ),
-                ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
-                          builder: (context, state) {
-                            return mostWantedCourse(
-                                HomeRestaurantCubit.of(context).listOfDishs);
-                          },
-                        ),
-                        Gaps.vGap16,
-                        listOfRecentDishes.isEmpty
-                            ? const SizedBox()
-                            : Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: TitleWidget(
-                                  title: "أحدث الأطباق",
-                                  subtitleColorTapped: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const AllPlatesScreen()));
-                                  },
-                                  subtitle: Translation.of(context).see_all,
-                                  titleColor: AppColors.accentColorLight,
-                                ),
-                              ),
-                        Gaps.vGap16,
-                        listOfRecentDishes.isEmpty
-                            ? const SizedBox()
-                            : getPlate(listOfRecentDishes),
-                        restaurantBouquet(),
-                        Gaps.vGap60,
-                      ],
+    return BlocBuilder<RestProfileCubit, RestProfileState>(
+      builder: (context, state) {
+        var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
+        return restaurantsModel == null
+            ? const SizedBox()
+            : SafeArea(
+                child: CustomScrollView(slivers: [
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: CustomSliverDelegate(
+                      image: restaurantsModel.cover ?? '',
+                      expandedHeight: 230.h,
+                      child: _buildSubscriptionWidget(),
                     ),
                   ),
-                ),
-              ]),
-            );
-          }
-        },
-      ),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
+                            builder: (context, state) {
+                              return mostWantedCourse(
+                                  HomeRestaurantCubit.of(context).listOfDishs);
+                            },
+                          ),
+                          Gaps.vGap16,
+                          // getPlate(),
+                          restaurantBouquet(),
+                          Gaps.vGap60,
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
+              );
+      },
     );
   }
 }

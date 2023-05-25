@@ -94,7 +94,7 @@ class CourseModel {
 }
 
 class Trainer {
-  Null? imageUrl;
+  String? imageUrl;
   int? value;
   String? text;
 
@@ -206,4 +206,3 @@ class CourseTraineeModel {
     return data;
   }
 }
-

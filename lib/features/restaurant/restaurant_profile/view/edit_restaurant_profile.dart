@@ -181,15 +181,15 @@ class _EditRestaurantScreenContentState
                         },
                       ),
                       Gaps.vGap8,
-                      _buildTextFiledWidget(
-                          title: Translation.of(context).cityName,
-                          textEditingController:
-                              RestProfileCubit.of(context).cityController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "اسم الشارع",
-                          textEditingController:
-                              RestProfileCubit.of(context).streetController),
+                      // _buildTextFiledWidget(
+                      //     title: Translation.of(context).cityName,
+                      //     textEditingController:
+                      //         RestProfileCubit.of(context).cityController),
+                      // Gaps.vGap24,
+                      // _buildTextFiledWidget(
+                      //     title: "اسم الشارع",
+                      //     textEditingController:
+                      //         RestProfileCubit.of(context).streetController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "رقم البناء",

@@ -10,7 +10,10 @@ import '../../../../../core/ui/loader.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
 
 class SubscriptionScreen extends StatelessWidget {
-  const SubscriptionScreen({Key? key}) : super(key: key);
+  const SubscriptionScreen({Key? key, required this.typeUser})
+      : super(key: key);
+
+  final int typeUser;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class SubscriptionScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SubscriptionItem(
+                            typeUser: typeUser,
                             subscriptionModel: SubscriptionCubit.of(context)
                                 .subscriptions[index]),
                       );
@@ -51,8 +55,11 @@ class SubscriptionScreen extends StatelessWidget {
 class SubscriptionItem extends StatelessWidget {
   final SubscriptionModel subscriptionModel;
 
-  const SubscriptionItem({Key? key, required this.subscriptionModel})
+  const SubscriptionItem(
+      {Key? key, required this.subscriptionModel, required this.typeUser})
       : super(key: key);
+
+  final int typeUser;
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +96,15 @@ class SubscriptionItem extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
                       builder: (context) => PaymentView(
-                            amount: subscriptionModel.fee ?? 0.0,
-                            userId: AppStorage.getUserId,
-                          )));
+                          amount: subscriptionModel.fee ?? 0.0,
+                          userId: AppStorage.getUserId,
+                          typeUser: typeUser,
+                          subscriptionId: subscriptionModel.id!),
+                    ),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),

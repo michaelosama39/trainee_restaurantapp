@@ -19,7 +19,7 @@ class TrainerModel {
   SubscriptionModel? subscription;
   Null? neighbourhood;
   List<Null>? experienceFiles;
-  Null? hourPrice;
+  double? hourPrice;
   RatingDetails? ratingDetails;
   int? id;
 

@@ -20,4 +20,5 @@ class GetTrainerReviewsLoaded extends TrainerProfileState {
 }
 class GetTrainerReviewsLoading extends TrainerProfileState {}
 class GetTrainerReviewsError extends TrainerProfileState {}
+class GetImageState extends TrainerProfileState {}
 

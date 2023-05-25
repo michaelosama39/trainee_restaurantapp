@@ -23,7 +23,9 @@ import '../../../notification/presentation/view/notification_screen.dart';
 import '../../../subscription/presentation/view/subscription_screen.dart';
 
 class HomeTrainerScreen extends StatefulWidget {
-  const HomeTrainerScreen({Key? key}) : super(key: key);
+  const HomeTrainerScreen({Key? key, required this.typeUser}) : super(key: key);
+
+  final int typeUser;
 
   @override
   State<HomeTrainerScreen> createState() => _HomeTrainerScreenState();
@@ -32,8 +34,7 @@ class HomeTrainerScreen extends StatefulWidget {
 class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   Widget trainerProfile() {
     return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
-      buildWhen: (previous, current) =>
-          previous != current,
+      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         if (state is GetTrainerProfileLoading) {
           return const Loader();
@@ -593,7 +594,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const SubscriptionScreen(),
+                                            SubscriptionScreen(
+                                                typeUser: widget.typeUser),
                                       ));
                                 },
                                 icon: const Icon(

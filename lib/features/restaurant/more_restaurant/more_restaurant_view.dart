@@ -18,7 +18,10 @@ import '../../../../../generated/l10n.dart';
 import '../../on_boarding/view/main_onboarding_view.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
-  const MoreRestaurantScreen({Key? key}) : super(key: key);
+  const MoreRestaurantScreen({Key? key, required this.typeUser})
+      : super(key: key);
+
+  final int typeUser;
 
   Widget _buildChipWidget(
       {required String title,
@@ -42,7 +45,8 @@ class MoreRestaurantScreen extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius32),
+                borderRadius:
+                    BorderRadius.circular(AppConstants.borderRadius32),
                 child: Image.asset(
                   imgPath,
                   height: 45.h,
@@ -176,7 +180,8 @@ class MoreRestaurantScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -220,20 +225,25 @@ class MoreRestaurantScreen extends StatelessWidget {
                       title: 'اطباقي',
                       imgPath: AppConstants.SWIMMING_IMG,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const AllPlatesScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const AllPlatesScreen()));
                       }),
                   _buildChipWidget(
                       title: Translation.of(context).my_orders,
                       imgPath: AppConstants.MOTCHY2_IMG,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyOrderRestaurantView()));
-
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                const MyOrderRestaurantView()));
                       }),
                   _buildChipWidget(
                       title: Translation.of(context).bouquet,
                       imgPath: AppConstants.VEGGIE2_IMG,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const SubscriptionScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SubscriptionScreen(
+                                  typeUser: typeUser,
+                                )));
                       }),
                   // _buildChipWidget(
                   //     title: Translation.of(context).supplements,

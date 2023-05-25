@@ -44,7 +44,7 @@ class MyProductsRepo {
   Future<Either<String, List<ReviewModel>>> getProductReviews(int productId) async {
     final response =
         await DioHelper.get(APIUrls.API_GET_TRAINER_REVIEWS, query: {
-      "RefType": 3,
+      "RefType": 4,
       "RefId": productId,
     });
     try {

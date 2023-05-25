@@ -26,7 +26,9 @@ import '../../shop_profile/shop_profile_controller/shop_profile_cubit.dart';
 import '../data/models/product_model.dart';
 
 class HomeShopScreen extends StatefulWidget {
-  const HomeShopScreen({Key? key}) : super(key: key);
+  const HomeShopScreen({Key? key, required this.typeUser}) : super(key: key);
+
+  final int typeUser;
 
   @override
   State<HomeShopScreen> createState() => _HomeShopScreenState();
@@ -270,7 +272,13 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                           child: Center(
                             child: MaterialButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SubscriptionScreen(),));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SubscriptionScreen(
+                                        typeUser: widget.typeUser,
+                                      ),
+                                    ));
                               },
                               child: const Icon(
                                 Icons.arrow_forward,

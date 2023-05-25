@@ -54,32 +54,48 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
     // else
     _pageController = PageController();
     _pages = widget.homeType==0?[
-      const HomeTrainerScreen(),
+      HomeTrainerScreen(
+        typeUser: widget.homeType,
+      ),
       ChatView(),
       const ProfileTrainerScreenView(),
       // const ProfileScreen(),
       // const MoreScreen()
-      const MoreTrainerScreen()
+      MoreTrainerScreen(
+        typeUser: widget.homeType,
+      )
     ]:widget.homeType==1?[
-      const HomeTrainerScreen(),
+      HomeTrainerScreen(
+        typeUser: widget.homeType,
+      ),
        ChatView(),
       const ProfileTrainerScreenView(),
-      const MoreTrainerScreen(),
+      MoreTrainerScreen(
+        typeUser: widget.homeType,
+      ),
       //
       // const MoreTrainerScreen(),
       // const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
-      const HomeRestaurantScreen(),
+      HomeRestaurantScreen(
+        typeUser: widget.homeType,
+      ),
       const MyOrderRestaurantView(),
       // const ProfileScreen(),
       // const MoreScreen()
       const RestaurantProfile(),
-      const MoreRestaurantScreen(),
+      MoreRestaurantScreen(
+        typeUser: widget.homeType,
+      ),
     ]:[
-      const HomeShopScreen(),
+      HomeShopScreen(
+        typeUser: widget.homeType,
+      ),
       const MyOrderShopView(),
       const ShopProfile(),
-      const MoreShopScreen(),
+      MoreShopScreen(
+        typeUser: widget.homeType,
+      ),
     ];
 
     // DynamicLinkService dynamicLinkService = DynamicLinkService();

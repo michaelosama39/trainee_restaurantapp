@@ -29,4 +29,20 @@ class PaymentCubit extends Cubit<PaymentState> {
       },
     );
   }
+
+  Future assignSubscriptionToUser(BuildContext context, int subscriptionId, int type) async {
+    emit(AssignSubscriptionToUserLoading());
+    final res = await paymentRepo.assignSubscriptionToUser(subscriptionId, type);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        print(err);
+        emit(AssignSubscriptionToUserError());
+      },
+          (res) async {
+        Toast.show('تم بنجاح');
+        emit(AssignSubscriptionToUserLoaded());
+      },
+    );
+  }
 }

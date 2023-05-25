@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
+import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/controller/my_plates_cubit.dart';
 import 'package:trainee_restaurantapp/core/models/order_model.dart';
 
@@ -211,29 +212,44 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
     );
   }
 
-  Widget _buildCommentsWidget(List<ReviewModel> review) {
-    return Padding(
-      padding: EdgeInsets.only(right: 12.w),
-      child: SizedBox(
-        height: 128.h,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return BlurWidget(
-                width: 268.w,
+  Widget _buildCommentsWidget() {
+    return BlocBuilder<MyPlatesCubit, MyPlatesState>(
+      builder: (context, state) {
+        List<ReviewModel> listOfReviews =
+            MyPlatesCubit.of(context).listOfReviews;
+        if(state is GetDishReviewsLoading){
+          return const Loader();
+        }else{
+          if(listOfReviews.isNotEmpty){
+            return  Padding(
+              padding: EdgeInsets.only(right: 12.w),
+              child: SizedBox(
                 height: 128.h,
-                borderRadius: AppConstants.borderRadius4,
-                child: _buildCommentItemWidget(
-                  image: review[index].reviewer!.imageUrl ?? '',
-                  date: review[index].creationTime ?? '',
-                  name: review[index].reviewer!.name ?? '',
-                  body: review[index].comment ?? '',
-                ));
-          },
-          separatorBuilder: (context, index) => Gaps.hGap16,
-          itemCount: review.length,
-        ),
-      ),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return BlurWidget(
+                        width: 268.w,
+                        height: 128.h,
+                        borderRadius: AppConstants.borderRadius4,
+                        child: _buildCommentItemWidget(
+                          image:
+                          listOfReviews[index].reviewer!.imageUrl ?? '',
+                          date: listOfReviews[index].creationTime ?? '',
+                          name: listOfReviews[index].reviewer!.name ?? '',
+                          body: listOfReviews[index].comment ?? '',
+                        ));
+                  },
+                  separatorBuilder: (context, index) => Gaps.hGap16,
+                  itemCount: listOfReviews.length,
+                ),
+              ),
+            );
+          }else{
+            return const SizedBox();
+          }
+        }
+      },
     );
   }
 
@@ -327,36 +343,51 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
     );
   }
 
-  Widget _trainee(List<OrderModel> listOfOrders) {
-    return SizedBox(
-      height: 200.h,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: Column(
-          children: [
-            TitleWidget(
-              title: "الطلبات",
-              subtitleColorTapped: () {},
-              titleColor: AppColors.white,
-              subtitleColor: AppColors.accentColorLight,
-              subtitle: "اظهار الكل",
-              subtitleSize: AppConstants.textSize14,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: listOfOrders.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: traineeCard(
-                          context: context, orderModel: listOfOrders[index]),
-                    );
-                  }),
-            )
-          ],
-        ),
-      ),
+  Widget _trainee() {
+    return BlocBuilder<MyPlatesCubit, MyPlatesState>(
+      builder: (context, state) {
+        List<OrderModel> listOfOrders = MyPlatesCubit.of(context).listOfOrders;
+        if(state is GetDishOrdersLoading){
+          return const Loader();
+        }else{
+          if(listOfOrders.isNotEmpty){
+            return SizedBox(
+              height: 200.h,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                child: Column(
+                  children: [
+                    TitleWidget(
+                      title: "الطلبات",
+                      subtitleColorTapped: () {},
+                      titleColor: AppColors.white,
+                      subtitleColor: AppColors.accentColorLight,
+                      subtitle: "اظهار الكل",
+                      subtitleSize: AppConstants.textSize14,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: listOfOrders.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                              const EdgeInsets.symmetric(vertical: 8.0),
+                              child: traineeCard(
+                                  context: context,
+                                  orderModel: listOfOrders[index]),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else{
+            return const SizedBox();
+          }
+        }
+      },
     );
   }
 
@@ -422,65 +453,70 @@ class _MyPlateDetailsState extends State<MyPlateDetails> {
   TextEditingController commentController = TextEditingController();
 
   @override
+  void initState() {
+    MyPlatesCubit.of(context).getDishDetails(widget.dishId);
+    MyPlatesCubit.of(context).getDishReviews(widget.dishId);
+    MyPlatesCubit.of(context).getDishOrders(widget.dishId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MyPlatesCubit()
-        ..getDishDetails(widget.dishId)
-        ..getDishReviews(widget.dishId),
-      child: BlocBuilder<MyPlatesCubit, MyPlatesState>(
-        builder: (context, state) {
-          Items? item = MyPlatesCubit.of(context).item;
-          List<ReviewModel> listOfReviews =
-              MyPlatesCubit.of(context).listOfReviews;
-          List<OrderModel> listOfOrders =
-              MyPlatesCubit.of(context).listOfOrders;
-          if (state is GetDishDetailsLoading ||
-              state is GetDishReviewsLoading ||
-              state is GetDishOrdersLoading) {
-            return const Loader();
-          } else {
-            return SafeArea(
-              child: CustomScrollView(slivers: <Widget>[
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomSliverDelegate(
-                    image: item!.images!.first ?? '',
-                    expandedHeight: 260.h,
-                    child: _buildSubscriptionWidget(item),
-                  ),
-                ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Gaps.vGap10,
-                        listOfOrders.isEmpty
-                            ? const SizedBox()
-                            : _trainee(listOfOrders),
-                        _buildRatingWidget(
-                          average: item.rate!.toDouble(),
-                          fifthRate: item.ratingDetails!.i5!.toDouble(),
-                          firstRate: item.ratingDetails!.i1!.toDouble(),
-                          forthRate: item.ratingDetails!.i4!.toDouble(),
-                          secondRate: item.ratingDetails!.i2!.toDouble(),
-                          thirdRate: item.ratingDetails!.i3!.toDouble(),
-                        ),
-                        Gaps.vGap24,
-                        listOfReviews.isEmpty
-                            ? const SizedBox()
-                            : _buildCommentsWidget(listOfReviews),
-                        Gaps.vGap24,
-                      ],
+    return BlocBuilder<MyPlatesCubit, MyPlatesState>(
+      builder: (context, state) {
+        Items? item = MyPlatesCubit.of(context).item;
+        return item == null
+            ? const Loader()
+            : SafeArea(
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: CustomSliverDelegate(
+                        image: item.images!.isNotEmpty ? item.images!.first : '',
+                        expandedHeight: 260.h,
+                        child: _buildSubscriptionWidget(item),
+                      ),
                     ),
-                  ),
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Gaps.vGap10,
+                            _trainee(),
+                            BlocBuilder<MyPlatesCubit, MyPlatesState>(
+                              builder: (context, state) {
+                                Items? item = MyPlatesCubit.of(context).item;
+                                return state is GetDishDetailsLoading
+                                    ? const Loader()
+                                    : _buildRatingWidget(
+                                        average: item!.rate!.toDouble(),
+                                        fifthRate:
+                                            item.ratingDetails!.i5!.toDouble(),
+                                        firstRate:
+                                            item.ratingDetails!.i1!.toDouble(),
+                                        forthRate:
+                                            item.ratingDetails!.i4!.toDouble(),
+                                        secondRate:
+                                            item.ratingDetails!.i2!.toDouble(),
+                                        thirdRate:
+                                            item.ratingDetails!.i3!.toDouble(),
+                                      );
+                              },
+                            ),
+                            Gaps.vGap24,
+                            _buildCommentsWidget(),
+                            Gaps.vGap24,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ]),
-            );
-          }
-        },
-      ),
+              );
+      },
     );
   }
 }

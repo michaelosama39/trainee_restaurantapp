@@ -29,8 +29,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   void _login(BuildContext context) {
-    print(widget.screenNumber);
-    print(">>>>><<<<<<");
     AuthCubit.of(context).login(
       context,
       widget.screenNumber,

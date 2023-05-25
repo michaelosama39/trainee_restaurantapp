@@ -180,8 +180,8 @@ class WaitingList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersRestaurantCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -193,12 +193,12 @@ class WaitingList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
+            } else {
               return const Center(
                 child: Text('لا توجد طلبات'),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -217,8 +217,8 @@ class AcceptedList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersRestaurantCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -230,12 +230,12 @@ class AcceptedList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
+            } else {
               return const Center(
                 child: Text('لا توجد طلبات'),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -254,8 +254,8 @@ class RefusedList extends StatelessWidget {
         builder: (context, state) {
           List<OrderModel> listOfOrders =
               MyOrdersRestaurantCubit.of(context).listOfOrders;
-          if(state is GetMyOrdersLoaded){
-            if(listOfOrders.isNotEmpty){
+          if (state is GetMyOrdersLoaded) {
+            if (listOfOrders.isNotEmpty) {
               return ListView.builder(
                   itemCount: listOfOrders.length,
                   itemBuilder: (context, index) {
@@ -267,12 +267,12 @@ class RefusedList extends StatelessWidget {
                       ),
                     );
                   });
-            }else{
+            } else {
               return const Center(
                 child: Text('لا توجد طلبات'),
               );
             }
-          }else{
+          } else {
             return const Loader();
           }
         },
@@ -406,7 +406,8 @@ class CardDetails extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  MyOrdersRestaurantCubit.of(context).changeStatus(context, orderModel.id!, 1);
+                                  MyOrdersRestaurantCubit.of(context)
+                                      .changeStatus(context, orderModel.id!, 1);
                                 },
                                 child: const CircleAvatar(
                                   radius: 15,
@@ -420,7 +421,8 @@ class CardDetails extends StatelessWidget {
                               Gaps.hGap12,
                               InkWell(
                                 onTap: () {
-                                  MyOrdersRestaurantCubit.of(context).changeStatus(context, orderModel.id!, 2);
+                                  MyOrdersRestaurantCubit.of(context)
+                                      .changeStatus(context, orderModel.id!, 2);
                                 },
                                 child: const CircleAvatar(
                                   radius: 15,
