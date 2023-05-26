@@ -17,6 +17,7 @@ import '../data/model/message_model.dart';
 
 class ChatDetailsView extends StatefulWidget {
   final ChatModel? chatModel;
+
   const ChatDetailsView({Key? key, this.chatModel}) : super(key: key);
 
   @override
@@ -24,27 +25,37 @@ class ChatDetailsView extends StatefulWidget {
 }
 
 class _ChatDetailsViewState extends State<ChatDetailsView> {
-
   final messageController = TextEditingController();
 
-  Future<void> sendMessage()async{
-    await FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).set({
-      "traineeId" : widget.chatModel!.traineeId,
-      "traineeImage" : widget.chatModel!.traineeImage,
-      "traineeName" : widget.chatModel!.traineeName,
-      "trainerId" : AppStorage.getUserId,
-      "trainerImage" : TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
-      "trainerName" : TrainerProfileCubit.of(context).trainerModel!.name ?? "",
-      "id" : widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString(),
+  Future<void> sendMessage() async {
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatModel!.traineeId.toString() +
+            AppStorage.getUserId.toString())
+        .set({
+      "traineeId": widget.chatModel!.traineeId,
+      "traineeImage": widget.chatModel!.traineeImage,
+      "traineeName": widget.chatModel!.traineeName,
+      "trainerId": AppStorage.getUserId,
+      "trainerImage":
+          TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
+      "trainerName": TrainerProfileCubit.of(context).trainerModel!.name ?? "",
+      "id": widget.chatModel!.traineeId.toString() +
+          AppStorage.getUserId.toString(),
     });
-    await FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).collection("messages").doc().set({
-      "message" : messageController.text,
-      "senderId" : AppStorage.getUserId,
-      "receiverId" : widget.chatModel!.traineeId,
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatModel!.traineeId.toString() +
+            AppStorage.getUserId.toString())
+        .collection("messages")
+        .doc()
+        .set({
+      "message": messageController.text,
+      "senderId": AppStorage.getUserId,
+      "receiverId": widget.chatModel!.traineeId,
       "messageTime": DateTime.now().toString()
     });
   }
-
 
   callingForm() {
     return Container(
@@ -80,16 +91,17 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                      }));
-                    },
-                    icon: const Icon(
-                      Icons.phone,
-                      color: AppColors.accentColorLight,
-                    )),
+                  onPressed: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) {
+                    //   return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                    // }));
+                  },
+                  icon: const Icon(
+                    Icons.phone,
+                    color: AppColors.accentColorLight,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
@@ -99,10 +111,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                      }));
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) {
+                      //   return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                      // }));
                     },
                     icon: const Icon(
                       Icons.videocam,
@@ -118,41 +130,51 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
 
   chatText() {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('chats').doc(widget.chatModel!.traineeId.toString() + AppStorage.getUserId.toString()).collection("messages").orderBy("messageTime",descending: true).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('chats')
+          .doc(widget.chatModel!.traineeId.toString() +
+              AppStorage.getUserId.toString())
+          .collection("messages")
+          .orderBy("messageTime", descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return const Text('Something went wrong');
-        }
-
-        else if (snapshot.connectionState == ConnectionState.waiting) {
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Loader();
-        }else{
-
-  List<MessageModel> messages = [];
-  for (var element in snapshot.data!.docs) {
-    messages.add(MessageModel.fromJson(element.data()));
-  }
-  return Expanded(child: ListView.separated(
-    reverse: true,
-      itemBuilder: (context, index) {
-    if(messages[index].senderId == AppStorage.getUserId){
-      return Container(
-        padding: const EdgeInsets.all(10),
-        child: Text(messages[index].message ?? ""),);
-    }else{
-      return Align(
-        alignment: Alignment.topLeft,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Text(messages[index].message ?? ""),),
-      );
-    }
-  }, separatorBuilder: (context, index) {
-    return const SizedBox(height: 10,);
-  }, itemCount: messages.length));
-}
-        },);
-
+        } else {
+          List<MessageModel> messages = [];
+          for (var element in snapshot.data!.docs) {
+            messages.add(MessageModel.fromJson(element.data()));
+          }
+          return Expanded(
+              child: ListView.separated(
+                  reverse: true,
+                  itemBuilder: (context, index) {
+                    if (messages[index].senderId == AppStorage.getUserId) {
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(messages[index].message ?? ""),
+                      );
+                    } else {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(messages[index].message ?? ""),
+                        ),
+                      );
+                    }
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 10,
+                    );
+                  },
+                  itemCount: messages.length));
+        }
+      },
+    );
   }
 
   chatFloatingActionButton() {
@@ -163,8 +185,8 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
         child: Row(
           children: [
             IconButton(
-              onPressed: () async{
-                if(messageController.text.isNotEmpty){
+              onPressed: () async {
+                if (messageController.text.isNotEmpty) {
                   await sendMessage();
                 }
                 messageController.clear();
@@ -176,27 +198,27 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
             ),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.white),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: TextFormField(
-                      controller: messageController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Enter text here',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        contentPadding: EdgeInsets.all(10.0),
-                      ),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.white),
+                    borderRadius: BorderRadius.circular(8)),
+                child: TextFormField(
+                  controller: messageController,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter text here',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
                     ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    contentPadding: EdgeInsets.all(10.0),
                   ),
-                )),
+                ),
+              ),
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

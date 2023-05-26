@@ -141,10 +141,10 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                           ),
                           InkWell(
                             onTap: (){
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return VoiceCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                              }));
+                              // Navigator.of(context)
+                              //     .push(MaterialPageRoute(builder: (context) {
+                              //   return VoiceCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                              // }));
                             },
                             child: ImageIcon(
                               const AssetImage(
@@ -156,10 +156,10 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                           ),
                           InkWell(
                             onTap: (){
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return VideoCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                              }));
+                              // Navigator.of(context)
+                              //     .push(MaterialPageRoute(builder: (context) {
+                              //   return VideoCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                              // }));
                             },
                             child: ImageIcon(
                               const AssetImage(

@@ -312,10 +312,6 @@ class AuthCubit extends Cubit<AuthState> {
           emit(LoginError());
         },
         (res) async {
-          print(res.result!.userId);
-          print(res.result!.restaurantId);
-          print(res.result!.shopId);
-          print('????????????????');
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.navigatorScreen, (route) => false,
               arguments: type);

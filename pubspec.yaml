@@ -176,7 +176,7 @@ dev_dependencies:
   linter: ^1.15.0
   # Change native code splash
   flutter_native_splash:
-  agora_rtc_engine: ^6.1.1+1
+#  agora_rtc_engine: ^6.1.1+1
   get_storage: ^2.1.1
   file_picker: ^5.3.0
   # The "flutter_lints" package below contains a set of recommended lints to
