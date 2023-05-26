@@ -18,3 +18,7 @@ class UpdateRestProfileLoaded extends RestProfileState {}
 class UpdateRestProfileError extends RestProfileState {}
 
 class GetImageState extends RestProfileState {}
+
+class UploadImageLoading extends RestProfileState {}
+
+class UploadImageLoaded extends RestProfileState {}

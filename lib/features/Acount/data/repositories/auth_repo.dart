@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
@@ -6,6 +9,27 @@ import '../../../../core/dioHelper/dio_helper.dart';
 import '../models/register_restaurant_model.dart';
 
 class AuthRepo {
+  Future<Either<String, String>> uploadImage(File file) async {
+    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
+        filename: file.path
+            .split('/')
+            .last)});
+    final response = await DioHelper.post(
+      APIUrls.API_Upload_Image,
+      formData: formData,
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success uploadImage");
+        return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   Future<Either<String, bool>> resendCode(String phone, int userType) async {
     final response = await DioHelper.post(
       APIUrls.API_VERIFY_RESEND_CODE,
@@ -82,8 +106,13 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, UserModel>> registerTrainer(String phoneNumber, String name,
-      String password, String countryCode) async {
+  Future<Either<String, UserModel>> registerTrainer(
+      String phoneNumber,
+      String name,
+      String password,
+      String countryCode,
+      double latitude,
+      double longitude) async {
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_TRAINER,
       body: {
@@ -92,6 +121,8 @@ class AuthRepo {
         "password": password,
         "countryCode": countryCode,
         "phoneNumber": phoneNumber,
+        "latitude": latitude,
+        "longitude": longitude,
       },
     );
     try {

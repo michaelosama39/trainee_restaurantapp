@@ -11,4 +11,7 @@ class AddPlateError extends AddPlateState {}
 class GetCategoryLoading extends AddPlateState {}
 class GetCategoryLoaded extends AddPlateState {}
 
+class UploadImageLoading extends AddPlateState {}
+class UploadImageLoaded extends AddPlateState {}
+
 class UploadSignUpFileState extends AddPlateState {}

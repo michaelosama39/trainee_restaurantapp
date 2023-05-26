@@ -9,6 +9,27 @@ import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/net/api_url.dart';
 
 class AddPlateRepo {
+  Future<Either<String, String>> uploadImage(File file) async {
+    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
+        filename: file.path
+            .split('/')
+            .last)});
+    final response = await DioHelper.post(
+      APIUrls.API_Upload_Image,
+      formData: formData,
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success uploadImage");
+        return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   Future<Either<String, CategoriesModel>> getCategories() async {
     final response = await DioHelper.get(
       APIUrls.API_GetAll_Category,
@@ -32,7 +53,7 @@ class AddPlateRepo {
       required int categoryId,
       required String enComponents,
       required String arComponents,
-      required File image}) async {
+      required String image}) async {
     final response = await DioHelper.post(
       APIUrls.API_Create_Dish,
       body: {
@@ -43,8 +64,7 @@ class AddPlateRepo {
         'categoryId': categoryId,
         'enComponents': enComponents,
         'arComponents': arComponents,
-        'image': image == [await MultipartFile.fromFile(image.path,
-            filename: image.path.split('/').last)],
+        'image': [image],
       },
     );
     try {

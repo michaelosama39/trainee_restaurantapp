@@ -38,13 +38,29 @@ class AddCourseCubit extends Cubit<AddCourseState> {
   final enDescriptionController = TextEditingController();
 
   File? file;
+  String? img;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await addCourseRepo.uploadImage(file);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        emit(AddCourseInitial());
+      },
+          (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
 
   Future addCourse(BuildContext context) async {
     if (formKey.currentState!.validate() && file!.path != '') {
       AddCourseModel addCourseModel = AddCourseModel(
         arName: arNameController.text,
         enName: enNameController.text,
-        imageUrl: file!,
+        imageUrl: img!,
         fee: num.parse(feeController.text),
         hasDiscount:
             discountPercentageController.text.isNotEmpty ? true : false,

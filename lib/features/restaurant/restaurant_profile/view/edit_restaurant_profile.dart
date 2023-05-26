@@ -120,6 +120,8 @@ class _EditRestaurantScreenContentState
                         image: RestProfileCubit.of(context).logoArNetwork ?? '',
                         onTap: () async {
                           await RestProfileCubit.of(context).getImage();
+                          RestProfileCubit.of(context).uploadImage(context,
+                              RestProfileCubit.of(context).fileLogoAr!);
                           RestProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -131,6 +133,8 @@ class _EditRestaurantScreenContentState
                         image: RestProfileCubit.of(context).logoEnNetwork ?? '',
                         onTap: () async {
                           await RestProfileCubit.of(context).getImage();
+                          RestProfileCubit.of(context).uploadImage(context,
+                              RestProfileCubit.of(context).fileLogoEn!);
                           RestProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -142,6 +146,8 @@ class _EditRestaurantScreenContentState
                         image: RestProfileCubit.of(context).coveEnNetwork ?? '',
                         onTap: () async {
                           await RestProfileCubit.of(context).getImage();
+                          RestProfileCubit.of(context).uploadImage(context,
+                              RestProfileCubit.of(context).fileCoveEn!);
                           RestProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -153,6 +159,8 @@ class _EditRestaurantScreenContentState
                         image: RestProfileCubit.of(context).coveArNetwork ?? '',
                         onTap: () async {
                           await RestProfileCubit.of(context).getImage();
+                          RestProfileCubit.of(context).uploadImage(context,
+                              RestProfileCubit.of(context).fileCoveAr!);
                           RestProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -177,6 +185,10 @@ class _EditRestaurantScreenContentState
                             '',
                         onTap: () async {
                           await RestProfileCubit.of(context).getImage();
+                          RestProfileCubit.of(context).uploadImage(
+                              context,
+                              RestProfileCubit.of(context)
+                                  .fileCommercialRegisterDoc!);
                           RestProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -315,7 +327,7 @@ class _EditRestaurantScreenContentState
           child: _buildTextFiledWidget(
               title: title,
               textEditingController:
-              RestProfileCubit.of(context).facebookController),
+                  RestProfileCubit.of(context).facebookController),
         ),
         Gaps.hGap8,
         Column(
@@ -361,6 +373,7 @@ class _EditRestaurantScreenContentState
               child: GestureDetector(
                 onTap: () async {
                   await RestProfileCubit.of(context).getImage();
+                  RestProfileCubit.of(context).uploadImage(context, file);
                   RestProfileCubit.of(context).emit(GetImageState());
                 },
                 child: ImageIcon(
@@ -480,8 +493,8 @@ class _EditRestaurantScreenContentState
           openingDays.forEach((elementOpeningDays) {
             if (element.id == elementOpeningDays.day) {
               element.selectedDays = true;
-              print(formattedTime(elementOpeningDays.from??''));
-              print(formattedTime(elementOpeningDays.to??''));
+              print(formattedTime(elementOpeningDays.from ?? ''));
+              print(formattedTime(elementOpeningDays.to ?? ''));
             }
           });
         });

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class AddCourseModel {
   final String arName;
   final String enName;
-  final File imageUrl;
+  final String imageUrl;
   final num fee;
   final bool hasDiscount;
   final num discountPercentage;
@@ -33,8 +33,7 @@ class AddCourseModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['arName'] = arName;
     data['enName'] = enName;
-    data['imageUrl'] = imageUrl ==  await MultipartFile.fromFile(imageUrl.path,
-        filename: imageUrl.path.split('/').last);
+    data['imageUrl'] = imageUrl;
     data['fee'] = fee;
     data['hasDiscount'] = hasDiscount;
     data['discountPercentage'] = discountPercentage;

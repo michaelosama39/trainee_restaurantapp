@@ -38,6 +38,22 @@ class AddPlateCubit extends Cubit<AddPlateState> {
 
   Items? dropdownValueCate;
   File? file;
+  String? img;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await addPlateRepo.uploadImage(file);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        emit(AddPlateInitial());
+      },
+          (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
 
   Future getCategories() async {
     emit(GetCategoryLoading());
@@ -63,7 +79,7 @@ class AddPlateCubit extends Cubit<AddPlateState> {
         categoryId: dropdownValueCate == null ? 0 : dropdownValueCate!.id ?? 0,
         enComponents: componentsEnPlateController.text,
         arComponents: componentsArPlateController.text,
-        image: file!,
+        image: img!,
       );
       res.fold(
         (err) {

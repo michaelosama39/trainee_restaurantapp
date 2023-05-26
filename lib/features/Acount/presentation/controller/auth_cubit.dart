@@ -9,10 +9,14 @@ import 'package:trainee_restaurantapp/features/Acount/data/models/register_resta
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/errors/app_errors.dart';
+import '../../../../core/location/LocationAddressImports.dart';
+import '../../../../core/location/location_cubit/location_cubit.dart';
+import '../../../../core/location/model/location_model.dart';
 import '../../../../core/navigation/route_generator.dart';
 import '../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_options.dart';
 import '../../../../core/ui/toast.dart';
+import '../../../../core/utils/Utils.dart';
 import '../../../../generated/l10n.dart';
 import '../../data/repositories/auth_repo.dart';
 import '../screens/account_verification.dart';
@@ -65,6 +69,25 @@ class AuthCubit extends Cubit<AuthState> {
   late String otpValue;
   File? file;
 
+  String? img;
+
+  final LocationCubit locationCubit = LocationCubit();
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await authRepo.uploadImage(file);
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(AuthInitial());
+      },
+      (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
+
   Future resendCode(BuildContext context, String phone, int userType) async {
     unFocus(context);
     emit(ResendCodeLoading());
@@ -113,12 +136,14 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: file,
+      commercialRegisterDocument: img,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
     );
 
     if (formKey.currentState!.validate()) {
@@ -160,12 +185,14 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: file,
+      commercialRegisterDocument: img,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
     );
 
     if (formKey.currentState!.validate()) {
@@ -212,6 +239,8 @@ class AuthCubit extends Cubit<AuthState> {
           nameController.text,
           emailController.text,
           passwordController.text,
+          locationCubit.state.model!.lat,
+          locationCubit.state.model!.lng,
         );
         res.fold(
           (err) {
@@ -333,5 +362,27 @@ class AuthCubit extends Cubit<AuthState> {
       return file;
     }
     return null;
+  }
+
+  onLocationClick(context) async {
+    var _loc = await Utils.getCurrentLocation(context);
+    locationCubit.onLocationUpdated(LocationModel(
+      lat: _loc?.latitude ?? 32.4,
+      lng: _loc?.longitude ?? 32.4,
+      address: "",
+    ));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, animation, __) {
+          return FadeTransition(
+              opacity: animation,
+              child: BlocProvider.value(
+                value: locationCubit,
+                child: LocationAddress(),
+              ));
+        },
+      ),
+    );
   }
 }

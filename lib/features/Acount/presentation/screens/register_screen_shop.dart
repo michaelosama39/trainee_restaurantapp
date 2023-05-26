@@ -122,6 +122,7 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                       onTap: () async {
                         AuthCubit.of(context).file =
                             await AuthCubit.of(context).getFile();
+                        AuthCubit.of(context).uploadImage(context, AuthCubit.of(context).file!);
                         AuthCubit.of(context).emit(UploadSignUpFileState());
                       },
                     ),
@@ -194,6 +195,27 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                         AuthCubit.of(context).confirmPasswordSecure = bool;
                         AuthCubit.of(context).emit(PasswordSecureState());
                       },
+                    ),
+                    InkWell(
+                      onTap: (){
+                        AuthCubit.of(context).onLocationClick(context);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.h,
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            'تحديد موقعك',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: AppColors.white,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Gaps.vGap8,
                     Row(

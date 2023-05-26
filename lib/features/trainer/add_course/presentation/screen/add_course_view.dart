@@ -127,6 +127,7 @@ class _AddCourseViewState extends State<AddCourseView> {
                           onTap: () async {
                             AddCourseCubit.of(context).file =
                                 await AddCourseCubit.of(context).getFile();
+                            AddCourseCubit.of(context).uploadImage(context, AddCourseCubit.of(context).file!);
                             AddCourseCubit.of(context)
                                 .emit(UploadSignUpFileState());
                           },

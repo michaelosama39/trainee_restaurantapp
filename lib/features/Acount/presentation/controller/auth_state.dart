@@ -39,3 +39,6 @@ class ForgetPasswordVerifyError extends AuthState {}
 
 class PasswordSecureState extends AuthState {}
 class UploadSignUpFileState extends AuthState {}
+
+class UploadImageLoaded extends AuthState {}
+class UploadImageLoading extends AuthState {}

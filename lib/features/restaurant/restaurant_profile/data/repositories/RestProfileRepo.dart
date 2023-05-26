@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
@@ -8,6 +11,27 @@ import '../../../../../core/dioHelper/dio_helper.dart';
 import '../../../../../core/models/trainer_model.dart';
 
 class RestProfileRepo {
+  Future<Either<String, String>> uploadImage(File file) async {
+    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
+        filename: file.path
+            .split('/')
+            .last)});
+    final response = await DioHelper.post(
+      APIUrls.API_Upload_Image,
+      formData: formData,
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success uploadImage");
+        return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   Future<Either<String, bool>> updateRestProfile(
       UpdateRestProfileModel updateRestProfileModel) async {
     final response = await DioHelper.put(

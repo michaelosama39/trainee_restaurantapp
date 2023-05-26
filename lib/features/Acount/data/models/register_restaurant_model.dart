@@ -8,11 +8,13 @@ class RegisterRestaurantModel {
   String? password;
   String? phoneNumber;
   String? commercialRegisterNumber;
-  File? commercialRegisterDocument;
+  String? commercialRegisterDocument;
   int? cityId;
   String? managerName;
   String? managerPhoneNumber;
   String? managerCountryCode;
+  double? latitude;
+  double? longitude;
 
   RegisterRestaurantModel(
       {this.name,
@@ -24,7 +26,9 @@ class RegisterRestaurantModel {
       this.cityId,
       this.managerName,
       this.managerPhoneNumber,
-      this.managerCountryCode});
+      this.managerCountryCode,
+      this.latitude,
+      this.longitude});
 
   Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -33,14 +37,13 @@ class RegisterRestaurantModel {
     data['password'] = password;
     data['phoneNumber'] = phoneNumber;
     data['commercialRegisterNumber'] = commercialRegisterNumber;
-    data['commercialRegisterDocument'] = commercialRegisterDocument == await MultipartFile.fromFile(
-            commercialRegisterDocument!.path,
-            filename: commercialRegisterDocument!.path.split('/').last,
-          );
+    data['commercialRegisterDocument'] = commercialRegisterDocument;
     data['cityId'] = cityId;
     data['managerName'] = managerName;
     data['managerPhoneNumber'] = managerPhoneNumber;
     data['managerCountryCode'] = managerCountryCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
     return data;
   }
 }

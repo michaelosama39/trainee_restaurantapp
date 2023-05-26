@@ -41,19 +41,36 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
   String? networkImageUrl;
   File? fileImageUrl;
 
+  String? img;
+
   TrainerModel? trainerModel;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await trainerProfileRepo.uploadImage(file);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        emit(TrainerProfileInitial());
+      },
+          (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
 
   Future updateTrainerProfile(BuildContext context) async {
     UpdateTrainerProfileModel updateTrainerProfileModel =
         UpdateTrainerProfileModel(
       id: trainerModel!.id,
       specializationId: trainerModel!.specializationId,
-      phoneNumber: phoneController.text,
+      phoneNumber: phoneController.text == trainerModel!.phoneNumber ? trainerModel!.phoneNumber : phoneController.text,
       hourPrice: double.parse(hourRateController.text),
       idNumber: idNumberController.text,
-      name: nameController.text,
-      cvUrl: fileCvUrl,
-      imageUrl: fileImageUrl,
+      name: nameController.text == trainerModel!.name ? trainerModel!.name : nameController.text,
+      cvUrl: img,
+      imageUrl: img,
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
     );

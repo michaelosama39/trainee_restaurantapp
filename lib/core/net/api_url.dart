@@ -6,6 +6,7 @@ class APIUrls {
 
   /// Urls
   static const API_LOGIN = "/TokenAuth/Authenticate";
+  static const API_Upload_Image = "/services/app/Image/UploadImage";
   static const API_REGISTER_TRAINER = "/services/app/Account/RegisterTrainer";
   static const API_REGISTER_REST = "/services/app/Account/RegisterRestaurant";
   static const API_REGISTER_SHOP = "/services/app/Account/RegisterShop";

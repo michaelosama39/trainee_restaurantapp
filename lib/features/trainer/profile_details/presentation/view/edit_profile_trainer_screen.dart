@@ -182,6 +182,8 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
       child: InkWell(
         onTap: () async {
           await TrainerProfileCubit.of(context).getFile();
+          TrainerProfileCubit.of(context)
+              .uploadImage(context , file);
           TrainerProfileCubit.of(context).emit(GetImageState());
         },
         child: SizedBox(
@@ -241,6 +243,8 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
               child: GestureDetector(
                 onTap: () async {
                   await TrainerProfileCubit.of(context).getImage();
+                  TrainerProfileCubit.of(context)
+                      .uploadImage(context , file);
                   TrainerProfileCubit.of(context).emit(GetImageState());
                 },
                 child: ImageIcon(

@@ -51,19 +51,34 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   File? fileCoveAr;
   File? fileCommercialRegisterDoc;
 
+  String? img;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await restProfileRepo.uploadImage(file);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        emit(RestProfileInitial());
+      },
+          (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
+
   Future updateRestaurantProfile(BuildContext context) async {
     UpdateRestProfileModel updateRestProfileModel = UpdateRestProfileModel(
       id: restaurantsModel!.id,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arLogo: fileLogoAr,
-      enLogo: fileLogoEn,
-      arCover: fileCoveAr,
-      enCover: fileCoveEn,
+      arLogo: img,
+      enLogo: img,
+      arCover: img,
+      enCover: img,
       commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: fileCommercialRegisterDoc,
-      // cityId: 0,
-      // street: streetController.text,
+      commercialRegisterDocument: img,
       buildingNumber: buildNumController.text,
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,

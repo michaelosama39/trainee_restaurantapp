@@ -43,7 +43,7 @@ class AddProductRepo {
         'categoryId': categoryId,
         'enComponents': enComponents,
         'arComponents': arComponents,
-        'image': image ==  await MultipartFile.fromFile(image.path,
+        'image': await MultipartFile.fromFile(image.path,
             filename: image.path.split('/').last),
       },
     );

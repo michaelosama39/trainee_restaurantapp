@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 
 class UpdateTrainerProfileModel {
   int? id;
-  File? imageUrl;
+  String? imageUrl;
   String? name;
-  File? cvUrl;
+  String? cvUrl;
   String? phoneNumber;
   double? latitude;
   double? longitude;
@@ -30,11 +30,9 @@ class UpdateTrainerProfileModel {
   Future<Map<String, dynamic>> toJson() async {
     return {
       "specializationId": specializationId,
-      "imageUrl": imageUrl == await MultipartFile.fromFile(imageUrl!.path,
-          filename: imageUrl!.path.split('/').last),
+      "imageUrl": imageUrl,
       "name": name,
-      "cvUrl": cvUrl == await MultipartFile.fromFile(cvUrl!.path,
-          filename: cvUrl!.path.split('/').last),
+      "cvUrl": cvUrl,
       "phoneNumber": phoneNumber,
       "countryCode": 966,
       "latitude": latitude,

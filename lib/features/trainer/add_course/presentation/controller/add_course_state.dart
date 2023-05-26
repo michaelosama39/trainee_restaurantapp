@@ -8,3 +8,6 @@ class AddCourseLoading extends AddCourseState {}
 class AddCourseLoaded extends AddCourseState {}
 class AddCourseError extends AddCourseState {}
 class UploadSignUpFileState extends AddCourseState {}
+
+class UploadImageLoading extends AddCourseState {}
+class UploadImageLoaded extends AddCourseState {}

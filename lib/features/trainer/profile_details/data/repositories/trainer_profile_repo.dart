@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/data/models/update_trainer_profile_model.dart';
@@ -7,6 +10,27 @@ import '../../../../../core/models/review_model.dart';
 import '../../../../../core/models/trainer_model.dart';
 
 class TrainerProfileRepo {
+  Future<Either<String, String>> uploadImage(File file) async {
+    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
+        filename: file.path
+            .split('/')
+            .last)});
+    final response = await DioHelper.post(
+      APIUrls.API_Upload_Image,
+      formData: formData,
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success uploadImage");
+        return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
   Future<Either<String, TrainerModel>> getTrainerProfile() async {
     final response = await DioHelper.get(
       APIUrls.API_GET_TRAINER_PROFILE,

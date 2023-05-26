@@ -110,7 +110,8 @@ class _AddPlateViewState extends State<AddPlateView> {
                                 textInputAction: TextInputAction.next,
                                 controller: AddPlateCubit.of(context)
                                     .nameArPlateController,
-                                focusNode: AddPlateCubit.of(context).nameArPlate,
+                                focusNode:
+                                    AddPlateCubit.of(context).nameArPlate,
                               ),
                               Gaps.vGap16,
                               EmailTextField(
@@ -121,18 +122,21 @@ class _AddPlateViewState extends State<AddPlateView> {
                                 textInputAction: TextInputAction.next,
                                 controller: AddPlateCubit.of(context)
                                     .nameEnPlateController,
-                                focusNode: AddPlateCubit.of(context).nameEnPlate,
+                                focusNode:
+                                    AddPlateCubit.of(context).nameEnPlate,
                               ),
                               Gaps.vGap16,
                               uploadSignUpFile(
                                 text: "ارفق صوره تعبيريه عن الطبق",
-                                file:
-                                    AddPlateCubit.of(context).file,
+                                file: AddPlateCubit.of(context).file,
                                 onTap: () async {
                                   AddPlateCubit.of(context).file =
                                       await AddPlateCubit.of(context)
                                           .getImage();
-                                  AddPlateCubit.of(context).emit(UploadSignUpFileState());
+                                  AddPlateCubit.of(context).uploadImage(
+                                      context, AddPlateCubit.of(context).file!);
+                                  AddPlateCubit.of(context)
+                                      .emit(UploadSignUpFileState());
                                 },
                               ),
                               Gaps.vGap16,
@@ -199,8 +203,7 @@ class _AddPlateViewState extends State<AddPlateView> {
                                 textInputAction: TextInputAction.next,
                                 controller: AddPlateCubit.of(context)
                                     .componentsEnPlateController,
-                                focusNode:
-                                    AddPlateCubit.of(context).comEnPlate,
+                                focusNode: AddPlateCubit.of(context).comEnPlate,
                               ),
                               SizedBox(
                                 width: double.infinity,

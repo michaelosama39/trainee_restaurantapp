@@ -8,7 +8,7 @@ class RegisterShopModel {
   String? password;
   String? phoneNumber;
   String? commercialRegisterNumber;
-  File? commercialRegisterDocument;
+  String? commercialRegisterDocument;
   int? cityId;
   String? managerName;
   String? managerPhoneNumber;
@@ -33,10 +33,7 @@ class RegisterShopModel {
     data['password'] = password;
     data['phoneNumber'] = phoneNumber;
     data['commercialRegisterNumber'] = commercialRegisterNumber;
-    data['commercialRegisterDocument'] = commercialRegisterDocument == await MultipartFile.fromFile(
-            commercialRegisterDocument!.path,
-            filename: commercialRegisterDocument!.path.split('/').last,
-          );
+    data['commercialRegisterDocument'] = commercialRegisterDocument;
     data['cityId'] = cityId;
     data['managerName'] = managerName;
     data['managerPhoneNumber'] = managerPhoneNumber;

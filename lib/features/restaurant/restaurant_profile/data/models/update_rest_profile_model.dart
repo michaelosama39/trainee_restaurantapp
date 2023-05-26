@@ -8,12 +8,12 @@ class UpdateRestProfileModel {
   int? id;
   String? arName;
   String? enName;
-  File? arLogo;
-  File? enLogo;
-  File? arCover;
-  File? enCover;
+  String? arLogo;
+  String? enLogo;
+  String? arCover;
+  String? enCover;
   String? commercialRegisterNumber;
-  File? commercialRegisterDocument;
+  String? commercialRegisterDocument;
   // int? cityId;
   // String? street;
   String? buildingNumber;
@@ -48,27 +48,12 @@ class UpdateRestProfileModel {
       "id": id,
       "arName": arName,
       "enName": enName,
-      "arLogo": arLogo == null
-          ? null
-          : await MultipartFile.fromFile(arLogo!.path,
-              filename: arLogo == null ? null : arLogo!.path.split('/').last),
-      "enLogo": enLogo == null
-          ? null
-          : await MultipartFile.fromFile(enLogo!.path,
-              filename: enLogo!.path.split('/').last),
-      "arCover": arCover == null
-          ? null
-          : await MultipartFile.fromFile(arCover!.path,
-              filename: arCover!.path.split('/').last),
-      "enCover": enCover == null
-          ? null
-          : await MultipartFile.fromFile(enCover!.path,
-              filename: enCover!.path.split('/').last),
+      "arLogo": arLogo,
+      "enLogo": enLogo,
+      "arCover": arCover,
+      "enCover": enCover,
       "commercialRegisterNumber": commercialRegisterNumber,
-      "commercialRegisterDocument": commercialRegisterDocument == null
-          ? null
-          : await MultipartFile.fromFile(commercialRegisterDocument!.path,
-              filename: commercialRegisterDocument!.path.split('/').last),
+      "commercialRegisterDocument": commercialRegisterDocument ,
       // "cityId": cityId,
       // "street": street,
       "buildingNumber": buildingNumber,
