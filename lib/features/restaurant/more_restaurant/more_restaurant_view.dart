@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
@@ -15,6 +16,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../core/localization/localization_provider.dart';
 import '../../on_boarding/view/main_onboarding_view.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
@@ -89,31 +91,47 @@ class MoreRestaurantScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // sn.languagesEnum == LanguagesEnum.arabic
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 57.w,
-                child: Center(
-                    child: CustomText(
-                  text: Translation.of(context).arabic,
-                  fontSize: AppConstants.textSize14,
-                )),
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __){
+                  return InkWell(
+                    onTap: (){
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_AR), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 57.w,
+                      child: Center(
+                          child: CustomText(
+                            text: Translation.of(context).arabic,
+                            fontSize: AppConstants.textSize14,
+                          )),
+                    ),
+                  );
+                },
               ),
               Gaps.hGap32,
-              // sn.languagesEnum == LanguagesEnum.english
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 60.w,
-                child: Center(
-                  child: Container(
-                    child: CustomText(
-                      text: Translation.of(context).english,
-                      fontSize: AppConstants.textSize14,
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __){
+                  return InkWell(
+                    onTap: (){
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_EN), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 60.w,
+                      child: Center(
+                        child: Container(
+                          child: CustomText(
+                            text: Translation.of(context).english,
+                            fontSize: AppConstants.textSize14,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               )
             ],
           ),

@@ -319,6 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("What is your opinion?"),
         "whats_ur_rating":
             MessageLookupByLibrary.simpleMessage("What is your rating?"),
-        "women": MessageLookupByLibrary.simpleMessage("Women")
+        "women": MessageLookupByLibrary.simpleMessage("Women"),
+        "dishsMostOrder": MessageLookupByLibrary.simpleMessage("The most popular dishes")
       };
 }

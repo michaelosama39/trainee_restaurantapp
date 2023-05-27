@@ -115,8 +115,8 @@ class _AppState extends State<App> {
                       //   provider.changeLanguage(
                       //       const Locale(AppConstants.LANG_AR), context);
                       //   provider.firstStartOff();
-                      provider.changeLanguage(
-                          const Locale(AppConstants.LANG_AR), context);
+                      // provider.changeLanguage(
+                      //     const Locale(AppConstants.LANG_AR), context);
 
                       /// Check if the current device locale is supported
                       /*for (var supportedLocale in supportedLocales) {
