@@ -2,18 +2,20 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import '../../../../core/dioHelper/dio_helper.dart';
+import '../../../on_boarding/view/main_onboarding_view.dart';
 import '../models/register_restaurant_model.dart';
 
 class AuthRepo {
   Future<Either<String, String>> uploadImage(File file) async {
-    FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
-        filename: file.path
-            .split('/')
-            .last)});
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path,
+          filename: file.path.split('/').last)
+    });
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,
@@ -22,6 +24,43 @@ class AuthRepo {
       if (response.data['success'] == true) {
         print("Success uploadImage");
         return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, bool>> logout(context) async {
+    final response = await DioHelper.post(
+      APIUrls.API_Logout,
+    );
+    try {
+      if (response.statusCode == 200) {
+        print("Success logout");
+        AppStorage.signOut();
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const MainOnBoardingView()));
+        return const Right(true);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, bool>> changePassword(
+      String currentPassword, String newPassword) async {
+    final response = await DioHelper.post(APIUrls.API_ChangePassword, body: {
+      'currentPassword': currentPassword,
+      'newPassword': newPassword,
+    });
+    try {
+      if (response.data['success'] == true) {
+        print("Success changePassword");
+        return const Right(true);
       } else {
         return Left(response.data['error']['message']);
       }
@@ -79,6 +118,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerShop");
+        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
@@ -97,6 +137,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerRestaurant");
+        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
@@ -128,6 +169,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerTrainer");
+        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
@@ -180,6 +222,10 @@ class AuthRepo {
 
   Future<Either<String, UserModel>> login(
       String phone, String password, int type) async {
+    print(phone);
+    print(password);
+    print(type);
+    print(">>>>>>?");
     final response = await DioHelper.post(
       APIUrls.API_LOGIN,
       body: {

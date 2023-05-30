@@ -76,6 +76,7 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     res.fold(
       (err) {
         Toast.show(err);
+        print(err);
         emit(UpdateShopProfileError());
       },
       (res) {

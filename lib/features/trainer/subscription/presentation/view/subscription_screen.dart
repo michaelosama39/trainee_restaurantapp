@@ -37,6 +37,8 @@ class SubscriptionScreen extends StatelessWidget {
                       );
                     },
                     itemBuilder: (context, index) {
+                      print(SubscriptionCubit.of(context).subscriptions[index].id);
+                      print("???????????");
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SubscriptionItem(

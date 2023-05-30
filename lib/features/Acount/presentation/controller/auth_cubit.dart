@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -18,6 +19,8 @@ import '../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_optio
 import '../../../../core/ui/toast.dart';
 import '../../../../core/utils/Utils.dart';
 import '../../../../generated/l10n.dart';
+import '../../../navigator_home/view/navigator_home_view.dart';
+import '../../../on_boarding/view/main_onboarding_view.dart';
 import '../../data/repositories/auth_repo.dart';
 import '../screens/account_verification.dart';
 import '../screens/forget_password_verification.dart';
@@ -73,6 +76,64 @@ class AuthCubit extends Cubit<AuthState> {
 
   final LocationCubit locationCubit = LocationCubit();
 
+  late String verificationId;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> submitPhoneNumber({newPhone}) async {
+    debugPrint("*" * 50);
+    debugPrint("*" * 50);
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: newPhone ?? "+2001011153207",
+      timeout: const Duration(seconds: 5),
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeRetrivalTimeOut,
+    );
+  }
+
+  void verificationCompleted(PhoneAuthCredential credential) async {
+    debugPrint("${credential.smsCode}");
+    debugPrint("creadintial complated");
+    await auth.signInWithCredential(credential);
+  }
+
+  void verificationFailed(FirebaseAuthException e) {
+    print(e);
+    print("?????????????");
+    debugPrint("Error in verification");
+  }
+
+  bool countState = false;
+
+  codeSent(String verificationId, int? resendToken) {
+    this.verificationId = verificationId;
+    print("$resendToken");
+    print("<<<<<<<<>>>>>>>");
+
+    countState = true;
+  }
+
+  void codeRetrivalTimeOut(String verificationId) {
+    debugPrint("code Auto rerival Time");
+  }
+
+  Future<void> submitOTP(String otp) async {
+    debugPrint(otp);
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: otp);
+
+    await smsSignIn(credential);
+  }
+
+  Future<void> smsSignIn(PhoneAuthCredential credential) async {
+    try {
+      await auth.signInWithCredential(credential);
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Future uploadImage(BuildContext context, File file) async {
     emit(UploadImageLoading());
     final res = await authRepo.uploadImage(file);
@@ -86,6 +147,47 @@ class AuthCubit extends Cubit<AuthState> {
         emit(UploadImageLoaded());
       },
     );
+  }
+
+  Future logout(BuildContext context) async {
+    emit(LogoutLoading());
+    final res = await authRepo.logout(context);
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(AuthInitial());
+      },
+      (res) async {
+        AppStorage.signOut();
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const MainOnBoardingView()));
+        emit(LogoutLoaded());
+      },
+    );
+  }
+
+  Future changePassword(BuildContext context, int typeUser) async {
+    if (formKey.currentState!.validate()) {
+      emit(ChangePasswordLoading());
+      isLoading = true;
+      final res = await authRepo.changePassword(
+          passwordController.text, confirmPasswordController.text);
+      res.fold(
+        (err) {
+          isLoading = false;
+          Toast.show(err);
+          emit(AuthInitial());
+        },
+        (res) async {
+          isLoading = false;
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NavigatorScreen(
+                    homeType: typeUser,
+                  )));
+          emit(ChangePasswordLoaded());
+        },
+      );
+    }
   }
 
   Future resendCode(BuildContext context, String phone, int userType) async {
@@ -253,6 +355,7 @@ class AuthCubit extends Cubit<AuthState> {
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneController.text, userType: userType));
+            // submitPhoneNumber(newPhone: phoneController.text);
             isLoading = false;
             emit(RegisterTrainerLoaded());
           },
@@ -325,6 +428,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future login(BuildContext context, int type) async {
+    // submitPhoneNumber(newPhone: "+2001286008357");
     if (formKey.currentState!.validate()) {
       unFocus(context);
       emit(LoginLoading());

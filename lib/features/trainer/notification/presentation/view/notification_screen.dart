@@ -13,40 +13,46 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: const TransparentAppBar(
-        title: "الاشعارات",
-    ),
-      body: BlocProvider(create: (context) => NotificationCubit()..getNotifications(context),
-        child: BlocBuilder<NotificationCubit,NotificationState>(builder: (context, state) {
-          if(state is GetNotificationsLoading){
-            return const Loader();
-          }else{
-            if(NotificationCubit.of(context).notifications.isNotEmpty){
-              return  ListView.separated(
-                  itemCount: NotificationCubit.of(context).notifications.length,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      color: Colors.white,
-                      thickness: 2,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return NotificationItem(notificationModel: NotificationCubit.of(context).notifications[index]);
-                  });
-            }else{
-              return const Center(child: Text("لا يوجد اشعارات"));
-            }
-          }
-        },),
-      )
-    );
+        appBar: const TransparentAppBar(
+          title: "الاشعارات",
+        ),
+        body: BlocProvider(
+          create: (context) => NotificationCubit()..getNotifications(context),
+          child: BlocBuilder<NotificationCubit, NotificationState>(
+            builder: (context, state) {
+              if (state is GetNotificationsLoading) {
+                return const Loader();
+              } else {
+                if (NotificationCubit.of(context).notifications.isNotEmpty) {
+                  return ListView.separated(
+                      itemCount:
+                          NotificationCubit.of(context).notifications.length,
+                      separatorBuilder: (context, index) {
+                        return const Divider(
+                          color: Colors.white,
+                          thickness: 2,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return NotificationItem(
+                            notificationModel: NotificationCubit.of(context)
+                                .notifications[index]);
+                      });
+                } else {
+                  return const Center(child: Text("لا يوجد اشعارات"));
+                }
+              }
+            },
+          ),
+        ));
   }
 }
 
-
 class NotificationItem extends StatelessWidget {
   final NotificationModel notificationModel;
-  const NotificationItem({Key? key, required this.notificationModel}) : super(key: key);
+
+  const NotificationItem({Key? key, required this.notificationModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +60,21 @@ class NotificationItem extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
-          Expanded(child: Text(notificationModel.message ?? "",style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
-          const SizedBox(width: 10,),
-          Text(notificationModel.creationTime!.substring(0,10),style: const TextStyle(color: Colors.white,fontSize: 14),)
+          Expanded(
+              child: Text(
+            notificationModel.message ?? "",
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          )),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(
+            notificationModel.creationTime!.substring(0, 10),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+          )
         ],
       ),
     );
   }
 }
-

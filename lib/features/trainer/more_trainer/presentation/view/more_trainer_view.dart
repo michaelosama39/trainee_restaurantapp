@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
+import 'package:trainee_restaurantapp/features/Acount/data/repositories/auth_repo.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/about_app_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/feedback_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
@@ -17,6 +19,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../Acount/presentation/screens/change_password_screen.dart';
 import '../../../../on_boarding/view/main_onboarding_view.dart';
 import '../../../subscription/presentation/view/subscription_screen.dart';
 
@@ -92,45 +95,49 @@ class MoreTrainerScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Consumer<LocalizationProvider>(
-                builder: (_, provider, __){
-                  return InkWell(
-                    onTap: (){
-                      provider.changeLanguage(
-                          const Locale(AppConstants.LANG_AR), context);
-                    },
-                    child: BlurWidget(
-                      height: 20.h,
-                      width: 57.w,
-                      child: Center(
-                          child: CustomText(
-                            text: Translation.of(context).arabic,
-                            fontSize: AppConstants.textSize14,
-                          )),
-                    ),
-                  );
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'en'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_AR), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 57.w,
+                            child: Center(
+                                child: CustomText(
+                              text: Translation.of(context).arabic,
+                              fontSize: AppConstants.textSize14,
+                            )),
+                          ),
+                        )
+                      : const SizedBox();
                 },
               ),
               Gaps.hGap32,
               Consumer<LocalizationProvider>(
-                builder: (_, provider, __){
-                  return InkWell(
-                    onTap: (){
-                      provider.changeLanguage(
-                          const Locale(AppConstants.LANG_EN), context);
-                    },
-                    child: BlurWidget(
-                      height: 20.h,
-                      width: 60.w,
-                      child: Center(
-                        child: Container(
-                          child: CustomText(
-                            text: Translation.of(context).english,
-                            fontSize: AppConstants.textSize14,
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'ar'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_EN), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 60.w,
+                            child: Center(
+                              child: Container(
+                                child: CustomText(
+                                  text: Translation.of(context).english,
+                                  fontSize: AppConstants.textSize14,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
+                        )
+                      : const SizedBox();
                 },
               )
             ],
@@ -209,9 +216,7 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MainOnBoardingView()));
+              AuthRepo().logout(context);
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -299,7 +304,10 @@ class MoreTrainerScreen extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  //Nav.to(ChangePasswordScreen.routeName);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChangePasswordScreen(
+                            screenNumber: typeUser,
+                          )));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),

@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _offToSignupScreen() {
-    widget.screenNumber == 0
+    widget.screenNumber == 3
         ? Navigator.pushNamed(context, Routes.restaurantSignUpScreen,
             arguments:
                 RegisterRestaurantScreenView(userType: widget.screenNumber))

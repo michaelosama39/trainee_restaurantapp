@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 
+import "../../features/trainer/notification/presentation/view/notification_screen.dart";
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> backgroundHandler(RemoteMessage message) async {
+  Navigator.of(navigatorKey.currentState!.context).push(
+      MaterialPageRoute(builder: (context) => const NotificationScreen()));
   // if (int.parse(message.data["type"]) == -1) {
   //   navigatorKey.currentState!.context.read<AuthCubit>().onUpdateAuth(false);
   //   navigatorKey.currentState!.context.read<UserCubit>().onUpdateUserData(UserModel());
@@ -29,15 +32,15 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 void requestPermissions() {
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      IOSFlutterLocalNotificationsPlugin>()
+          IOSFlutterLocalNotificationsPlugin>()
       ?.requestPermissions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+        alert: true,
+        badge: true,
+        sound: true,
+      );
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.requestPermission();
 }
 
@@ -63,10 +66,10 @@ void showNotification(RemoteMessage event, String payload) async {
 
 void initLocalNotification() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings("app_icon");
+      AndroidInitializationSettings("app_icon");
 
   const IOSInitializationSettings initializationSettingsIOS =
-  IOSInitializationSettings(
+      IOSInitializationSettings(
     requestAlertPermission: false,
     requestBadgePermission: false,
     requestSoundPermission: false,
@@ -101,7 +104,7 @@ handleNotificationsTap(String? payload) async {
     // );
   } else {
     List<String> str =
-    payload.replaceAll("{", "").replaceAll("}", "").split(",");
+        payload.replaceAll("{", "").replaceAll("}", "").split(",");
     Map<String, dynamic> data = {};
     for (int i = 0; i < str.length; i++) {
       List<String> s = str[i].split(":");
@@ -121,6 +124,8 @@ handleNotificationsTap(String? payload) async {
       //   const NotificationsView(),
       // );
     }
+    Navigator.of(navigatorKey.currentState!.context).push(
+        MaterialPageRoute(builder: (context) => const NotificationScreen()));
   }
 }
 
@@ -141,6 +146,8 @@ void setupNotifications() {
     } else {
       showNotification(event, "${event.notification}");
     }
+    Navigator.of(navigatorKey.currentState!.context).push(
+        MaterialPageRoute(builder: (context) => const NotificationScreen()));
     print(event.data);
     print("?????????1");
     // await AuthRepository(navigatorKey.currentState!.context).hasNewNotifications();

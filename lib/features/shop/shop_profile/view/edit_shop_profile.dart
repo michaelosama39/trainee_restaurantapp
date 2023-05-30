@@ -361,7 +361,7 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                       _buildSocialMediaContainer(
                           title: "", icon: FontAwesomeIcons.earth),
                       Gaps.vGap24,
-                      _addWorkingHours(),
+                      // _addWorkingHours(),
                       Gaps.vGap24,
                       SizedBox(
                         height: 44.h,

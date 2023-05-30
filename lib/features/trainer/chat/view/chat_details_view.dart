@@ -92,10 +92,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute(builder: (context) {
-                    //   return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                    // }));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                    }));
                   },
                   icon: const Icon(
                     Icons.phone,
@@ -111,10 +111,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                 ),
                 IconButton(
                     onPressed: () {
-                      // Navigator.of(context)
-                      //     .push(MaterialPageRoute(builder: (context) {
-                      //   return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                      // }));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
+                      }));
                     },
                     icon: const Icon(
                       Icons.videocam,

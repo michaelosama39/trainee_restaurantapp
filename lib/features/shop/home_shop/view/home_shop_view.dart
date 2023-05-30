@@ -400,7 +400,8 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    image: shopModel!.cover ?? '',
+                    latitude: shopModel!.latitude!.toDouble(),
+                    longitude: shopModel.longitude!.toDouble(),
                     expandedHeight: 230.h,
                     child: _buildSubscriptionWidget(),
                   ),

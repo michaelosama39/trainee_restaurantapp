@@ -73,6 +73,8 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       id: restaurantsModel!.id,
       arName: nameArController.text,
       enName: nameEnController.text,
+      arDescription: restaurantsModel!.arDescription,
+      enDescription: restaurantsModel!.enDescription,
       arLogo: img,
       enLogo: img,
       arCover: img,
@@ -113,8 +115,6 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       },
           (res) {
         restaurantsModel = res;
-        print(restaurantsModel!.buildingNumber);
-        print('?????????????????');
         emit(GetRestProfileLoaded());
       },
     );
