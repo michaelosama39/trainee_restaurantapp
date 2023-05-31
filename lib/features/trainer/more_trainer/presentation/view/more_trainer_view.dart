@@ -89,30 +89,61 @@ class MoreTrainerScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // sn.languagesEnum == LanguagesEnum.arabic
-              //     ?
-              BlurWidget(
+              true
+                  ? BlurWidget(
                 height: 20.h,
                 width: 57.w,
                 child: Center(
                     child: CustomText(
-                  text: Translation.of(context).arabic,
-                  fontSize: AppConstants.textSize14,
-                )),
+                      text: Translation.of(context).arabic,
+                      fontSize: AppConstants.textSize14,
+                    )),
+              )
+                  : GestureDetector(
+                onTap: () {
+                },
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  height: 20.h,
+                  width: 57.w,
+                  child: Center(
+                    child: CustomText(
+                      text: Translation.of(context).arabic,
+                      fontSize: AppConstants.textSize14,
+                    ),
+                  ),
+                ),
               ),
               Gaps.hGap32,
-              // sn.languagesEnum == LanguagesEnum.english
-              //     ?
-              BlurWidget(
+              true
+                  ? BlurWidget(
                 height: 20.h,
                 width: 60.w,
                 child: Center(
-                  child: CustomText(
-                    text: Translation.of(context).english,
-                    fontSize: AppConstants.textSize14,
+                  child: Container(
+                    child: CustomText(
+                      text: Translation.of(context).english,
+                      fontSize: AppConstants.textSize14,
+                    ),
                   ),
                 ),
               )
+                  : GestureDetector(
+                onTap: () {
+
+                },
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  height: 20.h,
+                  width: 60.w,
+                  child: Center(
+                    child: CustomText(
+                      text: Translation.of(context).english,
+                      fontSize: AppConstants.textSize14,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           GestureDetector(

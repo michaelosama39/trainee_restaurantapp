@@ -204,13 +204,14 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
-                                  text:
-                                      "المده المتبقيه: ${courseModel.trainingHoursCount}",
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize14,
-                                ),
+                                // CustomText(
+                                //   text:
+                                //       "المده المتبقيه: ${courseModel.trainingHoursCount}",
+                                //   fontWeight: FontWeight.w500,
+                                //   color: AppColors.white,
+                                //   fontSize: AppConstants.textSize14,
+                                // ),
+                                const Expanded(child: SizedBox(),),
                                 Container(
                                   decoration: BoxDecoration(
                                       color: courseModel.isActive == true

@@ -276,21 +276,21 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               fontSize: AppConstants.textSize12,
                             ),
                           ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomText(
-                                  text: "المده المتبقيه: يوم و 3 ساعات",
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding:
+                          //       EdgeInsetsDirectional.fromSTEB(8.w, 0, 8.w, 0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       CustomText(
+                          //         text: "المده المتبقيه: يوم و 3 ساعات",
+                          //         fontWeight: FontWeight.w500,
+                          //         color: AppColors.white,
+                          //         fontSize: AppConstants.textSize14,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

@@ -176,9 +176,10 @@ dev_dependencies:
   linter: ^1.15.0
   # Change native code splash
   flutter_native_splash:
-#  agora_rtc_engine: ^6.1.1+1
+  agora_rtc_engine: ^6.1.1+1
   get_storage: ^2.1.1
   file_picker: ^5.3.0
+  flutter_chat_bubble: ^2.0.2
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

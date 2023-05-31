@@ -138,15 +138,26 @@ class ChatView extends StatelessWidget {
                                           return Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Expanded(
-                                                child: CustomText(
-                                                  textAlign: TextAlign.start,
-                                                  text: message.message ?? "",
-                                                  textOverflow: TextOverflow.ellipsis,
-                                                  fontSize: AppConstants.textSize14,
-                                                  fontWeight: FontWeight.w500,
+                                              if(message.type == "message")
+                                                Expanded(
+                                                  child: CustomText(
+                                                    textAlign: TextAlign.start,
+                                                    text: message.message ?? "",
+                                                    textOverflow: TextOverflow.ellipsis,
+                                                    fontSize: AppConstants.textSize14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
-                                              ),
+                                              if(message.type == "file")
+                                                Expanded(
+                                                  child: CustomText(
+                                                    textAlign: TextAlign.start,
+                                                    text: "image",
+                                                    textOverflow: TextOverflow.ellipsis,
+                                                    fontSize: AppConstants.textSize14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
                                               CustomText(
                                                 text: message.messageTime!.substring(0,10),
                                                 fontSize: AppConstants.textSize14,
