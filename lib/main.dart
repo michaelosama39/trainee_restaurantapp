@@ -20,6 +20,7 @@ import 'core/ui/error_ui/errors_screens/build_error_screen.dart';
 import 'generated/l10n.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfigs();
  await AppStorage.init();
   BlocOverrides.runZoned(

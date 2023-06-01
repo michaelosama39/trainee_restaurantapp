@@ -13,6 +13,7 @@ import '../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../core/ui/widgets/custom_text.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/models/shop_model.dart';
+import '../../../trainer/notification/presentation/view/notification_screen.dart';
 import '../../../trainer/trainee/presentation/view/trainee_profile_view.dart';
 
 class ShopProfile extends StatefulWidget {
@@ -462,9 +463,14 @@ class _ShopProfileState extends State<ShopProfile> {
               child: const ImageIcon(
                   AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
-          const Icon(
-            Icons.notifications,
-            color: AppColors.white,
+          InkWell(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const NotificationScreen()));
+            },
+            child: const Icon(
+              Icons.notifications,
+              color: AppColors.white,
+            ),
           ),
           Gaps.hGap20,
         ],

@@ -748,7 +748,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                      image: restaurantsModel.cover ?? '',
+                      latitude: double.parse(restaurantsModel.latitude?? '32.9'),
+                      longitude: double.parse(restaurantsModel.longitude?? '32.9'),
                       expandedHeight: 230.h,
                       child: _buildSubscriptionWidget(),
                     ),

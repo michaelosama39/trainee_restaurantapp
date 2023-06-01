@@ -18,7 +18,8 @@
    <application
         android:label="yacoach partner"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:requestLegacyExternalStorage="true">
        <meta-data
            android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyB4d19CAL7u_hJ8k4P7EaQFcnner_Q9KEo" />

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
@@ -19,70 +21,77 @@ import '../../../chat/view/video_call_screen.dart';
 import '../../../chat/view/voice_call_screen.dart';
 import 'add_new_trainee_entry_screen.dart';
 
-
 class TraineeProfileScreen extends StatefulWidget {
   final Map args;
-  const TraineeProfileScreen({Key? key,required this.args}) : super(key: key);
+
+  const TraineeProfileScreen({Key? key, required this.args}) : super(key: key);
 
   @override
   State<TraineeProfileScreen> createState() => _TraineeProfileScreenState();
 }
 
 class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
-    HomeTrainerCubit.of(context).getTrainee(widget.args["courseId"], widget.args["traineeId"]);
+    HomeTrainerCubit.of(context)
+        .getTrainee(widget.args["courseId"], widget.args["traineeId"]);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: BlocBuilder<HomeTrainerCubit,HomeTrainerState>(builder: (context, state) {
-          if(HomeTrainerCubit.of(context).trainee == null){
+    return SafeArea(child: Scaffold(
+      body: BlocBuilder<HomeTrainerCubit, HomeTrainerState>(
+        builder: (context, state) {
+          if (HomeTrainerCubit.of(context).trainee == null) {
             return const Loader();
-          }else{
-            return CustomScrollView(
-                slivers: <Widget>[
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: CustomSliverDelegate(
-                      expandedHeight: 230.h,
-                      image: HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ?? "",
-                      child: _buildSubscriptionWidget(),
-                    ),
-                  ),
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Gaps.vGap12,
-                          _traineeStatistic(context: context),
-                          Gaps.hGap12,
-                          NewElevatedButton(
-                            text: "ابدا التمرين",
-                            onTap: () {},
-                            color: AppColors.accentColorLight,
-                          ),
-                          NewElevatedButton(
-                            text: "ادخل قيم جديده",
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewTraineeEntryScreen(),));
-                            },
-                            color: null,
-                          ),
-                        ],
+          } else {
+            return CustomScrollView(slivers: <Widget>[
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: CustomSliverDelegate(
+                  expandedHeight: 230.h,
+                  image:
+                      HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ??
+                          "",
+                  child: _buildSubscriptionWidget(),
+                ),
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Gaps.vGap12,
+                      _traineeStatistic(context: context),
+                      Gaps.hGap12,
+                      NewElevatedButton(
+                        text: "ابدا التمرين",
+                        onTap: () {},
+                        color: AppColors.accentColorLight,
                       ),
-                    ),
+                      NewElevatedButton(
+                        text: "ادخل قيم جديده",
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const AddNewTraineeEntryScreen(),
+                              ));
+                        },
+                        color: null,
+                      ),
+                    ],
                   ),
-                ]);
+                ),
+              ),
+            ]);
           }
-        },),
-      )
-    );
+        },
+      ),
+    ));
   }
 
   // Widget _buildMapWidget({required LatLng? location}) {
@@ -107,14 +116,19 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: HomeTrainerCubit.of(context).trainee!.trainee!.name ?? "",
+                        text: HomeTrainerCubit.of(context)
+                                .trainee!
+                                .trainee!
+                                .name ??
+                            "",
                         fontSize: AppConstants.textSize16,
                         fontWeight: FontWeight.bold,
                         textAlign: TextAlign.start,
                       ),
                       const Spacer(),
                       CustomText(
-                        text: "متدرب في ${HomeTrainerCubit.of(context).trainee!.course!.text ?? ""}",
+                        text:
+                            "متدرب في ${HomeTrainerCubit.of(context).trainee!.course!.text ?? ""}",
                         color: AppColors.accentColorLight,
                         fontSize: AppConstants.textSize14,
                         fontWeight: FontWeight.bold,
@@ -124,12 +138,26 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ChatDetailsView(chatModel: ChatModel(
-                                traineeId: HomeTrainerCubit.of(context).trainee!.traineeId,
-                                traineeImage: HomeTrainerCubit.of(context).trainee!.trainee!.imageUrl ?? "",
-                                traineeName: HomeTrainerCubit.of(context).trainee!.trainee!.name,
-                              )),));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatDetailsView(
+                                        chatModel: ChatModel(
+                                      traineeId: HomeTrainerCubit.of(context)
+                                          .trainee!
+                                          .traineeId,
+                                      traineeImage: HomeTrainerCubit.of(context)
+                                              .trainee!
+                                              .trainee!
+                                              .imageUrl ??
+                                          "",
+                                      traineeName: HomeTrainerCubit.of(context)
+                                          .trainee!
+                                          .trainee!
+                                          .name,
+                                    )),
+                                  ));
                             },
                             child: ImageIcon(
                               const AssetImage(
@@ -140,11 +168,17 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: (){
-                              // Navigator.of(context)
-                              //     .push(MaterialPageRoute(builder: (context) {
-                              //   return VoiceCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                              // }));
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return VoiceCallScreen(
+                                  channelName: HomeTrainerCubit.of(context)
+                                          .trainee!
+                                          .traineeId
+                                          .toString() +
+                                      AppStorage.getUserId.toString(),
+                                );
+                              }));
                             },
                             child: ImageIcon(
                               const AssetImage(
@@ -155,11 +189,17 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: (){
-                              // Navigator.of(context)
-                              //     .push(MaterialPageRoute(builder: (context) {
-                              //   return VideoCallScreen(channelName:HomeTrainerCubit.of(context).trainee!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                              // }));
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return VideoCallScreen(
+                                  channelName: HomeTrainerCubit.of(context)
+                                          .trainee!
+                                          .traineeId
+                                          .toString() +
+                                      AppStorage.getUserId.toString(),
+                                );
+                              }));
                             },
                             child: ImageIcon(
                               const AssetImage(
@@ -193,7 +233,8 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                             AppConstants.TALL_ICON,
                           ),
                           CustomText(
-                            text: "${HomeTrainerCubit.of(context).trainee!.length ?? 0} سم",
+                            text:
+                                "${HomeTrainerCubit.of(context).trainee!.length ?? 0} سم",
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.bold,
@@ -208,7 +249,8 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                             AppConstants.WEIGHT_ICON,
                           ),
                           CustomText(
-                            text: "${HomeTrainerCubit.of(context).trainee!.weight ?? 0} كيلو جرام",
+                            text:
+                                "${HomeTrainerCubit.of(context).trainee!.weight ?? 0} كيلو جرام",
                             color: AppColors.accentColorLight,
                             fontSize: AppConstants.textSize14,
                             fontWeight: FontWeight.bold,
@@ -232,32 +274,39 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-      CustomText(
-        text: Translation.of(context).course_statistic,
-        fontWeight: FontWeight.w700,
-        color: AppColors.white,
-        fontSize: AppConstants.textSize14,
-      ),
-      Gaps.vGap12,
-      staticDetails(
-          titleText: "عدد ساعات الكورس الكليه", trailingText: "${HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount} ساعه"),
-      staticDetails(
-          titleText: Translation.of(context).finishedHour,
-          trailingText: "${HomeTrainerCubit.of(context).trainee!.completedHours ?? 0} ساعه"),
-      staticDetails(
-          titleText: Translation.of(context).remainsHours,
-          trailingText: "${(HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount ?? 0) - (HomeTrainerCubit.of(context).trainee!.completedHours ?? 0) } ساعه"),
-      staticDetails(
-          titleText: Translation.of(context).numberOfAbsenece,
-          trailingText: "${HomeTrainerCubit.of(context).trainee!.absenceCount} مره"), SizedBox(
-          height: 50,
-          child: PrecentageShow(
-            prescentageValue: HomeTrainerCubit.of(context).trainee!.progress ?? 0,
-          )),
-      const SizedBox(
-        height: 200,
-        child: Statistic(),
-      ),
+          CustomText(
+            text: Translation.of(context).course_statistic,
+            fontWeight: FontWeight.w700,
+            color: AppColors.white,
+            fontSize: AppConstants.textSize14,
+          ),
+          Gaps.vGap12,
+          staticDetails(
+              titleText: "عدد ساعات الكورس الكليه",
+              trailingText:
+                  "${HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount} ساعه"),
+          staticDetails(
+              titleText: Translation.of(context).finishedHour,
+              trailingText:
+                  "${HomeTrainerCubit.of(context).trainee!.completedHours ?? 0} ساعه"),
+          staticDetails(
+              titleText: Translation.of(context).remainsHours,
+              trailingText:
+                  "${(HomeTrainerCubit.of(context).trainee!.course!.trainingHoursCount ?? 0) - (HomeTrainerCubit.of(context).trainee!.completedHours ?? 0)} ساعه"),
+          staticDetails(
+              titleText: Translation.of(context).numberOfAbsenece,
+              trailingText:
+                  "${HomeTrainerCubit.of(context).trainee!.absenceCount} مره"),
+          SizedBox(
+              height: 50,
+              child: PrecentageShow(
+                prescentageValue:
+                    HomeTrainerCubit.of(context).trainee!.progress ?? 0,
+              )),
+          const SizedBox(
+            height: 200,
+            child: Statistic(),
+          ),
         ],
       ),
     );
@@ -293,14 +342,17 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
   final bool hideTitleWhenExpanded;
   final Widget child;
   final String? image;
-  final Widget? mainTopWidget;
+  final double? latitude;
+  final double? longitude;
 
-  CustomSliverDelegate(
-      {required this.child,
-      required this.expandedHeight,
-      this.hideTitleWhenExpanded = true,
-        this.mainTopWidget,
-      this.image});
+  CustomSliverDelegate({
+    required this.child,
+    required this.expandedHeight,
+    this.hideTitleWhenExpanded = true,
+    this.image,
+    this.latitude,
+    this.longitude,
+  });
 
   @override
   Widget build(
@@ -313,6 +365,15 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
     final appBarSize2 = expandedHeight - shrinkOffset / 2.5.h;
     final proportion2 = 2 - (expandedHeight / appBarSize2);
     final percent2 = proportion2 < 0 || proportion2 > 1 ? 0.0 : proportion2;
+
+    late GoogleMapController _controller;
+    late final String mapStyle;
+
+    void _setMapStyle() async {
+      mapStyle = await rootBundle.loadString(AppConstants.MAP_STYLE_JSON);
+      _controller.setMapStyle(mapStyle);
+    }
+
     return SizedBox(
       height: expandedHeight + expandedHeight / 2,
       child: Stack(
@@ -331,11 +392,33 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                   //         height: 250.h,
                   //       )
                   //     :
-                mainTopWidget??  Image.network(
-                image ?? "",
-                fit: BoxFit.cover,
-                height: 250.h,
-              ),
+                  image != null
+                      ? Image.network(
+                          image ?? "",
+                          fit: BoxFit.cover,
+                          height: 250.h,
+                        )
+                      : SizedBox(
+                          height: 250.h,
+                          child: GoogleMap(
+                            onMapCreated: (controller) {
+                              _controller = controller;
+                              _setMapStyle();
+                            },
+                            initialCameraPosition: CameraPosition(
+                                target:
+                                    LatLng(latitude ?? 44.0, longitude ?? 40.0),
+                                zoom: 16),
+                            zoomControlsEnabled: false,
+                            markers: <Marker>{
+                              Marker(
+                                  markerId: const MarkerId("1"),
+                                  position: LatLng(
+                                      latitude ?? 44.0, longitude ?? 40.0),
+                                  icon: BitmapDescriptor.defaultMarker)
+                            },
+                          ),
+                        ),
             ),
           ),
           // SizedBox(
@@ -416,11 +499,11 @@ class _StatisticState extends State<Statistic> {
                 series: <LineSeries<SalesData, String>>[
           LineSeries<SalesData, String>(
               dataSource: <SalesData>[
-            SalesData('Jan', 35),
-            SalesData('Feb', 28),
-            SalesData('Mar', 34),
-            SalesData('Apr', 32),
-            SalesData('May', 40)
+                SalesData('Jan', 35),
+                SalesData('Feb', 28),
+                SalesData('Mar', 34),
+                SalesData('Apr', 32),
+                SalesData('May', 40)
               ],
               xValueMapper: (SalesData sales, _) => sales.year,
               yValueMapper: (SalesData sales, _) => sales.sales,

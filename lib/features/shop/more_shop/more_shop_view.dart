@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/view/my_order_shop_view.dart';
 import 'package:trainee_restaurantapp/features/shop/my_products/view/all_products_screen.dart';
 import '../../../../../core/common/app_colors.dart';
@@ -12,6 +13,9 @@ import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../core/appStorage/app_storage.dart';
+import '../../../core/localization/localization_provider.dart';
+import '../../Acount/data/repositories/auth_repo.dart';
+import '../../Acount/presentation/screens/change_password_screen.dart';
 import '../../on_boarding/view/main_onboarding_view.dart';
 import '../../trainer/subscription/presentation/view/subscription_screen.dart';
 
@@ -83,37 +87,60 @@ class MoreShopScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // sn.languagesEnum == LanguagesEnum.arabic
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 57.w,
-                child: Center(
-                    child: CustomText(
-                  text: Translation.of(context).arabic,
-                  fontSize: AppConstants.textSize14,
-                )),
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'en'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_AR), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 57.w,
+                            child: Center(
+                                child: CustomText(
+                              text: Translation.of(context).arabic,
+                              fontSize: AppConstants.textSize14,
+                            )),
+                          ),
+                        )
+                      : const SizedBox();
+                },
               ),
               Gaps.hGap32,
-              // sn.languagesEnum == LanguagesEnum.english
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 60.w,
-                child: Center(
-                  child: Container(
-                    child: CustomText(
-                      text: Translation.of(context).english,
-                      fontSize: AppConstants.textSize14,
-                    ),
-                  ),
-                ),
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'ar'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_EN), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 60.w,
+                            child: Center(
+                              child: Container(
+                                child: CustomText(
+                                  text: Translation.of(context).english,
+                                  fontSize: AppConstants.textSize14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox();
+                },
               )
             ],
           ),
           GestureDetector(
             onTap: () {
-              // Nav.to(PrivacyPolicyScreen.routeName);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChangePasswordScreen(
+                        screenNumber: typeUser,
+                      )));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -173,8 +200,7 @@ class MoreShopScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MainOnBoardingView()));
+              AuthRepo().logout(context);
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -234,7 +260,13 @@ class MoreShopScreen extends StatelessWidget {
                     title: Translation.of(context).bouquet,
                     imgPath: AppConstants.VEGGIE2_IMG,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SubscriptionScreen(typeUser: typeUser,),));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SubscriptionScreen(
+                              typeUser: typeUser,
+                            ),
+                          ));
                     },
                   ),
                 ],

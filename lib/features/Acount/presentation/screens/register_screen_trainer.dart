@@ -39,8 +39,9 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
         builder: (context, state) {
           return GeneralAuthScreen(
             additionalText: Translation.of(context).account_exist,
-            onButtonTap: () =>
-                AuthCubit.of(context).registerTrainer(context, widget.userType),
+            onButtonTap: (){
+              AuthCubit.of(context).registerTrainer(context, widget.userType);
+            },
             additionalTapText: Translation.of(context).login2,
             buttonText: Translation.of(context).signUp,
             isloading: AuthCubit.of(context).isLoading,

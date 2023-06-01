@@ -23,7 +23,8 @@ class AddCourseView extends StatefulWidget {
 }
 
 class _AddCourseViewState extends State<AddCourseView> {
-  uploadSignUpFile({required void Function()? onTap, required String text, File? file}) {
+  uploadSignUpFile(
+      {required void Function()? onTap, required String text, File? file}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
@@ -55,12 +56,12 @@ class _AddCourseViewState extends State<AddCourseView> {
                   child: Center(
                     child: file == null
                         ? const Center(
-                      child: FaIcon(
-                        FontAwesomeIcons.upload,
-                        color: AppColors.accentColorLight,
-                        size: Dimens.dp40,
-                      ),
-                    )
+                            child: FaIcon(
+                              FontAwesomeIcons.upload,
+                              color: AppColors.accentColorLight,
+                              size: Dimens.dp40,
+                            ),
+                          )
                         : Image.file(file),
                   ),
                 ),
@@ -106,7 +107,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                                 AddCourseCubit.of(context).enNameFocusNode);
                           },
                           textInputAction: TextInputAction.next,
-                          controller: AddCourseCubit.of(context).arNameController,
+                          controller:
+                              AddCourseCubit.of(context).arNameController,
                           focusNode: AddCourseCubit.of(context).arNameFocusNode,
                         ),
                         Gaps.vGap16,
@@ -117,7 +119,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                                 AddCourseCubit.of(context).feeFocusNode);
                           },
                           textInputAction: TextInputAction.next,
-                          controller: AddCourseCubit.of(context).enNameController,
+                          controller:
+                              AddCourseCubit.of(context).enNameController,
                           focusNode: AddCourseCubit.of(context).enNameFocusNode,
                         ),
                         Gaps.vGap16,
@@ -127,7 +130,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                           onTap: () async {
                             AddCourseCubit.of(context).file =
                                 await AddCourseCubit.of(context).getFile();
-                            AddCourseCubit.of(context).uploadImage(context, AddCourseCubit.of(context).file!);
+                            AddCourseCubit.of(context).uploadImage(
+                                context, AddCourseCubit.of(context).file!);
                             AddCourseCubit.of(context)
                                 .emit(UploadSignUpFileState());
                           },
@@ -137,7 +141,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                           text: "سعرالكورس",
                           onFiledSubmitted: () {
                             FocusScope.of(context).requestFocus(
-                                AddCourseCubit.of(context).discountPercentageFocusNode);
+                                AddCourseCubit.of(context)
+                                    .discountPercentageFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context).feeController,
@@ -148,7 +153,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                           text: "نسبه الخصم",
                           onFiledSubmitted: () {
                             FocusScope.of(context).requestFocus(
-                                AddCourseCubit.of(context).trainingHoursCountFocusNode);
+                                AddCourseCubit.of(context)
+                                    .trainingHoursCountFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context)
@@ -161,7 +167,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                           text: "عدد الساعات",
                           onFiledSubmitted: () {
                             FocusScope.of(context).requestFocus(
-                                AddCourseCubit.of(context).arDescriptionFocusNode);
+                                AddCourseCubit.of(context)
+                                    .arDescriptionFocusNode);
                           },
                           textInputAction: TextInputAction.next,
                           controller: AddCourseCubit.of(context)
@@ -174,11 +181,12 @@ class _AddCourseViewState extends State<AddCourseView> {
                           text: "تفاصيل الكورس باللغه العربيه",
                           onFiledSubmitted: () {
                             FocusScope.of(context).requestFocus(
-                                AddCourseCubit.of(context).enDescriptionFocusNode);
+                                AddCourseCubit.of(context)
+                                    .enDescriptionFocusNode);
                           },
                           textInputAction: TextInputAction.next,
-                          controller:
-                              AddCourseCubit.of(context).arDescriptionController,
+                          controller: AddCourseCubit.of(context)
+                              .arDescriptionController,
                           focusNode:
                               AddCourseCubit.of(context).arDescriptionFocusNode,
                         ),
@@ -189,8 +197,8 @@ class _AddCourseViewState extends State<AddCourseView> {
                             // FocusScope.of(context).requestFocus(passwordFocusNode);
                           },
                           textInputAction: TextInputAction.next,
-                          controller:
-                              AddCourseCubit.of(context).enDescriptionController,
+                          controller: AddCourseCubit.of(context)
+                              .enDescriptionController,
                           focusNode:
                               AddCourseCubit.of(context).enDescriptionFocusNode,
                         ),
@@ -205,22 +213,30 @@ class _AddCourseViewState extends State<AddCourseView> {
                         //   focusNode: commercialNumber,
                         // ),
                         // Gaps.vGap16,
-                        SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 45.0,
-                              horizontal: 20,
-                            ),
-                            child: CustomElevatedButton(
-                              borderRadius: 12,
-                              onTap: () {
-                                AddCourseCubit.of(context).addCourse(context);
-                              },
-                              text: 'اضافه',
-                            ),
-                          ),
-                        )
+                        BlocBuilder<AddCourseCubit, AddCourseState>(
+                          buildWhen: (previous, current) => previous != current,
+                          builder: (context, state) {
+                            return state is UploadImageLoaded
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 45.0,
+                                        horizontal: 20,
+                                      ),
+                                      child: CustomElevatedButton(
+                                        borderRadius: 12,
+                                        onTap: () {
+                                          AddCourseCubit.of(context)
+                                              .addCourse(context);
+                                        },
+                                        text: 'اضافه',
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox();
+                          },
+                        ),
                       ],
                     ),
                   ),

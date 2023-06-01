@@ -8,6 +8,8 @@ class UpdateRestProfileModel {
   int? id;
   String? arName;
   String? enName;
+  String? arDescription;
+  String? enDescription;
   String? arLogo;
   String? enLogo;
   String? arCover;
@@ -27,6 +29,8 @@ class UpdateRestProfileModel {
     required this.id,
     required this.arName,
     required this.enName,
+    required this.arDescription,
+    required this.enDescription,
     required this.arLogo,
     required this.enLogo,
     required this.arCover,
@@ -48,6 +52,8 @@ class UpdateRestProfileModel {
       "id": id,
       "arName": arName,
       "enName": enName,
+      "arDescription": arDescription,
+      "enDescription": enDescription,
       "arLogo": arLogo,
       "enLogo": enLogo,
       "arCover": arCover,

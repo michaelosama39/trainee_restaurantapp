@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
-import 'package:trainee_restaurantapp/core/navigation/route_generator.dart';
+import 'package:provider/provider.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/view/my_order_restaurant_view.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_plates/view/all_plates_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/subscription/presentation/view/subscription_screen.dart';
-
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
@@ -15,7 +13,9 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../on_boarding/view/main_onboarding_view.dart';
+import '../../../core/localization/localization_provider.dart';
+import '../../Acount/data/repositories/auth_repo.dart';
+import '../../Acount/presentation/screens/change_password_screen.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
   const MoreRestaurantScreen({Key? key, required this.typeUser})
@@ -27,19 +27,13 @@ class MoreRestaurantScreen extends StatelessWidget {
       {required String title,
       required String imgPath,
       required Function onPressed}) {
-    double? rightPosition;
-    double? leftPosition;
-    // if (sn.languagesEnum == LanguagesEnum.arabic)
-    //   rightPosition = 0.0;
-    // else
-    leftPosition = 0.0;
     return GestureDetector(
       onTap: () {
         onPressed();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
+        child: SizedBox(
           width: 143.w,
           height: 45.h,
           child: Row(
@@ -89,37 +83,60 @@ class MoreRestaurantScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // sn.languagesEnum == LanguagesEnum.arabic
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 57.w,
-                child: Center(
-                    child: CustomText(
-                  text: Translation.of(context).arabic,
-                  fontSize: AppConstants.textSize14,
-                )),
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'en'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_AR), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 57.w,
+                            child: Center(
+                                child: CustomText(
+                              text: Translation.of(context).arabic,
+                              fontSize: AppConstants.textSize14,
+                            )),
+                          ),
+                        )
+                      : const SizedBox();
+                },
               ),
               Gaps.hGap32,
-              // sn.languagesEnum == LanguagesEnum.english
-              //     ?
-              BlurWidget(
-                height: 20.h,
-                width: 60.w,
-                child: Center(
-                  child: Container(
-                    child: CustomText(
-                      text: Translation.of(context).english,
-                      fontSize: AppConstants.textSize14,
-                    ),
-                  ),
-                ),
+              Consumer<LocalizationProvider>(
+                builder: (_, provider, __) {
+                  return provider.appLocal.languageCode == 'ar'
+                      ? InkWell(
+                          onTap: () {
+                            provider.changeLanguage(
+                                const Locale(AppConstants.LANG_EN), context);
+                          },
+                          child: BlurWidget(
+                            height: 20.h,
+                            width: 60.w,
+                            child: Center(
+                              child: Container(
+                                child: CustomText(
+                                  text: Translation.of(context).english,
+                                  fontSize: AppConstants.textSize14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox();
+                },
               )
             ],
           ),
           GestureDetector(
             onTap: () {
-              // Nav.to(PrivacyPolicyScreen.routeName);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ChangePasswordScreen(
+                        screenNumber: typeUser,
+                      )));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -179,9 +196,7 @@ class MoreRestaurantScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              AppStorage.signOut();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MainOnBoardingView()));
+              AuthRepo().logout(context);
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(

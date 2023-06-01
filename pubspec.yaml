@@ -161,6 +161,7 @@ dependencies:
   flutter_svg: ^2.0.4
   syncfusion_flutter_charts: ^21.1.37
   file_picker: ^5.2.0+1
+  firebase_auth: ^4.6.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

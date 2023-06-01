@@ -207,5 +207,6 @@
   "pricePerHour" :"riyal/hour",
   "myFiles" :"my files",
   "cv" :"cv",
-  "certificate" :"certificate"
+  "certificate" :"certificate",
+  "dishsMostOrder" : "The most popular dishes"
 }

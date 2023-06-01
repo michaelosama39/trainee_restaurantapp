@@ -78,7 +78,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             fontWeight: FontWeight.w700,
                           ),
                           CustomText(
-                            text: trainerModel.subscription!.name ?? "",
+                            text: trainerModel.subscription?.name ?? "",
                             fontSize: Dimens.dp20,
                             color: AppColors.accentColorLight,
                             fontWeight: FontWeight.w700,
@@ -306,6 +306,14 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     );
   }
 
+
+  @override
+  void initState() {
+    TrainerProfileCubit.of(context).getTrainerProfile(context);
+    HomeTrainerCubit.of(context).getMostWantedCourses(context);
+    HomeTrainerCubit.of(context).getNewTrainees(context);
+  }
+
   Widget _buildSectionWidget() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -531,7 +539,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
             BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
               builder: (context, state) {
                 if (TrainerProfileCubit.of(context).trainerModel != null) {
-                  return Expanded(
+                  return  Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -554,17 +562,22 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                 children: [
                                   CustomText(
                                     text: TrainerProfileCubit.of(context)
-                                            .trainerModel!
-                                            .subscription!
-                                            .name ??
-                                        "",
+                                                .trainerModel!
+                                                .subscription ==
+                                            null
+                                        ? ''
+                                        : TrainerProfileCubit.of(context)
+                                                .trainerModel!
+                                                .subscription!
+                                                .name ??
+                                            "",
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.white,
                                     fontSize: AppConstants.textSize16,
                                   ),
                                   CustomText(
                                     text:
-                                        "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee} ${Translation.of(context).saudi_riyal}",
+                                        "${TrainerProfileCubit.of(context).trainerModel?.subscription == null ? '' : TrainerProfileCubit.of(context).trainerModel?.subscription!.fee} ${Translation.of(context).saudi_riyal}",
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.white,
                                     fontSize: AppConstants.textSize16,

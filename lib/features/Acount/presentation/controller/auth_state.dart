@@ -42,3 +42,9 @@ class UploadSignUpFileState extends AuthState {}
 
 class UploadImageLoaded extends AuthState {}
 class UploadImageLoading extends AuthState {}
+
+class ChangePasswordLoaded extends AuthState {}
+class ChangePasswordLoading extends AuthState {}
+
+class LogoutLoaded extends AuthState {}
+class LogoutLoading extends AuthState {}
