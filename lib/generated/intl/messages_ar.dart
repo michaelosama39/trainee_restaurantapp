@@ -98,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "date_of_birth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "details": MessageLookupByLibrary.simpleMessage("التفاصيل"),
         "dishes": MessageLookupByLibrary.simpleMessage("الأطباق"),
+        "dishsMostOrder":
+            MessageLookupByLibrary.simpleMessage("الاطباق الاكثر طلبا"),
         "edit_profile":
             MessageLookupByLibrary.simpleMessage("تعديل الصفحة الشخصية"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الألكتروني"),
@@ -321,7 +323,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "whats_ur_opinion": MessageLookupByLibrary.simpleMessage("ما هو رأيك؟"),
         "whats_ur_rating":
             MessageLookupByLibrary.simpleMessage("ما هو تقييمك؟"),
-        "women": MessageLookupByLibrary.simpleMessage("نساء"),
-    "dishsMostOrder": MessageLookupByLibrary.simpleMessage("الاطباق الاكثر طلبا")
+        "women": MessageLookupByLibrary.simpleMessage("نساء")
       };
 }
