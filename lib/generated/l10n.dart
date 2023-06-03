@@ -2119,6 +2119,16 @@ class Translation {
       args: [],
     );
   }
+
+  /// `The most popular dishes`
+  String get dishsMostOrder {
+    return Intl.message(
+      'The most popular dishes',
+      name: 'dishsMostOrder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Translation> {

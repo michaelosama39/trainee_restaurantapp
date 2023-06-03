@@ -31,8 +31,11 @@ class _EditRestaurantScreenContentState
   @override
   void initState() {
     RestProfileCubit.of(context).getRestaurantProfile(context);
+    getWeekDays();
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +91,6 @@ class _EditRestaurantScreenContentState
               RestProfileCubit.of(context).restaurantsModel!.websiteUrl ?? '';
         },
         builder: (context, state) {
-          if (state is GetRestProfileLoading) {
-            return const Loader();
-          } else {
             return SizedBox(
               height: 1.sh,
               child: SingleChildScrollView(
@@ -289,7 +289,6 @@ class _EditRestaurantScreenContentState
                 ),
               ),
             );
-          }
         },
       ),
     );
@@ -498,33 +497,39 @@ class _EditRestaurantScreenContentState
   };
 
   List<Weekdays> weekdaysList = [
-    Weekdays(id: 0, day: getDay(0), selectedDays: false),
-    Weekdays(id: 1, day: getDay(1), selectedDays: false),
-    Weekdays(id: 2, day: getDay(2), selectedDays: false),
-    Weekdays(id: 3, day: getDay(3), selectedDays: false),
-    Weekdays(id: 4, day: getDay(4), selectedDays: false),
-    Weekdays(id: 5, day: getDay(5), selectedDays: false),
-    Weekdays(id: 6, day: getDay(6), selectedDays: false)
+    Weekdays(id: 0, day: getDay(0), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 1, day: getDay(1), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 2, day: getDay(2), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 3, day: getDay(3), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 4, day: getDay(4), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 5, day: getDay(5), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
+    Weekdays(id: 6, day: getDay(6), selectedDays: false,to: "01:00 AM",from: "01:00 AM")
   ];
 
   String formattedTime(String dateTime) {
     return DateFormat('hh:mm a').format(DateTime.parse(dateTime));
   }
 
+  void getWeekDays(){
+    List<OpeningDays> openingDays =
+        RestProfileCubit.of(context).restaurantsModel!.openingDays ?? [];
+
+    for (var element in weekdaysList) {
+
+      for (var elementOpeningDays in openingDays) {
+        print(DateFormat('HH:mm').format(DateTime.parse("01:00")));
+        if (element.id == elementOpeningDays.day) {
+          element.selectedDays = true;
+          element.from = elementOpeningDays.from;
+          element.to = elementOpeningDays.to;
+        }
+      }
+    }
+  }
+
   Widget _addWorkingHours() {
     return BlocBuilder<RestProfileCubit, RestProfileState>(
       builder: (context, state) {
-        List<OpeningDays> openingDays =
-            RestProfileCubit.of(context).restaurantsModel!.openingDays ?? [];
-        weekdaysList.forEach((element) {
-          openingDays.forEach((elementOpeningDays) {
-            if (element.id == elementOpeningDays.day) {
-              element.selectedDays = true;
-              print(formattedTime(elementOpeningDays.from ?? ''));
-              print(formattedTime(elementOpeningDays.to ?? ''));
-            }
-          });
-        });
         return SizedBox(
           height: 350.h,
           child: ListView.builder(
@@ -575,7 +580,7 @@ class _EditRestaurantScreenContentState
                             border: Border.all(color: AppColors.white),
                           ),
                           height: 30.h,
-                          child: HourDropDown(),
+                          child: HourDropDown(hour:weekdaysList[index].from),
                         )),
                     Gaps.hGap4,
                     Expanded(
@@ -593,7 +598,7 @@ class _EditRestaurantScreenContentState
                                   const BorderRadius.all(Radius.circular(5)),
                               border: Border.all(color: AppColors.white)),
                           height: 30.h,
-                          child: HourDropDown(),
+                          child: HourDropDown(hour: weekdaysList[index].to),
                         )),
                   ],
                 ),
@@ -607,6 +612,8 @@ class _EditRestaurantScreenContentState
 }
 
 class HourDropDown extends StatefulWidget {
+  final String? hour;
+  const HourDropDown({super.key, required this.hour});
   @override
   _HourDropDownState createState() => _HourDropDownState();
 }
@@ -638,7 +645,21 @@ class _HourDropDownState extends State<HourDropDown> {
     '10:00 PM',
     '11:00 PM',
     '12:00 PM'
-  ]; // List of hours
+  ];// List of hours
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    updateSelectedHour();
+    super.initState();
+  }
+
+  void updateSelectedHour(){
+    print(widget.hour);
+    selectedHour = widget.hour  ?? "01:00 AM";
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -675,6 +696,8 @@ class Weekdays {
   String? day;
   int? id;
   bool? selectedDays;
+  String? from;
+  String? to;
 
-  Weekdays({required this.day, required this.id, required this.selectedDays});
+  Weekdays({required this.day, required this.id, required this.selectedDays,required this.from,required this.to});
 }

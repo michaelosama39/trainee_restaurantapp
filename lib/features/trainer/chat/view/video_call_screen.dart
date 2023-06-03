@@ -30,8 +30,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   bool muted = false;
   late RtcEngine agoraEngine; // Agora engine instance
 
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey
-  = GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
 
   showMessage(String message) {
     scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(

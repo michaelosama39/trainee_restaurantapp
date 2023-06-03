@@ -12,7 +12,6 @@ import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
-import '../../../../../core/localization/localization_provider.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../core/ui/widgets/custom_checkBox.dart';
@@ -216,7 +215,9 @@ class MoreTrainerScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              AuthRepo().logout(context);
+              AppStorage.signOut();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MainOnBoardingView()));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -304,10 +305,7 @@ class MoreTrainerScreen extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangePasswordScreen(
-                            screenNumber: typeUser,
-                          )));
+                  //Nav.to(ChangePasswordScreen.routeName);
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),

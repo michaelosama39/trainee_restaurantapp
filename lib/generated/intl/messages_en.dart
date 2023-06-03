@@ -100,6 +100,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "date_of_birth": MessageLookupByLibrary.simpleMessage("Date of birth"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "dishes": MessageLookupByLibrary.simpleMessage("Dishes"),
+        "dishsMostOrder":
+            MessageLookupByLibrary.simpleMessage("The most popular dishes"),
         "edit_profile": MessageLookupByLibrary.simpleMessage("Edit profile"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
@@ -319,7 +321,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("What is your opinion?"),
         "whats_ur_rating":
             MessageLookupByLibrary.simpleMessage("What is your rating?"),
-        "women": MessageLookupByLibrary.simpleMessage("Women"),
-        "dishsMostOrder": MessageLookupByLibrary.simpleMessage("The most popular dishes")
+        "women": MessageLookupByLibrary.simpleMessage("Women")
       };
 }
