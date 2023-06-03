@@ -54,8 +54,6 @@ class RestProfileRepo {
   }
 
   Future<Either<String, RestaurantsModel>> getRestProfile() async {
-    print(AppStorage.getUserInfo!.result!.restaurantId);
-    print('///////////////////');
     final response = await DioHelper.get(APIUrls.API_GET_REST_PROFILE,
         query: {"id": AppStorage.getUserInfo!.result!.restaurantId});
     try {

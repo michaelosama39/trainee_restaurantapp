@@ -13,10 +13,6 @@ class RegisterRestaurantModel {
   String? managerName;
   String? managerPhoneNumber;
   String? managerCountryCode;
-  String? arDescription;
-  String? enDescription;
-  double? latitude;
-  double? longitude;
 
   RegisterRestaurantModel(
       {this.name,
@@ -28,11 +24,7 @@ class RegisterRestaurantModel {
       this.cityId,
       this.managerName,
       this.managerPhoneNumber,
-      this.managerCountryCode,
-      this.arDescription,
-      this.enDescription,
-      this.latitude,
-      this.longitude});
+      this.managerCountryCode,});
 
   Future<Map<String, dynamic>> toJson() async {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -42,14 +34,10 @@ class RegisterRestaurantModel {
     data['phoneNumber'] = phoneNumber;
     data['commercialRegisterNumber'] = commercialRegisterNumber;
     data['commercialRegisterDocument'] = commercialRegisterDocument;
-    data['arDescription'] = arDescription;
-    data['enDescription'] = enDescription;
     data['cityId'] = cityId;
     data['managerName'] = managerName;
     data['managerPhoneNumber'] = managerPhoneNumber;
     data['managerCountryCode'] = managerCountryCode;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
     return data;
   }
 }

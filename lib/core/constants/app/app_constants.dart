@@ -122,6 +122,10 @@ class AppConstants {
       "assets/images/png/restaurantprofile.png";
   static const PLATE_IMG =
       "assets/images/png/plate.png";
+  static const AVATER_IMG =
+      "assets/images/png/avatar.png";
+  static const COVER_IMG =
+      "assets/images/png/cove.png";
 
   /// Svg
 

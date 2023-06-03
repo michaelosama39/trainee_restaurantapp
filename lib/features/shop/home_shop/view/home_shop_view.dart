@@ -353,7 +353,9 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                               height: 100.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
+                                image: shopModel?.logo == null ? const DecorationImage(
+                                    image: AssetImage(AppConstants.AVATER_IMG),
+                                    fit: BoxFit.fill ) : DecorationImage(
                                     image: NetworkImage(shopModel?.logo ?? ''),
                                     fit: BoxFit.fill),
                               ),

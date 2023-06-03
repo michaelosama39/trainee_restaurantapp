@@ -12,6 +12,7 @@ import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
 import '../../../../../core/constants/app/app_constants.dart';
+import '../../../../../core/localization/localization_provider.dart';
 import '../../../../../core/ui/widgets/blur_widget.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
 import '../../../../../core/ui/widgets/custom_checkBox.dart';
@@ -95,48 +96,48 @@ class MoreTrainerScreen extends StatelessWidget {
             children: [
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
-                  return provider.appLocal.languageCode == 'en'
-                      ? InkWell(
-                          onTap: () {
-                            provider.changeLanguage(
-                                const Locale(AppConstants.LANG_AR), context);
-                          },
-                          child: BlurWidget(
-                            height: 20.h,
-                            width: 57.w,
-                            child: Center(
-                                child: CustomText(
-                              text: Translation.of(context).arabic,
-                              fontSize: AppConstants.textSize14,
-                            )),
-                          ),
-                        )
-                      : const SizedBox();
+                  return InkWell(
+                    onTap: () {
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_AR), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 57.w,
+                      colorBorder: provider.appLocal.languageCode == 'ar'
+                          ? AppColors.accentColorLight
+                          : null,
+                      child: Center(
+                          child: CustomText(
+                            text: Translation.of(context).arabic,
+                            fontSize: AppConstants.textSize14,
+                          )),
+                    ),
+                  );
                 },
               ),
               Gaps.hGap32,
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
-                  return provider.appLocal.languageCode == 'ar'
-                      ? InkWell(
-                          onTap: () {
-                            provider.changeLanguage(
-                                const Locale(AppConstants.LANG_EN), context);
-                          },
-                          child: BlurWidget(
-                            height: 20.h,
-                            width: 60.w,
-                            child: Center(
-                              child: Container(
-                                child: CustomText(
-                                  text: Translation.of(context).english,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox();
+                  return InkWell(
+                    onTap: () {
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_EN), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 60.w,
+                      colorBorder: provider.appLocal.languageCode == 'en'
+                          ? AppColors.accentColorLight
+                          : null,
+                      child: Center(
+                        child: CustomText(
+                          text: Translation.of(context).english,
+                          fontSize: AppConstants.textSize14,
+                        ),
+                      ),
+                    ),
+                  );
                 },
               )
             ],

@@ -49,10 +49,14 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                         height: 50.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  restaurantsModel.logo ?? ''),
-                              fit: BoxFit.fill),
+                          image: restaurantsModel.logo == null
+                              ? const DecorationImage(
+                                  image: AssetImage(AppConstants.AVATER_IMG),
+                                  fit: BoxFit.fill)
+                              : DecorationImage(
+                                  image:
+                                      NetworkImage(restaurantsModel.logo ?? ''),
+                                  fit: BoxFit.fill),
                         ),
                       ),
                       SizedBox(
@@ -293,72 +297,76 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
               color: AppColors.white,
             ),
           ),
-           Expanded(
-            child: restaurantsModel.openingDays!.isEmpty ? const Center(
-              child: Text('لا توجد ايام حاليا'),
-            ) : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
+          Expanded(
+            child: restaurantsModel.openingDays!.isEmpty
+                ? const Center(
+                    child: Text('لا توجد ايام حاليا'),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 50,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Icon(
-                                Icons.access_time,
-                                size: 14,
-                                color: AppColors.accentColorLight,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.access_time,
+                                      size: 14,
+                                      color: AppColors.accentColorLight,
+                                    ),
+                                    Gaps.hGap8,
+                                    CustomText(
+                                      text: RestProfileCubit.of(context)
+                                          .convertDays(restaurantsModel
+                                              .openingDays![index].day!),
+                                      color: AppColors.accentColorLight,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AppConstants.textSize14,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Gaps.hGap8,
-                              CustomText(
-                                text: RestProfileCubit.of(context).convertDays(
-                                    restaurantsModel.openingDays![index].day!),
-                                color: AppColors.accentColorLight,
-                                fontWeight: FontWeight.w500,
-                                fontSize: AppConstants.textSize14,
-                              ),
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                    text:
+                                        "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AppConstants.textSize14,
+                                  ),
+                                  CustomText(
+                                    text:
+                                        "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AppConstants.textSize14,
+                                  ),
+                                ],
+                              )),
                             ],
                           ),
-                        ),
-                        Expanded(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text:
-                                  "من ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].from ?? ''))}",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppConstants.textSize14,
-                            ),
-                            CustomText(
-                              text:
-                                  "الي ${DateFormat('HH:mm').format(DateTime.parse(restaurantsModel.openingDays![index].to ?? ''))}",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppConstants.textSize14,
-                            ),
-                          ],
-                        )),
-                      ],
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          height: 2,
+                          color: AppColors.grey,
+                        );
+                      },
+                      itemCount: restaurantsModel.openingDays!.length,
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Container(
-                    height: 2,
-                    color: AppColors.grey,
-                  );
-                },
-                itemCount: restaurantsModel.openingDays!.length,
-              ),
-            ),
+                  ),
           ),
         ],
       ),
@@ -367,12 +375,14 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
 
   Widget _restaurantProfileSocialMedia(RestaurantsModel restaurantsModel) {
     List<SocialModel> listOfSocial = [
-      SocialModel(
-          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
-      SocialModel(
-          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
-      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.facebook,
+          restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.sitemap,
+          restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.instagram,
+          restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.twitter,
+          restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
     ];
     return SizedBox(
       height: 300.h,
@@ -461,12 +471,13 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
               onTap: () {
                 Navigator.pushNamed(context, Routes.editRestProfileScreen);
               },
-              child: const ImageIcon(
-                  AssetImage(AppConstants.EDIT_PROFILE_ICON))),
+              child:
+                  const ImageIcon(AssetImage(AppConstants.EDIT_PROFILE_ICON))),
           Gaps.hGap16,
           InkWell(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const NotificationScreen()));
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const NotificationScreen()));
             },
             child: const Icon(
               Icons.notifications,
@@ -477,20 +488,19 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
         ],
       ),
       body: BlocBuilder<RestProfileCubit, RestProfileState>(
-        buildWhen: (previous, current) =>
-        previous != current,
+        buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (state is GetRestProfileLoading) {
             return const Loader();
           } else {
-              var restaurantsModel =
-                  RestProfileCubit.of(context).restaurantsModel;
+            var restaurantsModel =
+                RestProfileCubit.of(context).restaurantsModel;
             return SafeArea(
               child: CustomScrollView(slivers: <Widget>[
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    image: restaurantsModel!.cover??'',
+                    image: restaurantsModel!.cover ?? '',
                     expandedHeight: 220.h,
                     child: _buildSubscriptionWidget(restaurantsModel),
                   ),
@@ -503,7 +513,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                       children: [
                         Gaps.vGap10,
                         _restaurantProfileData(restaurantsModel),
-                        _restaurantProfileWorkingHours(restaurantsModel),
+                        // _restaurantProfileWorkingHours(restaurantsModel),
                         _restaurantProfileSocialMedia(restaurantsModel)
                       ],
                     ),

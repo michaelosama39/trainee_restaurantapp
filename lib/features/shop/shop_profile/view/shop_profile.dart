@@ -49,7 +49,11 @@ class _ShopProfileState extends State<ShopProfile> {
                         height: 50.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
+                          image: restaurantsModel.logo == null
+                              ? const DecorationImage(
+                              image: AssetImage(AppConstants.AVATER_IMG),
+                              fit: BoxFit.fill)
+                              : DecorationImage(
                               image: NetworkImage(
                                   restaurantsModel.logo ?? ''),
                               fit: BoxFit.fill),
@@ -504,7 +508,7 @@ class _ShopProfileState extends State<ShopProfile> {
                       children: [
                         Gaps.vGap10,
                         _restaurantProfileData(restaurantsModel),
-                        _restaurantProfileWorkingHours(restaurantsModel),
+                        // _restaurantProfileWorkingHours(restaurantsModel),
                         _restaurantProfileSocialMedia(restaurantsModel)
                       ],
                     ),

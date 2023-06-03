@@ -22,8 +22,8 @@ class RestaurantsModel {
   String? instagramUrl;
   String? twitterUrl;
   String? websiteUrl;
-  String? latitude;
-  String? longitude;
+  double? latitude;
+  double? longitude;
   List<OpeningDays>? openingDays;
   double? rate;
   String? creationTime;

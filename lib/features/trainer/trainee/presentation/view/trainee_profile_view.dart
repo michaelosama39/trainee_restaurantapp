@@ -393,11 +393,17 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                   //       )
                   //     :
                   image != null
-                      ? Image.network(
-                          image ?? "",
-                          fit: BoxFit.cover,
-                          height: 250.h,
-                        )
+                      ? image == ''
+                          ? Image.asset(
+                              AppConstants.COVER_IMG,
+                              fit: BoxFit.cover,
+                              height: 250.h,
+                            )
+                          : Image.network(
+                              image ?? "",
+                              fit: BoxFit.cover,
+                              height: 250.h,
+                            )
                       : SizedBox(
                           height: 250.h,
                           child: GoogleMap(
@@ -406,8 +412,8 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                               _setMapStyle();
                             },
                             initialCameraPosition: CameraPosition(
-                                target:
-                                    LatLng(latitude!.toDouble(), longitude!.toDouble()),
+                                target: LatLng(latitude!.toDouble(),
+                                    longitude!.toDouble()),
                                 zoom: 12),
                             zoomControlsEnabled: false,
                             markers: <Marker>{

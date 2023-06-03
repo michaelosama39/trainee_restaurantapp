@@ -13,6 +13,7 @@ import '../../../../../core/ui/widgets/custom_checkBox.dart';
 import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/title_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../core/datasources/shared_preference.dart';
 import '../../../core/localization/localization_provider.dart';
 import '../../Acount/data/repositories/auth_repo.dart';
 import '../../Acount/presentation/screens/change_password_screen.dart';
@@ -89,7 +90,7 @@ class MoreRestaurantScreen extends StatelessWidget {
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
                   return InkWell(
-                    onTap: () {
+                    onTap: () async{
                       provider.changeLanguage(
                           const Locale(AppConstants.LANG_AR), context);
                     },
@@ -112,7 +113,7 @@ class MoreRestaurantScreen extends StatelessWidget {
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
                   return InkWell(
-                    onTap: () {
+                    onTap: () async{
                       provider.changeLanguage(
                           const Locale(AppConstants.LANG_EN), context);
                     },

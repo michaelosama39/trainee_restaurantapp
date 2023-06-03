@@ -11,7 +11,11 @@ import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/dat
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/models/update_rest_profile_model.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/data/repositories/RestProfileRepo.dart';
 
+import '../../../../core/location/LocationAddressImports.dart';
+import '../../../../core/location/location_cubit/location_cubit.dart';
+import '../../../../core/location/model/location_model.dart';
 import '../../../../core/ui/toast.dart';
+import '../../../../core/utils/Utils.dart';
 
 part 'rest_profile_state.dart';
 
@@ -43,6 +47,11 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   TextEditingController instegramController = TextEditingController();
   TextEditingController twitterController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
+  FocusNode descAr = FocusNode();
+  FocusNode descEn = FocusNode();
+
+  TextEditingController descArController = TextEditingController();
+  TextEditingController descEnController = TextEditingController();
 
   File? fileLogoAr;
   File? fileLogoEn;
@@ -56,6 +65,8 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   String? imgCoveAr;
   String? imgCommercialRegisterDoc;
 
+  final LocationCubit locationCubit = LocationCubit();
+
   Future uploadImage(BuildContext context, File file) async {
     emit(UploadImageLoading());
     final res = await restProfileRepo.uploadImage(file);
@@ -67,13 +78,13 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       (res) async {
         if (file == fileLogoAr) {
           imgLogoAr = res;
-        }else if (file == fileLogoEn) {
+        } else if (file == fileLogoEn) {
           imgLogoEn = res;
-        }else if (file == fileCoveEn) {
+        } else if (file == fileCoveEn) {
           imgCoveEn = res;
-        }else if (file == fileCoveAr) {
+        } else if (file == fileCoveAr) {
           imgCoveAr = res;
-        }else if (file == fileCommercialRegisterDoc) {
+        } else if (file == fileCommercialRegisterDoc) {
           imgCommercialRegisterDoc = res;
         }
         emit(UploadImageLoaded());
@@ -86,21 +97,24 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       id: restaurantsModel!.id,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arDescription: restaurantsModel!.arDescription,
-      enDescription: restaurantsModel!.enDescription,
-      arLogo: imgLogoAr,
-      enLogo: imgLogoEn,
-      arCover: imgCoveAr,
-      enCover: imgCoveEn,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
+      arLogo: imgLogoAr== null ? restaurantsModel!.arLogo : imgLogoAr,
+      enLogo: imgLogoEn== null ? restaurantsModel!.enLogo : imgLogoEn,
+      arCover: imgCoveAr== null ? restaurantsModel!.arCover : imgCoveAr,
+      enCover: imgCoveEn == null ? restaurantsModel!.enCover : imgCoveEn,
       commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc,
-      buildingNumber: buildNumController.text,
+      commercialRegisterDocument: imgCommercialRegisterDoc == null ? restaurantsModel!.commercialRegisterDocument : imgCommercialRegisterDoc,
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,
       instagramUrl: instegramController.text,
       twitterUrl: twitterController.text,
       websiteUrl: websiteController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
     );
+
+    print(await updateRestProfileModel.toJson());
 
     emit(UpdateRestProfileLoading());
     final res = await restProfileRepo.updateRestProfile(updateRestProfileModel);
@@ -172,5 +186,27 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     if (result != null) {
       return result;
     }
+  }
+
+  onLocationClick(context) async {
+    var _loc = await Utils.getCurrentLocation(context);
+    locationCubit.onLocationUpdated(LocationModel(
+      lat: _loc?.latitude ?? 32.4,
+      lng: _loc?.longitude ?? 32.4,
+      address: "",
+    ));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, animation, __) {
+          return FadeTransition(
+              opacity: animation,
+              child: BlocProvider.value(
+                value: locationCubit,
+                child: LocationAddress(),
+              ));
+        },
+      ),
+    );
   }
 }

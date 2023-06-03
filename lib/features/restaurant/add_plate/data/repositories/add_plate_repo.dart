@@ -65,7 +65,7 @@ class AddPlateRepo {
         'categoryId': categoryId,
         'enComponents': enComponents,
         'arComponents': arComponents,
-        'image': image,
+        'images': [image],
       },
     );
     try {

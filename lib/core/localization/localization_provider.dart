@@ -37,7 +37,7 @@ class LocalizationProvider extends ChangeNotifier {
       this._firstStart = true;
     }
     if (prefs.getString(AppConstants.KEY_LANGUAGE) == null) {
-      _appLocale = const Locale(AppConstants.LANG_EN);
+      _appLocale = const Locale(AppConstants.LANG_AR);
       AppConfig().setAppLanguage = _appLocale.languageCode;
       await prefs.putString(
         AppConstants.KEY_LANGUAGE,

@@ -21,6 +21,8 @@ class PaymentCubit extends Cubit<PaymentState> {
     res.fold(
       (err) {
         Toast.show(err);
+        print(err);
+        print("????????????????????");
         emit(CreatePaymentError());
       },
       (res) async {
@@ -37,6 +39,7 @@ class PaymentCubit extends Cubit<PaymentState> {
           (err) {
         Toast.show(err);
         print(err);
+        print("????????????????????22");
         emit(AssignSubscriptionToUserError());
       },
           (res) async {

@@ -325,7 +325,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
-              child: listOfDishs.isEmpty ? Center(
+              child: listOfDishs.isEmpty ? const Center(
                 child: Text('no data'),
               ) : CustomCarousel(
                 items: List.generate(listOfDishs.length,
@@ -684,7 +684,9 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                               height: 100.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
+                                image: restaurantsModel?.logo == null ? const DecorationImage(
+                                    image: AssetImage(AppConstants.AVATER_IMG),
+                                    fit: BoxFit.fill ) : DecorationImage(
                                     image: NetworkImage(
                                         restaurantsModel?.logo ?? ''),
                                     fit: BoxFit.fill),
@@ -750,8 +752,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                      latitude: double.parse(restaurantsModel.latitude?? '30.033333'),
-                      longitude: double.parse(restaurantsModel.longitude?? '31.233334'),
+                      latitude: restaurantsModel.latitude?? 30.033333,
+                      longitude: restaurantsModel.longitude?? 31.233334,
                       expandedHeight: 230.h,
                       child: _buildSubscriptionWidget(),
                     ),

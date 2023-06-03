@@ -78,7 +78,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   String? img;
 
-  final LocationCubit locationCubit = LocationCubit();
+  // final LocationCubit locationCubit = LocationCubit();
 
   late String verificationId;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -163,8 +163,9 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (res) async {
         AppStorage.signOut();
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const MainOnBoardingView()));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const MainOnBoardingView()),
+            (route) => false);
         emit(LogoutLoaded());
       },
     );
@@ -248,10 +249,6 @@ class AuthCubit extends Cubit<AuthState> {
       managerCountryCode: countryCode,
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
-      latitude: locationCubit.state.model!.lat,
-      longitude: locationCubit.state.model!.lng,
-      arDescription: descArController.text,
-      enDescription: descEnController.text,
     );
 
     if (formKey.currentState!.validate()) {
@@ -298,10 +295,6 @@ class AuthCubit extends Cubit<AuthState> {
       managerCountryCode: countryCode,
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
-      latitude: locationCubit.state.model!.lat,
-      longitude: locationCubit.state.model!.lng,
-      arDescription: descArController.text,
-      enDescription: descEnController.text,
     );
 
     if (formKey.currentState!.validate()) {
@@ -342,14 +335,8 @@ class AuthCubit extends Cubit<AuthState> {
         unFocus(context);
         emit(RegisterTrainerLoading());
         isLoading = true;
-        final res = await authRepo.registerTrainer(
-          phoneController.text,
-          nameController.text,
-          emailController.text,
-          passwordController.text,
-          locationCubit.state.model!.lat,
-          locationCubit.state.model!.lng,
-        );
+        final res = await authRepo.registerTrainer(phoneController.text,
+            nameController.text, emailController.text, passwordController.text);
         res.fold(
           (err) {
             isLoading = false;
@@ -471,25 +458,25 @@ class AuthCubit extends Cubit<AuthState> {
     return null;
   }
 
-  onLocationClick(context) async {
-    var _loc = await Utils.getCurrentLocation(context);
-    locationCubit.onLocationUpdated(LocationModel(
-      lat: _loc?.latitude ?? 32.4,
-      lng: _loc?.longitude ?? 32.4,
-      address: "",
-    ));
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, animation, __) {
-          return FadeTransition(
-              opacity: animation,
-              child: BlocProvider.value(
-                value: locationCubit,
-                child: LocationAddress(),
-              ));
-        },
-      ),
-    );
-  }
+// onLocationClick(context) async {
+//   var _loc = await Utils.getCurrentLocation(context);
+//   locationCubit.onLocationUpdated(LocationModel(
+//     lat: _loc?.latitude ?? 32.4,
+//     lng: _loc?.longitude ?? 32.4,
+//     address: "",
+//   ));
+//   Navigator.push(
+//     context,
+//     PageRouteBuilder(
+//       pageBuilder: (_, animation, __) {
+//         return FadeTransition(
+//             opacity: animation,
+//             child: BlocProvider.value(
+//               value: locationCubit,
+//               child: LocationAddress(),
+//             ));
+//       },
+//     ),
+//   );
+// }
 }

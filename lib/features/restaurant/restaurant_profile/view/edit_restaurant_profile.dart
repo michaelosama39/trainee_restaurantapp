@@ -35,8 +35,6 @@ class _EditRestaurantScreenContentState
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +79,12 @@ class _EditRestaurantScreenContentState
           RestProfileCubit.of(context).mangerController.text =
               RestProfileCubit.of(context).restaurantsModel!.manager!.name ??
                   '';
+          RestProfileCubit.of(context).descEnController.text =
+              RestProfileCubit.of(context).restaurantsModel!.enDescription ??
+                  '';
+          RestProfileCubit.of(context).descArController.text =
+              RestProfileCubit.of(context).restaurantsModel!.arDescription ??
+                  '';
           RestProfileCubit.of(context).facebookController.text =
               RestProfileCubit.of(context).restaurantsModel!.facebookUrl ?? '';
           RestProfileCubit.of(context).instegramController.text =
@@ -91,204 +95,224 @@ class _EditRestaurantScreenContentState
               RestProfileCubit.of(context).restaurantsModel!.websiteUrl ?? '';
         },
         builder: (context, state) {
-            return SizedBox(
-              height: 1.sh,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    children: [
-                      // _buildImageWidget(
-                      //     RestProfileCubit.of(context).file ?? File('')),
-                      SizedBox(
-                        height: 55.h,
-                      ),
-                      _buildTextFiledWidget(
-                          title: "أسم المطعم باللغه العربيه",
-                          textEditingController:
-                              RestProfileCubit.of(context).nameArController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "أسم المطعم باللغه الانجيليزيه",
-                          textEditingController:
-                              RestProfileCubit.of(context).nameEnController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: "لوغو المطعم بالعربي",
-                        file:
-                            RestProfileCubit.of(context).fileLogoAr ?? File(''),
-                        image: RestProfileCubit.of(context).logoArNetwork ?? '',
-                        onTap: () async {
-                          await RestProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            RestProfileCubit.of(context).fileLogoAr =
-                                File(value!.path);
-                          });
-                          RestProfileCubit.of(context).uploadImage(context,
-                              RestProfileCubit.of(context).fileLogoAr!);
-                          RestProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "لوغو المطعم بالأنجليزي",
-                        file:
-                            RestProfileCubit.of(context).fileLogoEn ?? File(''),
-                        image: RestProfileCubit.of(context).logoEnNetwork ?? '',
-                        onTap: () async {
-                          await RestProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            RestProfileCubit.of(context).fileLogoEn =
-                                File(value!.path);
-                          });
-                          RestProfileCubit.of(context).uploadImage(context,
-                              RestProfileCubit.of(context).fileLogoEn!);
-                          RestProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "صورة الغلاف بالأنجليزي",
-                        file:
-                            RestProfileCubit.of(context).fileCoveEn ?? File(''),
-                        image: RestProfileCubit.of(context).coveEnNetwork ?? '',
-                        onTap: () async {
-                          await RestProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            RestProfileCubit.of(context).fileCoveEn =
-                                File(value!.path);
-                          });
-                          RestProfileCubit.of(context).uploadImage(context,
-                              RestProfileCubit.of(context).fileCoveEn!);
-                          RestProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      uploadSignUpFile(
-                        text: "صورة الغلاف بالعربي",
-                        file:
-                            RestProfileCubit.of(context).fileCoveAr ?? File(''),
-                        image: RestProfileCubit.of(context).coveArNetwork ?? '',
-                        onTap: () async {
-                          await RestProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
-                            RestProfileCubit.of(context).fileCoveAr =
-                                File(value!.path);
-                          });
-                          RestProfileCubit.of(context).uploadImage(context,
-                              RestProfileCubit.of(context).fileCoveAr!);
-                          RestProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      _buildTextFiledWidget(
-                          title: Translation.of(context).phone,
-                          isPhoneNumber: true,
-                          textEditingController:
-                              RestProfileCubit.of(context).phoneController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "رقم السجل التجاري",
-                          textEditingController: RestProfileCubit.of(context)
-                              .commercialRegisterNumberController),
-                      Gaps.vGap24,
-                      uploadSignUpFile(
-                        text: "ملف السجل التجاري",
-                        file: RestProfileCubit.of(context)
-                                .fileCommercialRegisterDoc ??
-                            File(''),
-                        image: RestProfileCubit.of(context)
-                                .commercialRegisterDoc ??
-                            '',
-                        onTap: () async {
-                          await RestProfileCubit.of(context)
-                              .getImage()
-                              .then((value) {
+          return SizedBox(
+            height: 1.sh,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Column(
+                  children: [
+                    // _buildImageWidget(
+                    //     RestProfileCubit.of(context).file ?? File('')),
+                    SizedBox(
+                      height: 55.h,
+                    ),
+                    _buildTextFiledWidget(
+                        title: "أسم المطعم باللغه العربيه",
+                        textEditingController:
+                            RestProfileCubit.of(context).nameArController),
+                    Gaps.vGap24,
+                    _buildTextFiledWidget(
+                        title: "أسم المطعم باللغه الانجيليزيه",
+                        textEditingController:
+                            RestProfileCubit.of(context).nameEnController),
+                    Gaps.vGap24,
+                    uploadSignUpFile(
+                      text: "لوغو المطعم بالعربي",
+                      file: RestProfileCubit.of(context).fileLogoAr ?? File(''),
+                      asset: AppConstants.AVATER_IMG,
+                      image: RestProfileCubit.of(context).logoArNetwork ?? '',
+                      onTap: () async {
+                        await RestProfileCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          RestProfileCubit.of(context).fileLogoAr =
+                              File(value!.path);
+                        });
+                        RestProfileCubit.of(context).uploadImage(
+                            context, RestProfileCubit.of(context).fileLogoAr!);
+                        RestProfileCubit.of(context).emit(GetImageState());
+                      },
+                    ),
+                    Gaps.vGap8,
+                    uploadSignUpFile(
+                      text: "لوغو المطعم بالأنجليزي",
+                      file: RestProfileCubit.of(context).fileLogoEn ?? File(''),
+                      asset: AppConstants.AVATER_IMG,
+                      image: RestProfileCubit.of(context).logoEnNetwork ?? '',
+                      onTap: () async {
+                        await RestProfileCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          RestProfileCubit.of(context).fileLogoEn =
+                              File(value!.path);
+                        });
+                        RestProfileCubit.of(context).uploadImage(
+                            context, RestProfileCubit.of(context).fileLogoEn!);
+                        RestProfileCubit.of(context).emit(GetImageState());
+                      },
+                    ),
+                    Gaps.vGap8,
+                    uploadSignUpFile(
+                      text: "صورة الغلاف بالأنجليزي",
+                      file: RestProfileCubit.of(context).fileCoveEn ?? File(''),
+                      image: RestProfileCubit.of(context).coveEnNetwork ?? '',
+                      asset: AppConstants.COVER_IMG,
+                      onTap: () async {
+                        await RestProfileCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          RestProfileCubit.of(context).fileCoveEn =
+                              File(value!.path);
+                        });
+                        RestProfileCubit.of(context).uploadImage(
+                            context, RestProfileCubit.of(context).fileCoveEn!);
+                        RestProfileCubit.of(context).emit(GetImageState());
+                      },
+                    ),
+                    Gaps.vGap8,
+                    uploadSignUpFile(
+                      text: "صورة الغلاف بالعربي",
+                      file: RestProfileCubit.of(context).fileCoveAr ?? File(''),
+                      asset: AppConstants.COVER_IMG,
+                      image: RestProfileCubit.of(context).coveArNetwork ?? '',
+                      onTap: () async {
+                        await RestProfileCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          RestProfileCubit.of(context).fileCoveAr =
+                              File(value!.path);
+                        });
+                        RestProfileCubit.of(context).uploadImage(
+                            context, RestProfileCubit.of(context).fileCoveAr!);
+                        RestProfileCubit.of(context).emit(GetImageState());
+                      },
+                    ),
+                    _buildTextFiledWidget(
+                        title: Translation.of(context).phone,
+                        isPhoneNumber: true,
+                        textEditingController:
+                            RestProfileCubit.of(context).phoneController),
+                    Gaps.vGap24,
+                    _buildTextFiledWidget(
+                        title: "رقم السجل التجاري",
+                        textEditingController: RestProfileCubit.of(context)
+                            .commercialRegisterNumberController),
+                    Gaps.vGap24,
+                    uploadSignUpFile(
+                      text: "ملف السجل التجاري",
+                      file: RestProfileCubit.of(context)
+                              .fileCommercialRegisterDoc ??
+                          File(''),
+                      image:
+                          RestProfileCubit.of(context).commercialRegisterDoc ??
+                              '',
+                      asset: AppConstants.COVER_IMG,
+                      onTap: () async {
+                        await RestProfileCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          RestProfileCubit.of(context)
+                              .fileCommercialRegisterDoc = File(value!.path);
+                        });
+                        RestProfileCubit.of(context).uploadImage(
+                            context,
                             RestProfileCubit.of(context)
-                                .fileCommercialRegisterDoc = File(value!.path);
-                          });
-                          RestProfileCubit.of(context).uploadImage(
-                              context,
-                              RestProfileCubit.of(context)
-                                  .fileCommercialRegisterDoc!);
-                          RestProfileCubit.of(context).emit(GetImageState());
-                        },
-                      ),
-                      Gaps.vGap8,
-                      // _buildTextFiledWidget(
-                      //     title: Translation.of(context).cityName,
-                      //     textEditingController:
-                      //         RestProfileCubit.of(context).cityController),
-                      // Gaps.vGap24,
-                      // _buildTextFiledWidget(
-                      //     title: "اسم الشارع",
-                      //     textEditingController:
-                      //         RestProfileCubit.of(context).streetController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "رقم البناء",
-                          textEditingController:
-                              RestProfileCubit.of(context).buildNumController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "اسم مدير المطعم",
-                          textEditingController:
-                              RestProfileCubit.of(context).mangerController),
-                      Gaps.vGap24,
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              final LatLng position = await Navigator.push(
-                                  context, MaterialPageRoute(builder: (_) {
-                                return MapScreen();
-                              }));
-                              print("pos:${position.latitude}");
-                            },
-                            child: CustomText(
-                              text: "حدد موقعك علي الخريطه ",
-                              color: AppColors.accentColorLight,
-                              fontSize: AppConstants.textSize16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      ),
-                      Gaps.vGap8,
-                      _buildSocialMediaContainer(
-                          title: "روابط مواقع التواصل الاجتماعي",
-                          icon: FontAwesomeIcons.squareFacebook),
-                      _buildSocialMediaContainer(
-                          title: "", icon: FontAwesomeIcons.instagram),
-                      _buildSocialMediaContainer(
-                          title: "", icon: FontAwesomeIcons.twitter),
-                      _buildSocialMediaContainer(
-                          title: "", icon: FontAwesomeIcons.earth),
-                      Gaps.vGap24,
-                      // _addWorkingHours(),
-                      Gaps.vGap24,
-                      SizedBox(
-                        height: 44.h,
-                        width: 217.w,
-                        child: CustomElevatedButton(
-                          text: Translation.of(context).save,
-                          onTap: () {
-                            RestProfileCubit.of(context)
-                                .updateRestaurantProfile(context);
+                                .fileCommercialRegisterDoc!);
+                        RestProfileCubit.of(context).emit(GetImageState());
+                      },
+                    ),
+                    Gaps.vGap8,
+                    // _buildTextFiledWidget(
+                    //     title: Translation.of(context).cityName,
+                    //     textEditingController:
+                    //         RestProfileCubit.of(context).cityController),
+                    // Gaps.vGap24,
+                    // _buildTextFiledWidget(
+                    //     title: "اسم الشارع",
+                    //     textEditingController:
+                    //         RestProfileCubit.of(context).streetController),
+                    // Gaps.vGap24,
+                    // _buildTextFiledWidget(
+                    //     title: "رقم البناء",
+                    //     textEditingController:
+                    //         RestProfileCubit.of(context).buildNumController),
+                    _buildTextFiledWidget(
+                        title: "التفاصيل باللغه العربيه",
+                        textEditingController:
+                            RestProfileCubit.of(context).descArController),
+                    Gaps.vGap24,
+                    _buildTextFiledWidget(
+                        title: "التفاصيل باللغه الانجليزيه",
+                        textEditingController:
+                            RestProfileCubit.of(context).descEnController),
+                    Gaps.vGap24,
+                    _buildTextFiledWidget(
+                        title: "اسم مدير المطعم",
+                        textEditingController:
+                            RestProfileCubit.of(context).mangerController),
+                    Gaps.vGap24,
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            RestProfileCubit.of(context).onLocationClick(context);
                           },
-                          textSize: AppConstants.textSize20,
-                          borderRadius: AppConstants.borderRadius4,
-                        ),
+                          child: CustomText(
+                            text: "حدد موقعك علي الخريطه ",
+                            color: AppColors.accentColorLight,
+                            fontSize: AppConstants.textSize16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      ],
+                    ),
+                    Gaps.vGap8,
+                    _buildSocialMediaContainer(
+                        title: "روابط مواقع التواصل الاجتماعي",
+                        controller:
+                            RestProfileCubit.of(context).facebookController,
+                        icon: FontAwesomeIcons.squareFacebook),
+                    _buildSocialMediaContainer(
+                      title: "",
+                      icon: FontAwesomeIcons.instagram,
+                      controller:
+                          RestProfileCubit.of(context).instegramController,
+                    ),
+                    _buildSocialMediaContainer(
+                      title: "",
+                      icon: FontAwesomeIcons.twitter,
+                      controller:
+                          RestProfileCubit.of(context).twitterController,
+                    ),
+                    _buildSocialMediaContainer(
+                      title: "",
+                      icon: FontAwesomeIcons.earth,
+                      controller:
+                          RestProfileCubit.of(context).websiteController,
+                    ),
+                    Gaps.vGap24,
+                    // _addWorkingHours(),
+                    Gaps.vGap24,
+                    SizedBox(
+                      height: 44.h,
+                      width: 217.w,
+                      child: CustomElevatedButton(
+                        text: Translation.of(context).save,
+                        onTap: () {
+                          RestProfileCubit.of(context)
+                              .updateRestaurantProfile(context);
+                        },
+                        textSize: AppConstants.textSize20,
+                        borderRadius: AppConstants.borderRadius4,
                       ),
-                      Gaps.vGap24,
-                    ],
-                  ),
+                    ),
+                    Gaps.vGap24,
+                  ],
                 ),
               ),
-            );
+            ),
+          );
         },
       ),
     );
@@ -299,6 +323,7 @@ class _EditRestaurantScreenContentState
     required String text,
     required File file,
     required String image,
+    required String asset,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -330,7 +355,9 @@ class _EditRestaurantScreenContentState
                   width: double.infinity,
                   child: file.path.isNotEmpty
                       ? Image.file(file)
-                      : Image.network(image),
+                      : image == ''
+                          ? Image.asset(asset)
+                          : Image.network(image),
                 ),
               ),
             ],
@@ -341,7 +368,9 @@ class _EditRestaurantScreenContentState
   }
 
   Widget _buildSocialMediaContainer(
-      {required String title, required IconData icon}) {
+      {required String title,
+      required IconData icon,
+      required TextEditingController controller}) {
     return Row(
       // textDirection: TextDirection.LTR,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -349,9 +378,7 @@ class _EditRestaurantScreenContentState
       children: <Widget>[
         Flexible(
           child: _buildTextFiledWidget(
-              title: title,
-              textEditingController:
-                  RestProfileCubit.of(context).facebookController),
+              title: title, textEditingController: controller),
         ),
         Gaps.hGap8,
         Column(
@@ -497,25 +524,59 @@ class _EditRestaurantScreenContentState
   };
 
   List<Weekdays> weekdaysList = [
-    Weekdays(id: 0, day: getDay(0), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 1, day: getDay(1), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 2, day: getDay(2), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 3, day: getDay(3), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 4, day: getDay(4), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 5, day: getDay(5), selectedDays: false,to: "01:00 AM",from: "01:00 AM"),
-    Weekdays(id: 6, day: getDay(6), selectedDays: false,to: "01:00 AM",from: "01:00 AM")
+    Weekdays(
+        id: 0,
+        day: getDay(0),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 1,
+        day: getDay(1),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 2,
+        day: getDay(2),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 3,
+        day: getDay(3),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 4,
+        day: getDay(4),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 5,
+        day: getDay(5),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM"),
+    Weekdays(
+        id: 6,
+        day: getDay(6),
+        selectedDays: false,
+        to: "01:00 AM",
+        from: "01:00 AM")
   ];
 
   String formattedTime(String dateTime) {
     return DateFormat('hh:mm a').format(DateTime.parse(dateTime));
   }
 
-  void getWeekDays(){
+  void getWeekDays() {
     List<OpeningDays> openingDays =
         RestProfileCubit.of(context).restaurantsModel!.openingDays ?? [];
 
     for (var element in weekdaysList) {
-
       for (var elementOpeningDays in openingDays) {
         print(DateFormat('HH:mm').format(DateTime.parse("01:00")));
         if (element.id == elementOpeningDays.day) {
@@ -580,7 +641,7 @@ class _EditRestaurantScreenContentState
                             border: Border.all(color: AppColors.white),
                           ),
                           height: 30.h,
-                          child: HourDropDown(hour:weekdaysList[index].from),
+                          child: HourDropDown(hour: weekdaysList[index].from),
                         )),
                     Gaps.hGap4,
                     Expanded(
@@ -613,7 +674,9 @@ class _EditRestaurantScreenContentState
 
 class HourDropDown extends StatefulWidget {
   final String? hour;
+
   const HourDropDown({super.key, required this.hour});
+
   @override
   _HourDropDownState createState() => _HourDropDownState();
 }
@@ -645,8 +708,7 @@ class _HourDropDownState extends State<HourDropDown> {
     '10:00 PM',
     '11:00 PM',
     '12:00 PM'
-  ];// List of hours
-
+  ]; // List of hours
 
   @override
   void initState() {
@@ -655,9 +717,9 @@ class _HourDropDownState extends State<HourDropDown> {
     super.initState();
   }
 
-  void updateSelectedHour(){
+  void updateSelectedHour() {
     print(widget.hour);
-    selectedHour = widget.hour  ?? "01:00 AM";
+    selectedHour = widget.hour ?? "01:00 AM";
     setState(() {});
   }
 
@@ -699,5 +761,10 @@ class Weekdays {
   String? from;
   String? to;
 
-  Weekdays({required this.day, required this.id, required this.selectedDays,required this.from,required this.to});
+  Weekdays(
+      {required this.day,
+      required this.id,
+      required this.selectedDays,
+      required this.from,
+      required this.to});
 }

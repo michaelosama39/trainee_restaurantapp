@@ -126,30 +126,30 @@ class _RegisterRestaurantScreenViewState
                       },
                     ),
                     Gaps.vGap8,
-                    EmailTextField(
-                      text: 'التفاصيل باللغه العربيه',
-                      onFiledSubmitted: () {
-                        FocusScope.of(context).requestFocus(
-                            AuthCubit.of(context).descAr);
-                      },
-                      textInputAction: TextInputAction.next,
-                      controller:
-                      AuthCubit.of(context).descArController,
-                      focusNode: AuthCubit.of(context).descAr,
-                    ),
-                    Gaps.vGap8,
-                    EmailTextField(
-                      text: 'التفاصيل باللغه الانجليزيه',
-                      onFiledSubmitted: () {
-                        FocusScope.of(context).requestFocus(
-                            AuthCubit.of(context).descEn);
-                      },
-                      textInputAction: TextInputAction.next,
-                      controller:
-                      AuthCubit.of(context).descEnController,
-                      focusNode: AuthCubit.of(context).descEn,
-                    ),
-                    Gaps.vGap8,
+                    // EmailTextField(
+                    //   text: 'التفاصيل باللغه العربيه',
+                    //   onFiledSubmitted: () {
+                    //     FocusScope.of(context).requestFocus(
+                    //         AuthCubit.of(context).descAr);
+                    //   },
+                    //   textInputAction: TextInputAction.next,
+                    //   controller:
+                    //   AuthCubit.of(context).descArController,
+                    //   focusNode: AuthCubit.of(context).descAr,
+                    // ),
+                    // Gaps.vGap8,
+                    // EmailTextField(
+                    //   text: 'التفاصيل باللغه الانجليزيه',
+                    //   onFiledSubmitted: () {
+                    //     FocusScope.of(context).requestFocus(
+                    //         AuthCubit.of(context).descEn);
+                    //   },
+                    //   textInputAction: TextInputAction.next,
+                    //   controller:
+                    //   AuthCubit.of(context).descEnController,
+                    //   focusNode: AuthCubit.of(context).descEn,
+                    // ),
+                    // Gaps.vGap8,
                     EmailTextField(
                       text: Translation.of(context).restaurantManagerName,
                       onFiledSubmitted: () {
@@ -219,27 +219,27 @@ class _RegisterRestaurantScreenViewState
                         AuthCubit.of(context).emit(PasswordSecureState());
                       },
                     ),
-                    InkWell(
-                      onTap: (){
-                        AuthCubit.of(context).onLocationClick(context);
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.h,
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                            'تحديد موقعك',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.white,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: (){
+                    //     AuthCubit.of(context).onLocationClick(context);
+                    //   },
+                    //   child: Padding(
+                    //     padding: EdgeInsets.symmetric(
+                    //       vertical: 10.h,
+                    //     ),
+                    //     child: Align(
+                    //       alignment: AlignmentDirectional.centerStart,
+                    //       child: Text(
+                    //         'تحديد موقعك',
+                    //         style: TextStyle(
+                    //           fontSize: 16.sp,
+                    //           color: AppColors.white,
+                    //           decoration: TextDecoration.underline,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Gaps.vGap8,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

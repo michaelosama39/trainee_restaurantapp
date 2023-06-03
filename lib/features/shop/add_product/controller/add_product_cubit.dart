@@ -44,6 +44,8 @@ class AddProductCubit extends Cubit<AddProductState> {
   Future uploadImage(BuildContext context, File file) async {
     emit(UploadImageLoading());
     final res = await addProductRepo.uploadImage(file);
+    print(res);
+    print("?????????");
     res.fold(
           (err) {
         Toast.show(err);

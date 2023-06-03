@@ -149,13 +149,8 @@ class AuthRepo {
     }
   }
 
-  Future<Either<String, UserModel>> registerTrainer(
-      String phoneNumber,
-      String name,
-      String password,
-      String countryCode,
-      double latitude,
-      double longitude) async {
+  Future<Either<String, UserModel>> registerTrainer(String phoneNumber,
+      String name, String password, String countryCode) async {
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_TRAINER,
       body: {
@@ -163,9 +158,7 @@ class AuthRepo {
         "specializationId": 1,
         "password": password,
         "countryCode": countryCode,
-        "phoneNumber": phoneNumber,
-        "latitude": latitude,
-        "longitude": longitude,
+        "phoneNumber": phoneNumber
       },
     );
     try {

@@ -41,6 +41,7 @@ class ShopProfileRepo {
       if (response.data['success'] == true) {
         return const Right(true);
       } else {
+        print(response.data);
         return Left(response.data['error']['message']);
       }
     } catch (e) {

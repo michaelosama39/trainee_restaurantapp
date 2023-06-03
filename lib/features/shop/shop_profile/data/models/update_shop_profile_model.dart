@@ -7,6 +7,8 @@ class UpdateShopProfileModel {
   String? enName;
   String? arLogo;
   String? enLogo;
+  String? arDescription;
+  String? enDescription;
   String? arCover;
   String? enCover;
   String? commercialRegisterNumber;
@@ -19,6 +21,8 @@ class UpdateShopProfileModel {
   String? instagramUrl;
   String? twitterUrl;
   String? websiteUrl;
+  double? latitude;
+  double? longitude;
 
   UpdateShopProfileModel({
     required this.id,
@@ -26,6 +30,8 @@ class UpdateShopProfileModel {
     required this.enName,
     required this.arLogo,
     required this.enLogo,
+    required this.arDescription,
+    required this.enDescription,
     required this.arCover,
     required this.enCover,
     required this.commercialRegisterNumber,
@@ -38,6 +44,8 @@ class UpdateShopProfileModel {
     required this.instagramUrl,
     required this.twitterUrl,
     required this.websiteUrl,
+    required this.latitude,
+    required this.longitude,
   });
 
   Future<Map<String, dynamic>> toJson() async {
@@ -45,6 +53,8 @@ class UpdateShopProfileModel {
       "id": id,
       "arName": arName,
       "enName": enName,
+      "arDescription": arDescription,
+      "enDescription": enDescription,
       "arLogo": arLogo,
       "enLogo": enLogo,
       "arCover": arCover,
@@ -59,6 +69,8 @@ class UpdateShopProfileModel {
       "instagramUrl": instagramUrl,
       "twitterUrl": twitterUrl,
       "websiteUrl": websiteUrl,
+      "latitude": latitude,
+      "longitude": longitude,
     };
   }
 }

@@ -18,12 +18,14 @@ class UpdateRestProfileModel {
   String? commercialRegisterDocument;
   // int? cityId;
   // String? street;
-  String? buildingNumber;
+  // String? buildingNumber;
   String? phoneNumber;
   String? facebookUrl;
   String? instagramUrl;
   String? twitterUrl;
   String? websiteUrl;
+  double? latitude;
+  double? longitude;
 
   UpdateRestProfileModel({
     required this.id,
@@ -39,12 +41,14 @@ class UpdateRestProfileModel {
     required this.commercialRegisterDocument,
     // required this.cityId,
     // required this.street,
-    required this.buildingNumber,
+    // required this.buildingNumber,
     required this.phoneNumber,
     required this.facebookUrl,
     required this.instagramUrl,
     required this.twitterUrl,
     required this.websiteUrl,
+    required this.latitude,
+    required this.longitude,
   });
 
   Future<Map<String, dynamic>> toJson() async {
@@ -60,14 +64,16 @@ class UpdateRestProfileModel {
       "enCover": enCover,
       "commercialRegisterNumber": commercialRegisterNumber,
       "commercialRegisterDocument": commercialRegisterDocument ,
-      // "cityId": cityId,
+      "cityId": 1,
       // "street": street,
-      "buildingNumber": buildingNumber,
+      // "buildingNumber": buildingNumber,
       "phoneNumber": phoneNumber,
       "facebookUrl": facebookUrl,
       "instagramUrl": instagramUrl,
       "twitterUrl": twitterUrl,
       "websiteUrl": websiteUrl,
+      "latitude": latitude,
+      "longitude": longitude,
     };
   }
 }

@@ -11,8 +11,18 @@ class SubscriptionRepo {
 
   Future<Either<String, List<SubscriptionModel>>> getSubscriptions() async {
 
+    int type;
+
+    if(AppStorage.getUserInfo!.result!.restaurantId != null){
+      type = 1;
+    }else if(AppStorage.getUserInfo!.result!.shopId != null){
+      type = 2;
+    }else{
+      type = 0;
+    }
+
     final response = await DioHelper.get(
-      APIUrls.API_GET_SUBSCRIPTIONS,
+      "${APIUrls.API_GET_SUBSCRIPTIONS}?Target=$type",
 
     );
     try {

@@ -7,7 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:trainee_restaurantapp/features/shop/shop_profile/data/models/update_shop_profile_model.dart';
+import '../../../../core/location/LocationAddressImports.dart';
+import '../../../../core/location/location_cubit/location_cubit.dart';
+import '../../../../core/location/model/location_model.dart';
 import '../../../../core/ui/toast.dart';
+import '../../../../core/utils/Utils.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
 import '../../../../core/models/shop_model.dart';
 import '../data/repositories/ShopProfileRepo.dart';
@@ -55,6 +59,11 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
   String? imgCoveAr;
   String? imgCommercialRegisterDoc;
 
+  TextEditingController descArController = TextEditingController();
+  TextEditingController descEnController = TextEditingController();
+
+  final LocationCubit locationCubit = LocationCubit();
+
   Future uploadImage(BuildContext context, File file) async {
     emit(UploadImageLoading());
     final res = await shopProfileRepo.uploadImage(file);
@@ -85,20 +94,23 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
       id: shopModel!.id,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arLogo: imgLogoAr,
-      enLogo: imgLogoEn,
-      arCover: imgCoveAr,
-      enCover: imgCoveEn,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
+      arLogo: imgLogoAr== null ? shopModel!.arLogo : imgLogoAr,
+      enLogo: imgLogoEn== null ? shopModel!.enLogo : imgLogoEn,
+      arCover: imgCoveAr== null ? shopModel!.arCover : imgCoveAr,
+      enCover: imgCoveEn == null ? shopModel!.enCover : imgCoveEn,
       commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: imgCommercialRegisterDoc,
+      commercialRegisterDocument: imgCommercialRegisterDoc == null ? shopModel!.commercialRegisterDocument : imgCommercialRegisterDoc,
       cityId: shopModel!.cityId,
       street: shopModel!.street,
-      // buildingNumber: int.parse(shopModel!.buildingNumber ?? ''),
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,
       instagramUrl: instegramController.text,
       twitterUrl: twitterController.text,
       websiteUrl: websiteController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
     );
 
     emit(UpdateShopProfileLoading());
@@ -106,7 +118,6 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     res.fold(
       (err) {
         Toast.show(err);
-        print(err);
         emit(UpdateShopProfileError());
       },
       (res) {
@@ -178,5 +189,27 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     if (result != null) {
       return result;
     }
+  }
+
+  onLocationClick(context) async {
+    var _loc = await Utils.getCurrentLocation(context);
+    locationCubit.onLocationUpdated(LocationModel(
+      lat: _loc?.latitude ?? 32.4,
+      lng: _loc?.longitude ?? 32.4,
+      address: "",
+    ));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, animation, __) {
+          return FadeTransition(
+              opacity: animation,
+              child: BlocProvider.value(
+                value: locationCubit,
+                child: LocationAddress(),
+              ));
+        },
+      ),
+    );
   }
 }

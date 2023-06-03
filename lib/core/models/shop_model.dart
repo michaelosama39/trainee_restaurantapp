@@ -18,8 +18,8 @@ class ShopModel {
   String? instagramUrl;
   String? twitterUrl;
   String? websiteUrl;
-  int? latitude;
-  int? longitude;
+  double? latitude;
+  double? longitude;
   List<OpeningDays>? openingDays;
   double? rate;
   String? creationTime;
@@ -30,39 +30,41 @@ class ShopModel {
   String? enName;
   String? name;
   int? id;
+  String? commercialRegisterDocument;
 
   ShopModel(
       {this.arDescription,
-        this.enDescription,
-        this.description,
-        this.arLogo,
-        this.enLogo,
-        this.logo,
-        this.arCover,
-        this.enCover,
-        this.cover,
-        this.cityId,
-        this.city,
-        this.street,
-        this.buildingNumber,
-        this.phoneNumber,
-        this.manager,
-        this.facebookUrl,
-        this.instagramUrl,
-        this.twitterUrl,
-        this.websiteUrl,
-        this.latitude,
-        this.longitude,
-        this.openingDays,
-        this.rate,
-        this.creationTime,
-        this.subscription,
-        this.ratingDetails,
-        this.isActive,
-        this.arName,
-        this.enName,
-        this.name,
-        this.id});
+      this.enDescription,
+      this.description,
+      this.arLogo,
+      this.enLogo,
+      this.logo,
+      this.arCover,
+      this.enCover,
+      this.cover,
+      this.cityId,
+      this.city,
+      this.street,
+      this.buildingNumber,
+      this.phoneNumber,
+      this.manager,
+      this.facebookUrl,
+      this.instagramUrl,
+      this.twitterUrl,
+      this.websiteUrl,
+      this.latitude,
+      this.longitude,
+      this.openingDays,
+      this.rate,
+      this.creationTime,
+      this.subscription,
+      this.ratingDetails,
+      this.isActive,
+      this.arName,
+      this.enName,
+      this.name,
+      this.id,
+      this.commercialRegisterDocument});
 
   ShopModel.fromJson(Map<String, dynamic> json) {
     arDescription = json['arDescription'];
@@ -80,7 +82,7 @@ class ShopModel {
     buildingNumber = json['buildingNumber'];
     phoneNumber = json['phoneNumber'];
     manager =
-    json['manager'] != null ? Manager.fromJson(json['manager']) : null;
+        json['manager'] != null ? Manager.fromJson(json['manager']) : null;
     facebookUrl = json['facebookUrl'];
     instagramUrl = json['instagramUrl'];
     twitterUrl = json['twitterUrl'];
@@ -106,6 +108,7 @@ class ShopModel {
     enName = json['enName'];
     name = json['name'];
     id = json['id'];
+    commercialRegisterDocument = json['commercialRegisterDocument'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +123,7 @@ class ShopModel {
     data['enCover'] = enCover;
     data['cover'] = cover;
     data['cityId'] = cityId;
+    data['commercialRegisterDocument'] = commercialRegisterDocument;
     if (city != null) {
       data['city'] = city!.toJson();
     }
@@ -234,17 +238,17 @@ class Subscription {
 
   Subscription(
       {this.subscriptionId,
-        this.userId,
-        this.user,
-        this.creationTime,
-        this.isExpired,
-        this.name,
-        this.fee,
-        this.duration,
-        this.remainingDays,
-        this.remainingRequests,
-        this.remainingItems,
-        this.id});
+      this.userId,
+      this.user,
+      this.creationTime,
+      this.isExpired,
+      this.name,
+      this.fee,
+      this.duration,
+      this.remainingDays,
+      this.remainingRequests,
+      this.remainingItems,
+      this.id});
 
   Subscription.fromJson(Map<String, dynamic> json) {
     subscriptionId = json['subscriptionId'];
