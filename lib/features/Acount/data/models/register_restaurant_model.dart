@@ -13,6 +13,8 @@ class RegisterRestaurantModel {
   String? managerName;
   String? managerPhoneNumber;
   String? managerCountryCode;
+  String? arDescription;
+  String? enDescription;
   double? latitude;
   double? longitude;
 
@@ -27,6 +29,8 @@ class RegisterRestaurantModel {
       this.managerName,
       this.managerPhoneNumber,
       this.managerCountryCode,
+      this.arDescription,
+      this.enDescription,
       this.latitude,
       this.longitude});
 
@@ -38,6 +42,8 @@ class RegisterRestaurantModel {
     data['phoneNumber'] = phoneNumber;
     data['commercialRegisterNumber'] = commercialRegisterNumber;
     data['commercialRegisterDocument'] = commercialRegisterDocument;
+    data['arDescription'] = arDescription;
+    data['enDescription'] = enDescription;
     data['cityId'] = cityId;
     data['managerName'] = managerName;
     data['managerPhoneNumber'] = managerPhoneNumber;

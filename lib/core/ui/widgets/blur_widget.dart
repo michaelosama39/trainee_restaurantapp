@@ -12,8 +12,9 @@ class BlurWidget extends StatelessWidget {
   final double? blurDegree;
   final double? borderRadius;
   final Color? blurColor;
+  final Color? colorBorder;
 
-  const BlurWidget({Key? key, this.child, this.width,  this.height, this.blurDegree, this.borderRadius, this.blurColor}) : super(key: key);
+  const BlurWidget({Key? key, this.child, this.width,  this.height, this.blurDegree, this.borderRadius, this.blurColor, this.colorBorder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,13 @@ class BlurWidget extends StatelessWidget {
         child: Container(
           height: height,
           width: width,
-          color: blurColor??AppColors.blur,
+          decoration: BoxDecoration(
+            color: blurColor??AppColors.blur,
+            borderRadius: BorderRadius.circular(AppConstants.borderRadius10),
+            border: colorBorder != null ? Border.all(
+              color: colorBorder!,
+            ) : null,
+          ),
           child: child?? Container(),
         ),
       ),

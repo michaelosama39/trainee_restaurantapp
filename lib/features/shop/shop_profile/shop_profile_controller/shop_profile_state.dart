@@ -18,3 +18,7 @@ class UpdateShopProfileLoaded extends ShopProfileState {}
 class UpdateShopProfileError extends ShopProfileState {}
 
 class GetImageState extends ShopProfileState {}
+
+class UploadImageLoading extends ShopProfileState {}
+
+class UploadImageLoaded extends ShopProfileState {}

@@ -16,6 +16,9 @@ import '../../../../../generated/l10n.dart';
 import '../../../core/localization/localization_provider.dart';
 import '../../Acount/data/repositories/auth_repo.dart';
 import '../../Acount/presentation/screens/change_password_screen.dart';
+import '../../trainer/more_trainer/presentation/view/about_app_screen.dart';
+import '../../trainer/more_trainer/presentation/view/feedback_screen.dart';
+import '../../trainer/more_trainer/presentation/view/privacy_policy_screen.dart';
 
 class MoreRestaurantScreen extends StatelessWidget {
   const MoreRestaurantScreen({Key? key, required this.typeUser})
@@ -85,58 +88,59 @@ class MoreRestaurantScreen extends StatelessWidget {
             children: [
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
-                  return provider.appLocal.languageCode == 'en'
-                      ? InkWell(
-                          onTap: () {
-                            provider.changeLanguage(
-                                const Locale(AppConstants.LANG_AR), context);
-                          },
-                          child: BlurWidget(
-                            height: 20.h,
-                            width: 57.w,
-                            child: Center(
-                                child: CustomText(
-                              text: Translation.of(context).arabic,
-                              fontSize: AppConstants.textSize14,
-                            )),
-                          ),
-                        )
-                      : const SizedBox();
+                  return InkWell(
+                    onTap: () {
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_AR), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 57.w,
+                      colorBorder: provider.appLocal.languageCode == 'ar'
+                          ? AppColors.accentColorLight
+                          : null,
+                      child: Center(
+                          child: CustomText(
+                        text: Translation.of(context).arabic,
+                        fontSize: AppConstants.textSize14,
+                      )),
+                    ),
+                  );
                 },
               ),
               Gaps.hGap32,
               Consumer<LocalizationProvider>(
                 builder: (_, provider, __) {
-                  return provider.appLocal.languageCode == 'ar'
-                      ? InkWell(
-                          onTap: () {
-                            provider.changeLanguage(
-                                const Locale(AppConstants.LANG_EN), context);
-                          },
-                          child: BlurWidget(
-                            height: 20.h,
-                            width: 60.w,
-                            child: Center(
-                              child: Container(
-                                child: CustomText(
-                                  text: Translation.of(context).english,
-                                  fontSize: AppConstants.textSize14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox();
+                  return InkWell(
+                    onTap: () {
+                      provider.changeLanguage(
+                          const Locale(AppConstants.LANG_EN), context);
+                    },
+                    child: BlurWidget(
+                      height: 20.h,
+                      width: 60.w,
+                      colorBorder: provider.appLocal.languageCode == 'en'
+                          ? AppColors.accentColorLight
+                          : null,
+                      child: Center(
+                        child: CustomText(
+                          text: Translation.of(context).english,
+                          fontSize: AppConstants.textSize14,
+                        ),
+                      ),
+                    ),
+                  );
                 },
               )
             ],
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChangePasswordScreen(
-                        screenNumber: typeUser,
-                      )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicyScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -170,7 +174,11 @@ class MoreRestaurantScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //     Nav.to(FeedbackScreen.routeName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FeedbackScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -183,7 +191,11 @@ class MoreRestaurantScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //   Nav.to(AboutAppScreen.routeName);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutAppScreen(),
+                  ));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -278,7 +290,10 @@ class MoreRestaurantScreen extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  //Nav.to(ChangePasswordScreen.routeName);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChangePasswordScreen(
+                            screenNumber: typeUser,
+                          )));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),

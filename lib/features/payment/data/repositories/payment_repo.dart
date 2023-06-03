@@ -29,6 +29,10 @@ class PaymentRepo {
 
   Future<Either<String, bool>> assignSubscriptionToUser(
       int subscriptionId, int typeUser) async {
+    print(typeUser);
+    print(subscriptionId);
+    print(AppStorage.getUserData.result!.restaurantId);
+    print("????????˘>>>");
     final response = await DioHelper.post(
       APIUrls.API_AssignSubscriptionToUser,
       body: typeUser == 1

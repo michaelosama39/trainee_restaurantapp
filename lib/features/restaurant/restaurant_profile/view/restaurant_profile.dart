@@ -232,14 +232,14 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
       restaurantsModel.phoneNumber ?? '',
       restaurantsModel.commercialRegisterNumber ?? '',
       restaurantsModel.commercialRegisterDocument!.split("/").last,
-      restaurantsModel.manager?.name ?? '',
+      restaurantsModel.manager?.name ?? ''
       // restaurantsModel.city?.text ?? '',
       // restaurantsModel.city?.text ?? '',
       // restaurantsModel.street ?? '',
-      "بناء رقم ${restaurantsModel.buildingNumber}"
+      // "بناء رقم ${restaurantsModel.buildingNumber}"
     ];
     return SizedBox(
-      height: 300.h,
+      height: 220.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
@@ -273,7 +273,7 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
                 color: AppColors.grey,
               );
             },
-            itemCount: 5),
+            itemCount: 4),
       ),
     );
   }
@@ -293,8 +293,10 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
               color: AppColors.white,
             ),
           ),
-          Expanded(
-            child: Padding(
+           Expanded(
+            child: restaurantsModel.openingDays!.isEmpty ? const Center(
+              child: Text('لا توجد ايام حاليا'),
+            ) : Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
@@ -366,11 +368,11 @@ class _RestaurantProfileState extends State<RestaurantProfile> {
   Widget _restaurantProfileSocialMedia(RestaurantsModel restaurantsModel) {
     List<SocialModel> listOfSocial = [
       SocialModel(
-          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? ''),
-      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? ''),
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
       SocialModel(
-          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? ''),
-      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? ''),
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
     ];
     return SizedBox(
       height: 300.h,

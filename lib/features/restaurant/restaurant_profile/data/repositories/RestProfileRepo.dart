@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
@@ -15,7 +16,7 @@ class RestProfileRepo {
     FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
         filename: file.path
             .split('/')
-            .last)});
+            .last  , contentType: MediaType("image", "jpeg"))});
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,
@@ -53,7 +54,7 @@ class RestProfileRepo {
   }
 
   Future<Either<String, RestaurantsModel>> getRestProfile() async {
-    print(AppStorage.getUserInfo!.result!.userId);
+    print(AppStorage.getUserInfo!.result!.restaurantId);
     print('///////////////////');
     final response = await DioHelper.get(APIUrls.API_GET_REST_PROFILE,
         query: {"id": AppStorage.getUserInfo!.result!.restaurantId});

@@ -325,7 +325,9 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
-              child: CustomCarousel(
+              child: listOfDishs.isEmpty ? Center(
+                child: Text('no data'),
+              ) : CustomCarousel(
                 items: List.generate(listOfDishs.length,
                     (index) => _buildMyCourseItemWidget(listOfDishs[index])),
                 options: CarouselOptions(
@@ -546,7 +548,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
         return const Loader();
       } else {
         var restaurantsModel = RestProfileCubit.of(context).restaurantsModel;
-        return Padding(
+        return restaurantsModel!.subscription != null ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             height: 100.h,
@@ -639,7 +641,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
               ],
             ),
           ),
-        );
+        ) : const SizedBox();
       }
     });
   }
@@ -748,8 +750,8 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: CustomSliverDelegate(
-                      latitude: double.parse(restaurantsModel.latitude?? '32.9'),
-                      longitude: double.parse(restaurantsModel.longitude?? '32.9'),
+                      latitude: double.parse(restaurantsModel.latitude?? '30.033333'),
+                      longitude: double.parse(restaurantsModel.longitude?? '31.233334'),
                       expandedHeight: 230.h,
                       child: _buildSubscriptionWidget(),
                     ),
@@ -762,7 +764,7 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
                         children: [
                           BlocBuilder<HomeRestaurantCubit, HomeRestaurantState>(
                             builder: (context, state) {
-                              return mostWantedCourse(
+                              return  mostWantedCourse(
                                   HomeRestaurantCubit.of(context).listOfDishs);
                             },
                           ),

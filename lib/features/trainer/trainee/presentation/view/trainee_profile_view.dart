@@ -407,8 +407,8 @@ class CustomSliverDelegate extends SliverPersistentHeaderDelegate {
                             },
                             initialCameraPosition: CameraPosition(
                                 target:
-                                    LatLng(latitude ?? 44.0, longitude ?? 40.0),
-                                zoom: 16),
+                                    LatLng(latitude!.toDouble(), longitude!.toDouble()),
+                                zoom: 12),
                             zoomControlsEnabled: false,
                             markers: <Marker>{
                               Marker(

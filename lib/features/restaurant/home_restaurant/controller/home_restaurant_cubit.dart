@@ -21,8 +21,8 @@ class HomeRestaurantCubit extends Cubit<HomeRestaurantState> {
 
   Future getAllDishMostOrderedHome() async {
     emit(GetAllDishMostOrderedHomeLoading());
+    listOfDishs.clear();
     final res = await homeRestaurantRepo.getAllDishMostOrderedHome();
-    print(res);
     res.fold(
       (err) {
         Toast.show(err);

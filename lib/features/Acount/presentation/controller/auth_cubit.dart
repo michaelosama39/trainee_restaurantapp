@@ -43,6 +43,8 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   TextEditingController restaurantNameController = TextEditingController();
+  TextEditingController descArController = TextEditingController();
+  TextEditingController descEnController = TextEditingController();
   TextEditingController commercialNumberController = TextEditingController();
   TextEditingController restaurantManagerNameController =
       TextEditingController();
@@ -66,6 +68,8 @@ class AuthCubit extends Cubit<AuthState> {
   FocusNode cityManagerName = FocusNode();
   FocusNode restaurantName = FocusNode();
   FocusNode commercialNumber = FocusNode();
+  FocusNode descAr = FocusNode();
+  FocusNode descEn = FocusNode();
   FocusNode restaurantManagerName = FocusNode();
   FocusNode phoneRestaurantFocusNode = FocusNode();
 
@@ -224,7 +228,7 @@ class AuthCubit extends Cubit<AuthState> {
         (res) async {
           isLoading = false;
           Navigator.pushNamedAndRemoveUntil(
-              context, Routes.navigatorScreen, (route) => false,
+              context, Routes.mainLoginScreen, (route) => false,
               arguments: userType);
           emit(VerifyAccountLoaded());
         },
@@ -246,6 +250,8 @@ class AuthCubit extends Cubit<AuthState> {
       managerPhoneNumber: phoneRestaurantController.text,
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
     );
 
     if (formKey.currentState!.validate()) {
@@ -261,10 +267,9 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterShopError());
           },
           (res) async {
-            await AppStorage.cacheUserInfo(res);
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
-                    phone: phoneController.text, userType: userType));
+                    phone: phoneRestaurantController.text, userType: userType));
             isLoading = false;
             emit(RegisterShopLoaded());
           },
@@ -295,6 +300,8 @@ class AuthCubit extends Cubit<AuthState> {
       managerPhoneNumber: phoneRestaurantController.text,
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
     );
 
     if (formKey.currentState!.validate()) {
@@ -310,10 +317,9 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterRestaurantError());
           },
           (res) async {
-            await AppStorage.cacheUserInfo(res);
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
-                    phone: phoneController.text, userType: userType));
+                    phone: phoneRestaurantController.text, userType: userType));
             isLoading = false;
             emit(RegisterRestaurantLoaded());
           },
@@ -351,7 +357,6 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterTrainerError());
           },
           (res) async {
-            await AppStorage.cacheUserInfo(res);
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneController.text, userType: userType));
@@ -387,9 +392,8 @@ class AuthCubit extends Cubit<AuthState> {
           emit(ForgetPasswordVerifyError());
         },
         (res) async {
-          Navigator.pushNamedAndRemoveUntil(
-              context, Routes.navigatorScreen, (route) => false,
-              arguments: userType);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const MainOnBoardingView()));
           isLoading = false;
           emit(ForgetPasswordVerifyLoaded());
         },
@@ -428,7 +432,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future login(BuildContext context, int type) async {
-    // submitPhoneNumber(newPhone: "+2001286008357");
     if (formKey.currentState!.validate()) {
       unFocus(context);
       emit(LoginLoading());

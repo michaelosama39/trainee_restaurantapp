@@ -305,7 +305,6 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     );
   }
 
-
   @override
   void initState() {
     TrainerProfileCubit.of(context).getTrainerProfile(context);
@@ -522,23 +521,23 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
   }
 
   Widget trainerBouquet() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 100.h,
-        child: Column(
-          children: [
-            TitleWidget(
-              title: "الباقه الحاليه",
-              subtitleColorTapped: () {},
-              subtitle: "",
-              titleColor: AppColors.accentColorLight,
-            ),
-            Gaps.vGap14,
-            BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
-              builder: (context, state) {
-                if (TrainerProfileCubit.of(context).trainerModel != null) {
-                  return  Expanded(
+    return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
+      builder: (context, state) {
+        if (TrainerProfileCubit.of(context).trainerModel != null) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 100.h,
+              child: Column(
+                children: [
+                  TitleWidget(
+                    title: "الباقه الحاليه",
+                    subtitleColorTapped: () {},
+                    subtitle: "",
+                    titleColor: AppColors.accentColorLight,
+                  ),
+                  Gaps.vGap14,
+                  Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -576,7 +575,7 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                                   ),
                                   CustomText(
                                     text:
-                                        "${TrainerProfileCubit.of(context).trainerModel?.subscription == null ? '' : TrainerProfileCubit.of(context).trainerModel?.subscription!.fee} ${Translation.of(context).saudi_riyal}",
+                                        "${TrainerProfileCubit.of(context).trainerModel?.subscription!.fee} ${Translation.of(context).saudi_riyal}",
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.white,
                                     fontSize: AppConstants.textSize16,
@@ -622,15 +621,15 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                         ),
                       ],
                     ),
-                  );
-                } else {
-                  return const Loader();
-                }
-              },
-            )
-          ],
-        ),
-      ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 

@@ -67,51 +67,51 @@ class _ShopProfileState extends State<ShopProfile> {
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.start,
                           ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Row(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.phone,
-                                    color: AppColors.accentColorLight,
-                                    size: 14,
-                                  ),
-                                  Gaps.hGap4,
-                                  CustomText(
-                                    maxLines: 2,
-                                    text: restaurantsModel.phoneNumber ?? "",
-                                    color: AppColors.white,
-                                    fontSize: AppConstants.textSize14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                              Gaps.hGap8,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    FontAwesomeIcons.locationDot,
-                                    color: AppColors.accentColorLight,
-                                    size: 14,
-                                  ),
-                                  Gaps.hGap4,
-                                  CustomText(
-                                    maxLines: 2,
-                                    text:
-                                    "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
-                                    color: AppColors.white,
-                                    fontSize: AppConstants.textSize14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          // SizedBox(
+                          //   height: 5.h,
+                          // ),
+                          // Row(
+                          //   children: [
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         const Icon(
+                          //           FontAwesomeIcons.phone,
+                          //           color: AppColors.accentColorLight,
+                          //           size: 14,
+                          //         ),
+                          //         Gaps.hGap4,
+                          //         CustomText(
+                          //           maxLines: 2,
+                          //           text: restaurantsModel.phoneNumber ?? "",
+                          //           color: AppColors.white,
+                          //           fontSize: AppConstants.textSize14,
+                          //           fontWeight: FontWeight.w500,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     Gaps.hGap8,
+                          //     Row(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         const Icon(
+                          //           FontAwesomeIcons.locationDot,
+                          //           color: AppColors.accentColorLight,
+                          //           size: 14,
+                          //         ),
+                          //         Gaps.hGap4,
+                          //         CustomText(
+                          //           maxLines: 2,
+                          //           text:
+                          //           "${restaurantsModel.city?.text} - ${restaurantsModel.street}",
+                          //           color: AppColors.white,
+                          //           fontSize: AppConstants.textSize14,
+                          //           fontWeight: FontWeight.w500,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ],
@@ -237,10 +237,10 @@ class _ShopProfileState extends State<ShopProfile> {
       // shopModel.city?.text ?? '',
       // shopModel.city?.text ?? '',
       // shopModel.street ?? '',
-      "بناء رقم ${shopModel.buildingNumber}"
+      // "بناء رقم ${shopModel.buildingNumber}"
     ];
     return SizedBox(
-      height: 300.h,
+      height: 220.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: ListView.separated(
@@ -274,7 +274,7 @@ class _ShopProfileState extends State<ShopProfile> {
                 color: AppColors.grey,
               );
             },
-            itemCount: 5),
+            itemCount: 4),
       ),
     );
   }
@@ -295,7 +295,9 @@ class _ShopProfileState extends State<ShopProfile> {
             ),
           ),
           Expanded(
-            child: Padding(
+            child: restaurantsModel.openingDays!.isEmpty ? const Center(
+              child: Text('لا توجد ايام حاليا'),
+            ) :  Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
@@ -367,11 +369,11 @@ class _ShopProfileState extends State<ShopProfile> {
   Widget _restaurantProfileSocialMedia(ShopModel restaurantsModel) {
     List<SocialModel> listOfSocial = [
       SocialModel(
-          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? ''),
-      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? ''),
+          FontAwesomeIcons.facebook, restaurantsModel.facebookUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.sitemap, restaurantsModel.websiteUrl ?? 'لا توجد بيانات'),
       SocialModel(
-          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? ''),
-      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? ''),
+          FontAwesomeIcons.instagram, restaurantsModel.instagramUrl ?? 'لا توجد بيانات'),
+      SocialModel(FontAwesomeIcons.twitter, restaurantsModel.twitterUrl ?? 'لا توجد بيانات'),
     ];
     return SizedBox(
       height: 300.h,

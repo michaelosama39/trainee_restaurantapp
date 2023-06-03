@@ -29,7 +29,7 @@ class AllPlatesScreen extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
+        child: SizedBox(
           height: 140.h,
           child: Row(
             children: [
@@ -135,7 +135,9 @@ class AllPlatesScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: listOfDishs.isEmpty
-                            ? const SizedBox()
+                            ? const Center(
+                                child: Text('no data'),
+                              )
                             : ListView.builder(
                                 itemCount: listOfDishs.length,
                                 itemBuilder: (context, index) {

@@ -43,27 +43,57 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
   TextEditingController twitterController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
 
-  File? file;
   File? fileLogoAr;
   File? fileLogoEn;
   File? fileCoveEn;
   File? fileCoveAr;
   File? fileCommercialRegisterDoc;
 
+  String? imgLogoAr;
+  String? imgLogoEn;
+  String? imgCoveEn;
+  String? imgCoveAr;
+  String? imgCommercialRegisterDoc;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await shopProfileRepo.uploadImage(file);
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(ShopProfileInitial());
+      },
+      (res) async {
+        if (file == fileLogoAr) {
+          imgLogoAr = res;
+        } else if (file == fileLogoEn) {
+          imgLogoEn = res;
+        } else if (file == fileCoveEn) {
+          imgCoveEn = res;
+        } else if (file == fileCoveAr) {
+          imgCoveAr = res;
+        } else if (file == fileCommercialRegisterDoc) {
+          imgCommercialRegisterDoc = res;
+        }
+        emit(UploadImageLoaded());
+      },
+    );
+  }
+
   Future updateShopProfile(BuildContext context) async {
     UpdateShopProfileModel updateShopProfileModel = UpdateShopProfileModel(
       id: shopModel!.id,
       arName: nameArController.text,
       enName: nameEnController.text,
-      arLogo: fileLogoAr,
-      enLogo: fileLogoEn,
-      arCover: fileCoveAr,
-      enCover: fileCoveEn,
+      arLogo: imgLogoAr,
+      enLogo: imgLogoEn,
+      arCover: imgCoveAr,
+      enCover: imgCoveEn,
       commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: fileCommercialRegisterDoc,
-      cityId: 0,
-      street: streetController.text,
-      buildingNumber: int.parse(buildNumController.text),
+      commercialRegisterDocument: imgCommercialRegisterDoc,
+      cityId: shopModel!.cityId,
+      street: shopModel!.street,
+      // buildingNumber: int.parse(shopModel!.buildingNumber ?? ''),
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,
       instagramUrl: instegramController.text,
@@ -102,8 +132,8 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
         shopModel = res;
         res.openingDays!.forEach((element) {
           print(element.day);
-          print(DateFormat('HH:mm').format(DateTime.parse(element.from??'')));
-          print(DateFormat('HH:mm').format(DateTime.parse(element.to??'')));
+          print(DateFormat('HH:mm').format(DateTime.parse(element.from ?? '')));
+          print(DateFormat('HH:mm').format(DateTime.parse(element.to ?? '')));
           print("----------------------------");
         });
         emit(GetShopProfileLoaded());
@@ -139,14 +169,14 @@ class ShopProfileCubit extends Cubit<ShopProfileState> {
     // "البلد",
     // "المدينه",
     // "الشارع",
-    "رقم البناء"
+    // "رقم البناء"
   ];
 
-  getImage() async {
+  Future<XFile?> getImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
-      file = File(result.path);
+      return result;
     }
   }
 }

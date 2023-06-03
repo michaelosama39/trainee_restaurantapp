@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
@@ -14,7 +15,8 @@ class AuthRepo {
   Future<Either<String, String>> uploadImage(File file) async {
     FormData formData = FormData.fromMap({
       "file": await MultipartFile.fromFile(file.path,
-          filename: file.path.split('/').last)
+          filename: file.path.split('/').last,
+          contentType: MediaType("image", "jpeg"))
     });
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,

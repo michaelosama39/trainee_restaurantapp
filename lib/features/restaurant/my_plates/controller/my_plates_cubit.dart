@@ -33,10 +33,6 @@ class MyPlatesCubit extends Cubit<MyPlatesState> {
         Toast.show(err);
       },
       (res) {
-        res.result!.items!.forEach((element) {
-          log(element.images!.isNotEmpty ? element.images!.first : '');
-          log("________________________");
-        });
         listOfDishs.addAll(res.result!.items ?? []);
         emit(GetAllDishLoaded());
       },

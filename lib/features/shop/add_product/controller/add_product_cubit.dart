@@ -39,6 +39,22 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   Items? dropdownValueCate;
   File? file;
+  String? img;
+
+  Future uploadImage(BuildContext context, File file) async {
+    emit(UploadImageLoading());
+    final res = await addProductRepo.uploadImage(file);
+    res.fold(
+          (err) {
+        Toast.show(err);
+        emit(AddProductInitial());
+      },
+          (res) async {
+        img = res;
+        emit(UploadImageLoaded());
+      },
+    );
+  }
 
   Future getCategories() async {
     emit(GetCategoryLoading());
@@ -64,7 +80,7 @@ class AddProductCubit extends Cubit<AddProductState> {
         categoryId: dropdownValueCate == null ? 0 : dropdownValueCate!.id ?? 0,
         enComponents: componentsEnProductController.text,
         arComponents: componentsArProductController.text,
-        image: file!,
+        image: img!,
       );
       res.fold(
             (err) {

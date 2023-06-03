@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
 import '../../../../../core/dioHelper/dio_helper.dart';
 import '../models/add_course_model.dart';
@@ -10,7 +11,7 @@ class AddCourseRepo {
     FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
         filename: file.path
             .split('/')
-            .last)});
+            .last  , contentType: MediaType("image", "jpeg"))});
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,

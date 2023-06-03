@@ -131,8 +131,10 @@ class _AddProductViewState extends State<AddProductView> {
                                 file: AddProductCubit.of(context).file,
                                 onTap: () async {
                                   AddProductCubit.of(context).file =
-                                      await AddProductCubit.of(context)
-                                          .getImage();
+                                  await AddProductCubit.of(context)
+                                      .getImage();
+                                  AddProductCubit.of(context).uploadImage(
+                                      context, AddProductCubit.of(context).file!);
                                   AddProductCubit.of(context)
                                       .emit(UploadSignUpFileState());
                                 },

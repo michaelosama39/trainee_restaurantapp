@@ -13,3 +13,6 @@ class GetCategoryLoading extends AddProductState {}
 class GetCategoryLoaded extends AddProductState {}
 
 class UploadSignUpFileState extends AddProductState {}
+
+class UploadImageLoading extends AddProductState {}
+class UploadImageLoaded extends AddProductState {}

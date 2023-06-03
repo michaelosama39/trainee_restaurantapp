@@ -102,8 +102,9 @@ class AllProductsScreen extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(
-                              product.images!.isEmpty ? '' : product.images!.first),
+                          image: NetworkImage(product.images!.isEmpty
+                              ? ''
+                              : product.images!.first),
                           fit: BoxFit.cover),
                       borderRadius: const BorderRadius.all(Radius.circular(8))),
                 ),
@@ -125,14 +126,17 @@ class AllProductsScreen extends StatelessWidget {
         ),
         body: BlocBuilder<MyProductsCubit, MyProductsState>(
           builder: (context, state) {
-            List<Items> listOfProducts = MyProductsCubit.of(context).listOfDishs;
+            List<Items> listOfProducts =
+                MyProductsCubit.of(context).listOfDishs;
             return state is GetAllProductLoading
                 ? const Loader()
                 : Column(
                     children: [
                       Expanded(
                         child: listOfProducts.isEmpty
-                            ? const SizedBox()
+                            ? const Center(
+                                child: Text('no data'),
+                              )
                             : ListView.builder(
                                 itemCount: listOfProducts.length,
                                 itemBuilder: (context, index) {

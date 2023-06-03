@@ -30,7 +30,7 @@ class ProfileTrainerScreenView extends StatefulWidget {
 class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
   @override
   void initState() {
-    // TODO: implement initState
+    TrainerProfileCubit.of(context).getTrainerProfile(context);
     TrainerProfileCubit.of(context).getTrainerReviews(context);
     super.initState();
   }

@@ -33,7 +33,7 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   String? coveEnNetwork;
   TextEditingController phoneController = TextEditingController();
   TextEditingController commercialRegisterNumberController =
-  TextEditingController();
+      TextEditingController();
   String? commercialRegisterDoc;
   TextEditingController cityController = TextEditingController();
   TextEditingController streetController = TextEditingController();
@@ -44,25 +44,38 @@ class RestProfileCubit extends Cubit<RestProfileState> {
   TextEditingController twitterController = TextEditingController();
   TextEditingController websiteController = TextEditingController();
 
-  File? file;
   File? fileLogoAr;
   File? fileLogoEn;
   File? fileCoveEn;
   File? fileCoveAr;
   File? fileCommercialRegisterDoc;
 
-  String? img;
+  String? imgLogoAr;
+  String? imgLogoEn;
+  String? imgCoveEn;
+  String? imgCoveAr;
+  String? imgCommercialRegisterDoc;
 
   Future uploadImage(BuildContext context, File file) async {
     emit(UploadImageLoading());
     final res = await restProfileRepo.uploadImage(file);
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(RestProfileInitial());
       },
-          (res) async {
-        img = res;
+      (res) async {
+        if (file == fileLogoAr) {
+          imgLogoAr = res;
+        }else if (file == fileLogoEn) {
+          imgLogoEn = res;
+        }else if (file == fileCoveEn) {
+          imgCoveEn = res;
+        }else if (file == fileCoveAr) {
+          imgCoveAr = res;
+        }else if (file == fileCommercialRegisterDoc) {
+          imgCommercialRegisterDoc = res;
+        }
         emit(UploadImageLoaded());
       },
     );
@@ -75,12 +88,12 @@ class RestProfileCubit extends Cubit<RestProfileState> {
       enName: nameEnController.text,
       arDescription: restaurantsModel!.arDescription,
       enDescription: restaurantsModel!.enDescription,
-      arLogo: img,
-      enLogo: img,
-      arCover: img,
-      enCover: img,
+      arLogo: imgLogoAr,
+      enLogo: imgLogoEn,
+      arCover: imgCoveAr,
+      enCover: imgCoveEn,
       commercialRegisterNumber: commercialRegisterNumberController.text,
-      commercialRegisterDocument: img,
+      commercialRegisterDocument: imgCommercialRegisterDoc,
       buildingNumber: buildNumController.text,
       phoneNumber: phoneController.text,
       facebookUrl: facebookController.text,
@@ -92,14 +105,16 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     emit(UpdateRestProfileLoading());
     final res = await restProfileRepo.updateRestProfile(updateRestProfileModel);
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(UpdateRestProfileError());
       },
-          (res) {
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-            builder: (context) => NavigatorScreen(homeType: 3)), (
-            route) => false);
+      (res) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NavigatorScreen(homeType: 3)),
+            (route) => false);
         emit(UpdateRestProfileLoaded());
       },
     );
@@ -109,11 +124,11 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     emit(GetRestProfileLoading());
     final res = await restProfileRepo.getRestProfile();
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(GetRestProfileError());
       },
-          (res) {
+      (res) {
         restaurantsModel = res;
         emit(GetRestProfileLoaded());
       },
@@ -148,14 +163,14 @@ class RestProfileCubit extends Cubit<RestProfileState> {
     //"البلد",
     //"المدينه",
     //"الشارع",
-    "رقم البناء"
+    // "رقم البناء"
   ];
 
-  getImage() async {
+  Future<XFile?> getImage() async {
     ImagePicker picker = ImagePicker();
     var result = await picker.pickImage(source: ImageSource.gallery);
     if (result != null) {
-      file = File(result.path);
+      return result;
     }
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/categories_model.dart';
 
@@ -13,7 +14,7 @@ class AddPlateRepo {
     FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path,
         filename: file.path
             .split('/')
-            .last)});
+            .last , contentType: MediaType("image", "jpeg"))});
     final response = await DioHelper.post(
       APIUrls.API_Upload_Image,
       formData: formData,
@@ -64,7 +65,7 @@ class AddPlateRepo {
         'categoryId': categoryId,
         'enComponents': enComponents,
         'arComponents': arComponents,
-        'image': [image],
+        'image': image,
       },
     );
     try {

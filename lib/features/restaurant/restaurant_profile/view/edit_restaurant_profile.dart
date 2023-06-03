@@ -98,8 +98,8 @@ class _EditRestaurantScreenContentState
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     children: [
-                      _buildImageWidget(
-                          RestProfileCubit.of(context).file ?? File('')),
+                      // _buildImageWidget(
+                      //     RestProfileCubit.of(context).file ?? File('')),
                       SizedBox(
                         height: 55.h,
                       ),
@@ -119,7 +119,12 @@ class _EditRestaurantScreenContentState
                             RestProfileCubit.of(context).fileLogoAr ?? File(''),
                         image: RestProfileCubit.of(context).logoArNetwork ?? '',
                         onTap: () async {
-                          await RestProfileCubit.of(context).getImage();
+                          await RestProfileCubit.of(context)
+                              .getImage()
+                              .then((value) {
+                            RestProfileCubit.of(context).fileLogoAr =
+                                File(value!.path);
+                          });
                           RestProfileCubit.of(context).uploadImage(context,
                               RestProfileCubit.of(context).fileLogoAr!);
                           RestProfileCubit.of(context).emit(GetImageState());
@@ -132,7 +137,12 @@ class _EditRestaurantScreenContentState
                             RestProfileCubit.of(context).fileLogoEn ?? File(''),
                         image: RestProfileCubit.of(context).logoEnNetwork ?? '',
                         onTap: () async {
-                          await RestProfileCubit.of(context).getImage();
+                          await RestProfileCubit.of(context)
+                              .getImage()
+                              .then((value) {
+                            RestProfileCubit.of(context).fileLogoEn =
+                                File(value!.path);
+                          });
                           RestProfileCubit.of(context).uploadImage(context,
                               RestProfileCubit.of(context).fileLogoEn!);
                           RestProfileCubit.of(context).emit(GetImageState());
@@ -145,7 +155,12 @@ class _EditRestaurantScreenContentState
                             RestProfileCubit.of(context).fileCoveEn ?? File(''),
                         image: RestProfileCubit.of(context).coveEnNetwork ?? '',
                         onTap: () async {
-                          await RestProfileCubit.of(context).getImage();
+                          await RestProfileCubit.of(context)
+                              .getImage()
+                              .then((value) {
+                            RestProfileCubit.of(context).fileCoveEn =
+                                File(value!.path);
+                          });
                           RestProfileCubit.of(context).uploadImage(context,
                               RestProfileCubit.of(context).fileCoveEn!);
                           RestProfileCubit.of(context).emit(GetImageState());
@@ -158,7 +173,12 @@ class _EditRestaurantScreenContentState
                             RestProfileCubit.of(context).fileCoveAr ?? File(''),
                         image: RestProfileCubit.of(context).coveArNetwork ?? '',
                         onTap: () async {
-                          await RestProfileCubit.of(context).getImage();
+                          await RestProfileCubit.of(context)
+                              .getImage()
+                              .then((value) {
+                            RestProfileCubit.of(context).fileCoveAr =
+                                File(value!.path);
+                          });
                           RestProfileCubit.of(context).uploadImage(context,
                               RestProfileCubit.of(context).fileCoveAr!);
                           RestProfileCubit.of(context).emit(GetImageState());
@@ -184,7 +204,12 @@ class _EditRestaurantScreenContentState
                                 .commercialRegisterDoc ??
                             '',
                         onTap: () async {
-                          await RestProfileCubit.of(context).getImage();
+                          await RestProfileCubit.of(context)
+                              .getImage()
+                              .then((value) {
+                            RestProfileCubit.of(context)
+                                .fileCommercialRegisterDoc = File(value!.path);
+                          });
                           RestProfileCubit.of(context).uploadImage(
                               context,
                               RestProfileCubit.of(context)
@@ -372,7 +397,9 @@ class _EditRestaurantScreenContentState
             child: Center(
               child: GestureDetector(
                 onTap: () async {
-                  await RestProfileCubit.of(context).getImage();
+                  // await RestProfileCubit.of(context).getImage().then((value) {
+                  //   RestProfileCubit.of(context).file = File(value!.path);
+                  // });
                   RestProfileCubit.of(context).uploadImage(context, file);
                   RestProfileCubit.of(context).emit(GetImageState());
                 },

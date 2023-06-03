@@ -189,10 +189,10 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     children: [
-                      _buildImageWidget(
-                          ShopProfileCubit
-                              .of(context)
-                              .file ?? File('')),
+                      // _buildImageWidget(
+                      //     ShopProfileCubit
+                      //         .of(context)
+                      //         .file ?? File('')),
                       SizedBox(
                         height: 55.h,
                       ),
@@ -220,7 +220,10 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             .of(context)
                             .logoArNetwork ?? '',
                         onTap: () async {
-                          await ShopProfileCubit.of(context).getImage();
+                          await ShopProfileCubit.of(context).getImage().then((value) {
+                            ShopProfileCubit.of(context).fileLogoAr =
+                                File(value!.path);
+                          });
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -235,7 +238,10 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             .of(context)
                             .logoEnNetwork ?? '',
                         onTap: () async {
-                          await ShopProfileCubit.of(context).getImage();
+                          await ShopProfileCubit.of(context).getImage().then((value) {
+                            ShopProfileCubit.of(context).fileLogoEn =
+                                File(value!.path);
+                          });
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -250,7 +256,10 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             .of(context)
                             .coveEnNetwork ?? '',
                         onTap: () async {
-                          await ShopProfileCubit.of(context).getImage();
+                          await ShopProfileCubit.of(context).getImage().then((value) {
+                            ShopProfileCubit.of(context).fileCoveEn =
+                                File(value!.path);
+                          });
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
@@ -265,10 +274,14 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             .of(context)
                             .coveArNetwork ?? '',
                         onTap: () async {
-                          await ShopProfileCubit.of(context).getImage();
+                          await ShopProfileCubit.of(context).getImage().then((value) {
+                            ShopProfileCubit.of(context).fileCoveAr =
+                                File(value!.path);
+                          });
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
+                      Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: Translation
                               .of(context)
@@ -296,34 +309,37 @@ class _EditShopScreenContentState extends State<EditShopScreenContent> {
                             .commercialRegisterDoc ??
                             '',
                         onTap: () async {
-                          await ShopProfileCubit.of(context).getImage();
+                          await ShopProfileCubit.of(context).getImage().then((value) {
+                            ShopProfileCubit.of(context).fileCommercialRegisterDoc =
+                                File(value!.path);
+                          });
                           ShopProfileCubit.of(context).emit(GetImageState());
                         },
                       ),
                       Gaps.vGap8,
-                      _buildTextFiledWidget(
-                          title: Translation
-                              .of(context)
-                              .cityName,
-                          textEditingController:
-                          ShopProfileCubit
-                              .of(context)
-                              .cityController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "اسم الشارع",
-                          textEditingController:
-                          ShopProfileCubit
-                              .of(context)
-                              .streetController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: "رقم البناء",
-                          textEditingController:
-                          ShopProfileCubit
-                              .of(context)
-                              .buildNumController),
-                      Gaps.vGap24,
+                      // _buildTextFiledWidget(
+                      //     title: Translation
+                      //         .of(context)
+                      //         .cityName,
+                      //     textEditingController:
+                      //     ShopProfileCubit
+                      //         .of(context)
+                      //         .cityController),
+                      // Gaps.vGap24,
+                      // _buildTextFiledWidget(
+                      //     title: "اسم الشارع",
+                      //     textEditingController:
+                      //     ShopProfileCubit
+                      //         .of(context)
+                      //         .streetController),
+                      // Gaps.vGap24,
+                      // _buildTextFiledWidget(
+                      //     title: "رقم البناء",
+                      //     textEditingController:
+                      //     ShopProfileCubit
+                      //         .of(context)
+                      //         .buildNumController),
+                      // Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: "اسم مدير المطعم",
                           textEditingController:

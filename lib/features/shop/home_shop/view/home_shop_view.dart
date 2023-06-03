@@ -173,22 +173,27 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 4.w),
-              child: CustomCarousel(
-                items: List.generate(
-                    listOfProducts.length,
-                    (index) =>
-                        _buildMyProductItemWidget(listOfProducts[index])),
-                options: CarouselOptions(
-                  height: 344.h,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: false,
-                  scrollPhysics: const CustomScrollPhysics(itemDimension: 1),
-                  autoPlay: false,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
+              child: listOfProducts.isEmpty
+                  ? const Center(
+                      child: Text('no data'),
+                    )
+                  : CustomCarousel(
+                      items: List.generate(
+                          listOfProducts.length,
+                          (index) =>
+                              _buildMyProductItemWidget(listOfProducts[index])),
+                      options: CarouselOptions(
+                        height: 344.h,
+                        viewportFraction: 0.8,
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        scrollPhysics:
+                            const CustomScrollPhysics(itemDimension: 1),
+                        autoPlay: false,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
             ),
           ),
         ],
@@ -203,99 +208,107 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
         return const Loader();
       } else {
         var restaurantsModel = ShopProfileCubit.of(context).shopModel;
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 100.h,
-            child: Column(
-              children: [
-                TitleWidget(
-                  title: "الباقه الحاليه",
-                  subtitleColorTapped: () {},
-                  subtitle: "",
-                  titleColor: AppColors.accentColorLight,
-                ),
-                Gaps.vGap14,
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return restaurantsModel!.subscription != null
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 100.h,
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(AppConstants.borderRadius10)),
-                              gradient: const LinearGradient(colors: [
-                                AppColors.lightColor,
-                                AppColors.accentColorLight
-                              ])),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomText(
-                                  text: restaurantsModel!.subscription!.name ??
-                                      '',
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize16,
-                                ),
-                                CustomText(
-                                  text:
-                                      "${restaurantsModel.subscription!.fee} ريال سعودي",
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                  fontSize: AppConstants.textSize16,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                      TitleWidget(
+                        title: "الباقه الحاليه",
+                        subtitleColorTapped: () {},
+                        subtitle: "",
+                        titleColor: AppColors.accentColorLight,
                       ),
-                      Gaps.hGap16,
+                      Gaps.vGap14,
                       Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      AppColors.transparent.withOpacity(0.2)),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(AppConstants.blurDegree10)),
-                              gradient: LinearGradient(colors: [
-                                AppColors.transparent.withOpacity(0.0),
-                                AppColors.transparent.withOpacity(0.5)
-                              ])),
-                          child: Center(
-                            child: MaterialButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SubscriptionScreen(
-                                        typeUser: widget.typeUser,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              flex: 3,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            AppConstants.borderRadius10)),
+                                    gradient: const LinearGradient(colors: [
+                                      AppColors.lightColor,
+                                      AppColors.accentColorLight
+                                    ])),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: restaurantsModel!
+                                                .subscription!.name ??
+                                            '',
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white,
+                                        fontSize: AppConstants.textSize16,
                                       ),
-                                    ));
-                              },
-                              child: const Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.white,
-                                size: 30,
+                                      CustomText(
+                                        text:
+                                            "${restaurantsModel.subscription!.fee} ريال سعودي",
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white,
+                                        fontSize: AppConstants.textSize16,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Gaps.hGap16,
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.transparent
+                                            .withOpacity(0.2)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(
+                                            AppConstants.blurDegree10)),
+                                    gradient: LinearGradient(colors: [
+                                      AppColors.transparent.withOpacity(0.0),
+                                      AppColors.transparent.withOpacity(0.5)
+                                    ])),
+                                child: Center(
+                                  child: MaterialButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SubscriptionScreen(
+                                              typeUser: widget.typeUser,
+                                            ),
+                                          ));
+                                    },
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      color: AppColors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
+              )
+            : const SizedBox();
       }
     });
   }
@@ -400,8 +413,12 @@ class _HomeShopScreenState extends State<HomeShopScreen> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: CustomSliverDelegate(
-                    latitude: shopModel!.latitude!.toDouble(),
-                    longitude: shopModel.longitude!.toDouble(),
+                    latitude: shopModel!.latitude == null
+                        ? 30.033333
+                        : shopModel.latitude!.toDouble(),
+                    longitude: shopModel.longitude == null
+                        ? 30.033333
+                        : shopModel.longitude!.toDouble(),
                     expandedHeight: 230.h,
                     child: _buildSubscriptionWidget(),
                   ),

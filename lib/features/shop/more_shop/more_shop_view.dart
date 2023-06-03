@@ -137,10 +137,6 @@ class MoreShopScreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ChangePasswordScreen(
-                        screenNumber: typeUser,
-                      )));
             },
             behavior: HitTestBehavior.opaque,
             child: Padding(
@@ -280,6 +276,10 @@ class MoreShopScreen extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
                   //Nav.to(ChangePasswordScreen.routeName);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChangePasswordScreen(
+                        screenNumber: typeUser,
+                      )));
                 },
                 child: Padding(
                   padding: EdgeInsets.all(6.h),
