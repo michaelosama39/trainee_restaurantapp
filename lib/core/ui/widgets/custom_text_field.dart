@@ -102,7 +102,7 @@ class PhoneNumberTextField extends StatelessWidget {
         if (onFieldSubmitted != null) onFieldSubmitted!();
       },
       keyboardAction: textInputAction ?? TextInputAction.next,
-      initialValue: PhoneNumber(isoCode: isoCode),
+      // initialValue: PhoneNumber(isoCode: isoCode),
       onInputChanged: (text) {
         onInputChanged(text.dialCode ?? isoCode);
       },
