@@ -55,12 +55,12 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Image.network(
+                    child: trainerModel!.imageUrl != null ? Image.network(
                       trainerModel!.imageUrl ?? "",
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(AppConstants.COACH1_IMAGE);
                       },
-                    ),
+                    ) : Image.asset(AppConstants.AVATER_IMG),
                   ),
                   Expanded(
                     flex: 4,
