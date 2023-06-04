@@ -77,8 +77,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                             color: AppColors.white,
                             fontWeight: FontWeight.w700,
                           ),
+                          if(trainerModel.subscription != null)
                           CustomText(
-                            text: trainerModel.subscription?.name ?? "",
+                            text: trainerModel.subscription!.name ?? "",
                             fontSize: Dimens.dp20,
                             color: AppColors.accentColorLight,
                             fontWeight: FontWeight.w700,
@@ -525,7 +526,8 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
     return BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
       builder: (context, state) {
         if (TrainerProfileCubit.of(context).trainerModel != null) {
-          return Padding(
+          if(TrainerProfileCubit.of(context).trainerModel!.subscription != null) {
+            return Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: 100.h,
@@ -627,6 +629,9 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
               ),
             ),
           );
+          }else{
+            return const SizedBox();
+          }
         } else {
           return const SizedBox();
         }
