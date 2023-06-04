@@ -198,12 +198,16 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
   }
 
   Widget trainerBouquet() {
-    return Padding(
+    if(TrainerProfileCubit.of(context)
+        .trainerModel!
+        .subscription != null) {
+      return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         height: 70.h,
         child: Column(
           children: [
+
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -224,6 +228,7 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+
                             CustomText(
                               text: TrainerProfileCubit.of(context)
                                       .trainerModel!
@@ -256,6 +261,9 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
         ),
       ),
     );
+    }else{
+      return const SizedBox();
+    }
   }
 
   Widget _buildCommentItemWidget({
