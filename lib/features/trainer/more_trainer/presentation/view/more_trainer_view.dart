@@ -82,7 +82,6 @@ class MoreTrainerScreen extends StatelessWidget {
 
   Widget _buildAppSettingsWidget({required context}) {
     return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

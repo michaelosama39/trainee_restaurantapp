@@ -218,7 +218,7 @@ class AuthCubit extends Cubit<AuthState> {
       isLoading = true;
       final res = await authRepo.verifyAccount(
         phone,
-        codeController.text,
+        '000000',
       );
       res.fold(
         (err) {
@@ -264,6 +264,8 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterShopError());
           },
           (res) async {
+            print('$countryCode${phoneRestaurantController.text}');
+            submitPhoneNumber(newPhone: "$countryCode${phoneRestaurantController.text}");
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneRestaurantController.text, userType: userType));
@@ -310,6 +312,8 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterRestaurantError());
           },
           (res) async {
+            print('$countryCode${phoneController.text}');
+            submitPhoneNumber(newPhone: "$countryCode${phoneRestaurantController.text}");
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneRestaurantController.text, userType: userType));
@@ -344,10 +348,11 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterTrainerError());
           },
           (res) async {
+            print('$countryCode${phoneController.text}');
+            submitPhoneNumber(newPhone: "$countryCode${phoneController.text}");
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
                     phone: phoneController.text, userType: userType));
-            // submitPhoneNumber(newPhone: phoneController.text);
             isLoading = false;
             emit(RegisterTrainerLoaded());
           },

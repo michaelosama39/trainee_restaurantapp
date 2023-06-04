@@ -977,7 +977,6 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
           if (TrainerProfileCubit.of(context).trainerModel != null) {
             return SafeArea(
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     profileScreenDetails(),

@@ -636,22 +636,19 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              trainerProfile(),
-              Gaps.vGap16,
-              mostWantedCourse(),
-              Gaps.vGap16,
-              _buildSectionWidget(),
-              Gaps.vGap16,
-              trainerBouquet(),
-              Gaps.vGap60,
-            ],
-          ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            trainerProfile(),
+            Gaps.vGap16,
+            mostWantedCourse(),
+            Gaps.vGap16,
+            _buildSectionWidget(),
+            Gaps.vGap16,
+            trainerBouquet(),
+            Gaps.vGap60,
+          ],
         ),
       ),
     );

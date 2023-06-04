@@ -104,7 +104,7 @@ class PhoneNumberTextField extends StatelessWidget {
       keyboardAction: textInputAction ?? TextInputAction.next,
       initialValue: PhoneNumber(isoCode: isoCode),
       onInputChanged: (text) {
-        onInputChanged(text.isoCode ?? isoCode);
+        onInputChanged(text.dialCode ?? isoCode);
       },
       selectorConfig: const SelectorConfig(
         selectorType: PhoneInputSelectorType.DIALOG,
