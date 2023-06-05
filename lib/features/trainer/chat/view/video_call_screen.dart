@@ -21,7 +21,7 @@ class VideoCallScreen extends StatefulWidget {
 
 class _VideoCallScreenState extends State<VideoCallScreen> {
   String channelName = "test";
-  String token = "007eJxTYDhqf/7cSe5j1Z6Jle0WJgyL9/xc6+H1rSRp7cU1Ky/EfNBQYDBJsbQ0TUs2MTdOMjYxMU+ztDQ3SzU1N01MTks1TDIwrZpYlNIQyMgQ23OfmZEBAkF8FoaS1OISBgYAy84hSw==";
+  String token = "007eJxTYLjKurWL5RZTzSElvhdRJhdPG+vbC26M6bewtpR64/9h+W0FBpMUS0vTtGQTc+MkYxMT8zRLS3OzVFNz08TktFTDJAPTJ2drUxoCGRlevTRnZWSAQBCfhaEktbiEgQEA64MfNA==";
 
   int uid = 0; // uid of the local user
 
