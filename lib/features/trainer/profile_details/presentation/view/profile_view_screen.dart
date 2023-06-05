@@ -42,15 +42,17 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
         height: 300.h,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
-          image: DecorationImage(
-            onError: (exception, stackTrace) {
-              const AssetImage(AppConstants.COACH1_IMAGE);
-            },
-            image: NetworkImage(
-              TrainerProfileCubit.of(context).trainerModel!.imageUrl ?? "",
-            ),
-            fit: BoxFit.cover,
-          ),
+          image: TrainerProfileCubit.of(context).trainerModel!.imageUrl != null
+              ? DecorationImage(
+                  image: NetworkImage(
+                    TrainerProfileCubit.of(context).trainerModel!.imageUrl ??
+                        "",
+                  ),
+                  fit: BoxFit.cover,
+                )
+              : const DecorationImage(
+                  image: AssetImage(AppConstants.AVATER_IMG),
+                ),
           boxShadow: [
             BoxShadow(
               color: AppColors.grey.withOpacity(0.5),
@@ -198,70 +200,66 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
   }
 
   Widget trainerBouquet() {
-    if(TrainerProfileCubit.of(context)
-        .trainerModel!
-        .subscription != null) {
+    if (TrainerProfileCubit.of(context).trainerModel!.subscription != null) {
       return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 70.h,
-        child: Column(
-          children: [
-
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(AppConstants.borderRadius10)),
-                          gradient: const LinearGradient(colors: [
-                            AppColors.lightColor,
-                            AppColors.accentColorLight
-                          ])),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-
-                            CustomText(
-                              text: TrainerProfileCubit.of(context)
-                                      .trainerModel!
-                                      .subscription!
-                                      .name ??
-                                  "",
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.white,
-                              fontSize: AppConstants.textSize16,
-                            ),
-                            CustomText(
-                              text:
-                                  "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.white,
-                              fontSize: AppConstants.textSize16,
-                            )
-                          ],
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 70.h,
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(AppConstants.borderRadius10)),
+                            gradient: const LinearGradient(colors: [
+                              AppColors.lightColor,
+                              AppColors.accentColorLight
+                            ])),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CustomText(
+                                text: TrainerProfileCubit.of(context)
+                                        .trainerModel!
+                                        .subscription!
+                                        .name ??
+                                    "",
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                                fontSize: AppConstants.textSize16,
+                              ),
+                              CustomText(
+                                text:
+                                    "${TrainerProfileCubit.of(context).trainerModel!.subscription!.fee ?? 0} ${Translation.of(context).saudi_riyal}",
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                                fontSize: AppConstants.textSize16,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // widgets.length > 3
-                  //     ?
-                  // : const SizedBox.shrink(),
-                ],
+                    // widgets.length > 3
+                    //     ?
+                    // : const SizedBox.shrink(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-    }else{
+      );
+    } else {
       return const SizedBox();
     }
   }
@@ -979,13 +977,11 @@ class _ProfileTrainerScreenViewState extends State<ProfileTrainerScreenView> {
         ],
       ),
       body: BlocBuilder<TrainerProfileCubit, TrainerProfileState>(
-        buildWhen: (previous, current) =>
-        previous != current,
+        buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           if (TrainerProfileCubit.of(context).trainerModel != null) {
             return SafeArea(
               child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     profileScreenDetails(),

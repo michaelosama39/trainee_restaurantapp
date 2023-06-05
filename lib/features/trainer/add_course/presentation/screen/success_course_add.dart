@@ -56,7 +56,7 @@ class SuccessCourseAdd extends StatelessWidget {
                 child: NewElevatedButton(
               color: null,
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(context, Routes.myCourseScreen, (route) => false);
+                Navigator.pushReplacementNamed(context, Routes.myCourseScreen);
               },
               text: Translation.of(context).goto,
             ))

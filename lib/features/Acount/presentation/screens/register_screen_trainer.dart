@@ -61,7 +61,6 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
                     PhoneNumberTextField(
                       onInputChanged: (code) =>
                           AuthCubit.of(context).countryCode = code,
-                      //onDialChanged: (dial)=>countryDial=dial,
                       textEditingController:
                           AuthCubit.of(context).phoneController,
                       isoCode: AuthCubit.of(context).countryCode,

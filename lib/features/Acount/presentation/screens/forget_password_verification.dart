@@ -108,6 +108,8 @@ class _ForgetPasswordVerificationScreenContentState
 
   void _verify(context) {
     if (AuthCubit.of(context).codeController.text.length == 6) {
+      AuthCubit.of(context).submitOTP(AuthCubit.of(context).codeController.text);
+      // AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
       Navigator.of(context).pushNamed(
         Routes.resetPass,
         arguments: ResetPasswordScreen(
@@ -119,6 +121,5 @@ class _ForgetPasswordVerificationScreenContentState
     } else {
       Toast.show('برجاء كتابه كود التحقق');
     }
-    // AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
   }
 }

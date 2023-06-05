@@ -37,11 +37,11 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
 
   String? networkCvUrl;
   File? fileCvUrl;
+  String? imgCvUrl;
 
   String? networkImageUrl;
   File? fileImageUrl;
-
-  String? img;
+  String? imgImageUrl;
 
   TrainerModel? trainerModel;
 
@@ -54,7 +54,11 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
         emit(TrainerProfileInitial());
       },
           (res) async {
-        img = res;
+            if (file == fileImageUrl) {
+              imgImageUrl = res;
+            } else if (file == fileCvUrl) {
+              imgCvUrl = res;
+            }
         emit(UploadImageLoaded());
       },
     );
@@ -67,10 +71,10 @@ class TrainerProfileCubit extends Cubit<TrainerProfileState> {
       specializationId: trainerModel!.specializationId,
       phoneNumber: phoneController.text == trainerModel!.phoneNumber ? trainerModel!.phoneNumber : phoneController.text,
       hourPrice: double.parse(hourRateController.text),
-      idNumber: idNumberController.text,
+      idNumber: '1',
       name: nameController.text == trainerModel!.name ? trainerModel!.name : nameController.text,
-      cvUrl: img,
-      imageUrl: img,
+      cvUrl: imgCvUrl== null ? trainerModel!.cvUrl : imgCvUrl,
+      imageUrl: imgImageUrl == null ? trainerModel!.imageUrl : imgImageUrl,
       latitude: locationCubit.state.model!.lat,
       longitude: locationCubit.state.model!.lng,
     );

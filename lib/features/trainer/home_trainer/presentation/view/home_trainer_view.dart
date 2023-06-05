@@ -55,12 +55,12 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Image.network(
+                    child: trainerModel!.imageUrl != null ? Image.network(
                       trainerModel!.imageUrl ?? "",
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(AppConstants.COACH1_IMAGE);
                       },
-                    ),
+                    ) : Image.asset(AppConstants.AVATER_IMG),
                   ),
                   Expanded(
                     flex: 4,
@@ -641,22 +641,19 @@ class _HomeTrainerScreenState extends State<HomeTrainerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              trainerProfile(),
-              Gaps.vGap16,
-              mostWantedCourse(),
-              Gaps.vGap16,
-              _buildSectionWidget(),
-              Gaps.vGap16,
-              trainerBouquet(),
-              Gaps.vGap60,
-            ],
-          ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            trainerProfile(),
+            Gaps.vGap16,
+            mostWantedCourse(),
+            Gaps.vGap16,
+            _buildSectionWidget(),
+            Gaps.vGap16,
+            trainerBouquet(),
+            Gaps.vGap60,
+          ],
         ),
       ),
     );

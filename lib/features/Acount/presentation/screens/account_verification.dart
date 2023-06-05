@@ -105,6 +105,7 @@ class _AccountVerificationScreenContentState
   }
 
   void _verifyAccount(context) {
+    AuthCubit.of(context).submitOTP(AuthCubit.of(context).codeController.text);
     AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
   }
 }

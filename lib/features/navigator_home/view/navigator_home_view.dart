@@ -53,36 +53,20 @@ class _NavigatorScreenState extends RouteAwareState<NavigatorScreen> {
     // }
     // else
     _pageController = PageController();
-    _pages = widget.homeType==0?[
+    _pages = widget.homeType==1?[
       HomeTrainerScreen(
         typeUser: widget.homeType,
       ),
       ChatView(),
       const ProfileTrainerScreenView(),
-      // const ProfileScreen(),
-      // const MoreScreen()
-      MoreTrainerScreen(
-        typeUser: widget.homeType,
-      )
-    ]:widget.homeType==1?[
-      HomeTrainerScreen(
-        typeUser: widget.homeType,
-      ),
-       ChatView(),
-      const ProfileTrainerScreenView(),
       MoreTrainerScreen(
         typeUser: widget.homeType,
       ),
-      //
-      // const MoreTrainerScreen(),
-      // const ProfileTrainerScreenView(),
     ]:widget.homeType==3?[
       HomeRestaurantScreen(
         typeUser: widget.homeType,
       ),
       const MyOrderRestaurantView(),
-      // const ProfileScreen(),
-      // const MoreScreen()
       const RestaurantProfile(),
       MoreRestaurantScreen(
         typeUser: widget.homeType,

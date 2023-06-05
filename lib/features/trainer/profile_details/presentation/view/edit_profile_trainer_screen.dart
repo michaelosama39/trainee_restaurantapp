@@ -56,7 +56,10 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                   .specializationId
                   .toString();
           TrainerProfileCubit.of(context).hourRateController.text =
-              TrainerProfileCubit.of(context).trainerModel!.hourPrice.toString();
+              TrainerProfileCubit.of(context)
+                  .trainerModel!
+                  .hourPrice
+                  .toString();
           TrainerProfileCubit.of(context).coachSpecializationController.text =
               TrainerProfileCubit.of(context)
                       .trainerModel!
@@ -102,11 +105,11 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                           isPhoneNumber: true,
                           textEditingController:
                               TrainerProfileCubit.of(context).phoneController),
-                      Gaps.vGap24,
-                      _buildTextFiledWidget(
-                          title: Translation.of(context).idNumber,
-                          textEditingController: TrainerProfileCubit.of(context)
-                              .idNumberController),
+                      // Gaps.vGap24,
+                      // _buildTextFiledWidget(
+                      //     title: Translation.of(context).idNumber,
+                      //     textEditingController: TrainerProfileCubit.of(context)
+                      //         .idNumberController),
                       Gaps.vGap24,
                       _buildTextFiledWidget(
                           title: Translation.of(context).hourRate,
@@ -182,8 +185,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
       child: InkWell(
         onTap: () async {
           await TrainerProfileCubit.of(context).getFile();
-          TrainerProfileCubit.of(context)
-              .uploadImage(context , file);
+          TrainerProfileCubit.of(context).uploadImage(context, file);
           TrainerProfileCubit.of(context).emit(GetImageState());
         },
         child: SizedBox(
@@ -212,7 +214,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
                   width: double.infinity,
                   child: file.path.isNotEmpty
                       ? Image.file(file)
-                      : Image.network(image),
+                      : image == '' ? Image.asset(AppConstants.COVER_IMG) : Image.network(image),
                 ),
               ),
             ],
@@ -231,11 +233,15 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
           width: 1.sw,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius8),
-            image: file.path.isEmpty
-                ? DecorationImage(
-                    image: NetworkImage(imageNetwork ?? ''), fit: BoxFit.cover)
-                : DecorationImage(
-                    image: FileImage(File(file.path)), fit: BoxFit.cover),
+            image: file.path.isNotEmpty
+                ? DecorationImage(image: FileImage(file), fit: BoxFit.cover)
+                : imageNetwork == ''
+                    ? const DecorationImage(
+                        image: AssetImage(AppConstants.AVATER_IMG),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        image: NetworkImage(imageNetwork ?? ''),
+                        fit: BoxFit.cover),
           ),
           child: Container(
             color: AppColors.primaryColorLight.withOpacity(0.7),
@@ -243,8 +249,7 @@ class _EditProfileScreenContentState extends State<EditProfileScreenContent> {
               child: GestureDetector(
                 onTap: () async {
                   await TrainerProfileCubit.of(context).getImage();
-                  TrainerProfileCubit.of(context)
-                      .uploadImage(context , file);
+                  TrainerProfileCubit.of(context).uploadImage(context, file);
                   TrainerProfileCubit.of(context).emit(GetImageState());
                 },
                 child: ImageIcon(
