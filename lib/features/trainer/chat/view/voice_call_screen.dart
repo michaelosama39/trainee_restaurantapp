@@ -18,7 +18,7 @@ class VoiceCallScreen extends StatefulWidget {
 
 class _VoiceCallScreenState extends State<VoiceCallScreen> {
   String channelName = "test";
-  String token = "007eJxTYOjz/Pqob+2c4J69W+qOnvzwV/jcypSJmgv+zwrPTq/eF9KvwGCSYmlpmpZsYm6cZGxiYp5maWlulmpqbpqYnJZqmGRg+vdOTkpDICNDhfsGRkYGCATxWRhKUotLGBgAfREjZg==";
+  String token = "007eJxTYLjKurWL5RZTzSElvhdRJhdPG+vbC26M6bewtpR64/9h+W0FBpMUS0vTtGQTc+MkYxMT8zRLS3OzVFNz08TktFTDJAPTJ2drUxoCGRlevTRnZWSAQBCfhaEktbiEgQEA64MfNA==";
 
   int uid = 0; // uid of the local user
 
