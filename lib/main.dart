@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'app.dart';
 import 'core/appStorage/app_storage.dart';
@@ -23,11 +25,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initAppConfigs();
  await AppStorage.init();
-  BlocOverrides.runZoned(
-      () => runApp(
-            const App(),
-          ),
-      blocObserver: MyBlocObserver());
+  /// 1.1.1 define a navigator key
+  final navigatorKey = GlobalKey<NavigatorState>();
+
+  /// 1.1.2: set navigator key to ZegoUIKitPrebuiltCallInvitationService
+  ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
+  ZegoUIKit().initLog().then((value) {
+    ///  Call the `useSystemCallingUI` method
+    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
+      [ZegoUIKitSignalingPlugin()],
+    );
+
+    runApp(App(navigatorKey: navigatorKey));
+  });
 }
 
 _initAppConfigs() async {
