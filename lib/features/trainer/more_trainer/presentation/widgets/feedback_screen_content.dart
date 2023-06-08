@@ -36,35 +36,37 @@ class _FeedbackScreenContentState extends State<FeedbackScreenContent> {
                 children: [
                   SizedBox(
                     height: 0.6.sh,
-                    child: Column(
-                      children: [
-                        Gaps.vGap16,
-                        Image.asset(
-                          AppConstants.APP_LOGO_IMG,
-                          width: 117.w,
-                          fit: BoxFit.contain,
-                        ),
-                        SizedBox(
-                          height: 50.h,
-                        ),
-                        _buildTextFieldFullBorderWithTitle(
-                          title: Translation.of(context).subject,
-                          focusNode: MoreTrainerCubit.of(context).subjectFocusNode,
-                          controller: MoreTrainerCubit.of(context).subjectController,
-                          textInputAction: TextInputAction.next,
-                          onSubmitted: () {
-                            FocusScope.of(context).requestFocus(MoreTrainerCubit.of(context).descFocusNode);
-                          },
-                        ),
-                        Gaps.vGap24,
-                        _buildTextFieldFullBorderWithTitle(
-                            title: Translation.of(context).details,
-                            focusNode: MoreTrainerCubit.of(context).descFocusNode,
-                            controller: MoreTrainerCubit.of(context).descController,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Gaps.vGap16,
+                          Image.asset(
+                            AppConstants.APP_LOGO_IMG,
+                            width: 117.w,
+                            fit: BoxFit.contain,
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          _buildTextFieldFullBorderWithTitle(
+                            title: Translation.of(context).subject,
+                            focusNode: MoreTrainerCubit.of(context).subjectFocusNode,
+                            controller: MoreTrainerCubit.of(context).subjectController,
                             textInputAction: TextInputAction.next,
-                            onSubmitted: () {},
-                            maxLines: 5),
-                      ],
+                            onSubmitted: () {
+                              FocusScope.of(context).requestFocus(MoreTrainerCubit.of(context).descFocusNode);
+                            },
+                          ),
+                          Gaps.vGap24,
+                          _buildTextFieldFullBorderWithTitle(
+                              title: Translation.of(context).details,
+                              focusNode: MoreTrainerCubit.of(context).descFocusNode,
+                              controller: MoreTrainerCubit.of(context).descController,
+                              textInputAction: TextInputAction.next,
+                              onSubmitted: () {},
+                              maxLines: 5),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(

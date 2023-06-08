@@ -29,6 +29,7 @@ class _PaymentViewState extends State<PaymentView> {
       child: BlocBuilder<PaymentCubit, PaymentState>(
         builder: (context, state) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(),
             body: MoyasarPayment(
               moyasarPaymentData: MoyasarPaymentData(
