@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/controller/auth_cubit.dart';
 import 'package:trainee_restaurantapp/features/payment/view/payment_view.dart';
 import 'package:trainee_restaurantapp/features/trainer/subscription/data/models/subscription_model.dart';
 import 'package:trainee_restaurantapp/features/trainer/subscription/presentation/controller/subscription_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:trainee_restaurantapp/generated/l10n.dart';
 
 import '../../../../../core/ui/loader.dart';
 import '../../../../../core/ui/widgets/custom_appbar.dart';
+import '../../../../navigator_home/view/navigator_home_view.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({Key? key, required this.typeUser})
@@ -17,38 +19,41 @@ class SubscriptionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const TransparentAppBar(
-          title: "باقات الاشتراك",
-        ),
-        body: BlocProvider(
-          create: (context) => SubscriptionCubit()..getSubscriptions(context),
-          child: BlocBuilder<SubscriptionCubit, SubscriptionState>(
-            builder: (context, state) {
-              if (state is GetSubscriptionsLoading) {
-                return const Loader();
-              } else {
-                return ListView.separated(
-                    itemCount:
-                        SubscriptionCubit.of(context).subscriptions.length,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SubscriptionItem(
-                            typeUser: typeUser,
-                            subscriptionModel: SubscriptionCubit.of(context)
-                                .subscriptions[index]),
-                      );
-                    });
-              }
-            },
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Scaffold(
+          appBar: const TransparentAppBar(
+            title: "باقات الاشتراك",
           ),
-        ));
+          body: BlocProvider(
+            create: (context) => SubscriptionCubit()..getSubscriptions(context),
+            child: BlocBuilder<SubscriptionCubit, SubscriptionState>(
+              builder: (context, state) {
+                if (state is GetSubscriptionsLoading) {
+                  return const Loader();
+                } else {
+                  return ListView.separated(
+                      itemCount:
+                          SubscriptionCubit.of(context).subscriptions.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SubscriptionItem(
+                              typeUser: typeUser,
+                              subscriptionModel: SubscriptionCubit.of(context)
+                                  .subscriptions[index]),
+                        );
+                      });
+                }
+              },
+            ),
+          )),
+    );
   }
 }
 
@@ -96,15 +101,27 @@ class SubscriptionItem extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PaymentView(
-                          amount: subscriptionModel.fee ?? 0.0,
-                          userId: AppStorage.getUserId,
-                          typeUser: typeUser,
-                          subscriptionId: subscriptionModel.id!),
-                    ),
-                  );
+                  if (subscriptionModel.fee == 0.0) {
+                    AuthCubit.of(context).assignSubscriptionToUser(
+                        context, subscriptionModel.id!, typeUser);
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => NavigatorScreen(
+                            homeType: typeUser,
+                          ),
+                        ),
+                        (route) => false);
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PaymentView(
+                            amount: subscriptionModel.fee ?? 0.0,
+                            userId: AppStorage.getUserId,
+                            typeUser: typeUser,
+                            subscriptionId: subscriptionModel.id!),
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(5),

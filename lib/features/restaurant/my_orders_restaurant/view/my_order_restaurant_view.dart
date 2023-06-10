@@ -183,16 +183,17 @@ class WaitingList extends StatelessWidget {
           if (state is GetMyOrdersLoaded) {
             if (listOfOrders.isNotEmpty) {
               return ListView.builder(
-                  itemCount: listOfOrders.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CardDetails(
-                        selectedCard: false,
-                        orderModel: listOfOrders[index],
-                      ),
-                    );
-                  });
+                itemCount: listOfOrders.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CardDetails(
+                      selectedCard: false,
+                      orderModel: listOfOrders[index],
+                    ),
+                  );
+                },
+              );
             } else {
               return const Center(
                 child: Text('لا توجد طلبات'),

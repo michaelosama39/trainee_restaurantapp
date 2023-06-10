@@ -12,6 +12,7 @@ import '../../../../../core/ui/widgets/custom_text.dart';
 import '../../../../../core/ui/widgets/custom_text_field.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../core/common/style/dimens.dart';
+import '../../data/models/specialization_model.dart';
 import '../controller/auth_cubit.dart';
 import 'general_auth.dart';
 
@@ -29,7 +30,7 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthCubit()..getSpecialization(),
       child: BlocBuilder<AuthCubit, AuthState>(
         buildWhen: (previous, current) =>
             previous != current ||
@@ -39,7 +40,7 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
         builder: (context, state) {
           return GeneralAuthScreen(
             additionalText: Translation.of(context).account_exist,
-            onButtonTap: (){
+            onButtonTap: () {
               AuthCubit.of(context).registerTrainer(context, widget.userType);
             },
             additionalTapText: Translation.of(context).login2,
@@ -121,7 +122,37 @@ class _RegisterTrainerScreenViewState extends State<RegisterTrainerScreenView> {
                     //   controller: coatchSpecialistController,
                     //   focusNode: coatchSpecialist,
                     // ),
-                    // Gaps.vGap8,
+                    DropdownButton<Items>(
+                      isExpanded: true,
+                      value: AuthCubit.of(context).dropdownValueCate,
+                      hint: const Text(
+                        'اختار التصنيف',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      dropdownColor: Colors.grey,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.white,
+                      ),
+                      onChanged: (Items? value) {
+                        setState(() {
+                          AuthCubit.of(context).dropdownValueCate = value!;
+                        });
+                      },
+                      items: AuthCubit.of(context)
+                          .listSpecialization
+                          .map<DropdownMenuItem<Items>>((Items value) {
+                        return DropdownMenuItem<Items>(
+                          value: value,
+                          child: Text(
+                            value.name ?? '',
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    Gaps.vGap8,
                     PasswordTextField(
                       controller: AuthCubit.of(context).passwordController,
                       passwordSecure: AuthCubit.of(context).passwordSecure,

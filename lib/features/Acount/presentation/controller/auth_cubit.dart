@@ -4,9 +4,14 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
+import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
 import 'package:trainee_restaurantapp/features/Acount/data/models/register_restaurant_model.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/create_restaurant_screen.dart';
+import 'package:trainee_restaurantapp/features/Acount/presentation/screens/create_shop_screen.dart';
 import '../../../../core/common/app_colors.dart';
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/errors/app_errors.dart';
@@ -21,6 +26,7 @@ import '../../../../core/utils/Utils.dart';
 import '../../../../generated/l10n.dart';
 import '../../../navigator_home/view/navigator_home_view.dart';
 import '../../../on_boarding/view/main_onboarding_view.dart';
+import '../../data/models/specialization_model.dart';
 import '../../data/repositories/auth_repo.dart';
 import '../screens/account_verification.dart';
 import '../screens/forget_password_verification.dart';
@@ -51,6 +57,19 @@ class AuthCubit extends Cubit<AuthState> {
   TextEditingController phoneRestaurantController = TextEditingController();
   TextEditingController cityNameController = TextEditingController();
 
+  TextEditingController cityController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController buildNumController = TextEditingController();
+  TextEditingController mangerController = TextEditingController();
+  TextEditingController facebookController = TextEditingController();
+  TextEditingController instegramController = TextEditingController();
+  TextEditingController twitterController = TextEditingController();
+  TextEditingController websiteController = TextEditingController();
+  TextEditingController nameArController = TextEditingController();
+  TextEditingController nameEnController = TextEditingController();
+  TextEditingController commercialRegisterNumberController =
+      TextEditingController();
+
   late String countryCode = AppConstants.DEFAULT_COUNTRY_CODE;
 
   bool isLoading = false;
@@ -73,15 +92,51 @@ class AuthCubit extends Cubit<AuthState> {
   FocusNode restaurantManagerName = FocusNode();
   FocusNode phoneRestaurantFocusNode = FocusNode();
 
+  File? fileLogoAr;
+  File? fileLogoEn;
+  File? fileCoveEn;
+  File? fileCoveAr;
+  File? fileCommercialRegisterDoc;
+
+  String? imgLogoAr;
+  String? imgLogoEn;
+  String? imgCoveEn;
+  String? imgCoveAr;
+  String? imgCommercialRegisterDoc;
+
+  String? logoArNetwork;
+  String? logoEnNetwork;
+  String? coveArNetwork;
+  String? coveEnNetwork;
+
+  List<Items> listSpecialization = [];
+  Items? dropdownValueCate;
+
+  final LocationCubit locationCubit = LocationCubit();
+
   late String otpValue;
   File? file;
 
   String? img;
 
-  // final LocationCubit locationCubit = LocationCubit();
-
   late String verificationId;
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future assignSubscriptionToUser(
+      BuildContext context, int subscriptionId, int type) async {
+    emit(AssignSubscriptionToUserLoading());
+    final res = await authRepo.assignSubscriptionToUser(subscriptionId, type);
+    res.fold(
+      (err) {
+        Toast.show(err);
+        emit(AssignSubscriptionToUserError());
+      },
+      (res) async {
+        Toast.show('تم بنجاح');
+        emit(AssignSubscriptionToUserLoaded());
+      },
+    );
+  }
 
   Future<void> submitPhoneNumber({newPhone}) async {
     debugPrint("*" * 50);
@@ -103,8 +158,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void verificationFailed(FirebaseAuthException e) {
-    print(e);
-    print("?????????????");
     debugPrint("Error in verification");
   }
 
@@ -112,9 +165,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   codeSent(String verificationId, int? resendToken) {
     this.verificationId = verificationId;
-    print("$resendToken");
-    print("<<<<<<<<>>>>>>>");
-
     countState = true;
   }
 
@@ -122,12 +172,14 @@ class AuthCubit extends Cubit<AuthState> {
     debugPrint("code Auto rerival Time");
   }
 
-  Future<void> submitOTP(String otp) async {
-    debugPrint(otp);
+  Future<bool> submitOTP(String otp) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: otp);
 
-    await smsSignIn(credential);
+    await smsSignIn(credential).whenComplete(() {
+      return true;
+    });
+    return false;
   }
 
   Future<void> smsSignIn(PhoneAuthCredential credential) async {
@@ -147,8 +199,32 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthInitial());
       },
       (res) async {
-        img = res;
+        if (file == fileLogoAr) {
+          imgLogoAr = res;
+        } else if (file == fileLogoEn) {
+          imgLogoEn = res;
+        } else if (file == fileCoveEn) {
+          imgCoveEn = res;
+        } else if (file == fileCoveAr) {
+          imgCoveAr = res;
+        } else if (file == fileCommercialRegisterDoc) {
+          imgCommercialRegisterDoc = res;
+        }
         emit(UploadImageLoaded());
+      },
+    );
+  }
+
+  Future getSpecialization() async {
+    emit(GetSpecializationLoading());
+    final res = await authRepo.getSpecialization();
+    res.fold(
+      (err) {
+        Toast.show(err);
+      },
+      (res) {
+        listSpecialization.addAll(res.result!.items ?? []);
+        emit(GetSpecializationLoaded());
       },
     );
   }
@@ -228,10 +304,23 @@ class AuthCubit extends Cubit<AuthState> {
         },
         (res) async {
           isLoading = false;
-          Navigator.pushNamedAndRemoveUntil(
-              context, Routes.mainLoginScreen, (route) => false,
-              arguments: userType);
-          emit(VerifyAccountLoaded());
+          if (userType == 1) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.mainLoginScreen, (route) => false,
+                arguments: userType);
+            emit(VerifyAccountLoaded());
+          } else if (userType == 3) {
+            login(context, userType, phone);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    CreateRestaurantScreen(phone: phone, userType: userType)));
+            emit(VerifyAccountLoaded());
+          } else if (userType == 4) {
+            login(context, userType, phone);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    CreateShopScreen(phone: phone, userType: userType)));
+          }
         },
       );
     }
@@ -243,7 +332,7 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: img,
+      commercialRegisterDocument: imgCommercialRegisterDoc,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,
@@ -265,10 +354,13 @@ class AuthCubit extends Cubit<AuthState> {
           },
           (res) async {
             print('$countryCode${phoneRestaurantController.text}');
-            submitPhoneNumber(newPhone: "$countryCode${phoneRestaurantController.text}");
-            Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
-                arguments: AccountVerificationScreenContent(
-                    phone: phoneRestaurantController.text, userType: userType));
+            submitPhoneNumber(
+                newPhone: "$countryCode${phoneRestaurantController.text}");
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AccountVerificationScreenContent(
+                      phone: '${phoneRestaurantController.text}',
+                      userType: userType,
+                    )));
             isLoading = false;
             emit(RegisterShopLoaded());
           },
@@ -291,20 +383,20 @@ class AuthCubit extends Cubit<AuthState> {
       email: emailController.text,
       password: passwordController.text,
       phoneNumber: phoneController.text,
-      commercialRegisterDocument: img,
+      commercialRegisterDocument: imgCommercialRegisterDoc,
       commercialRegisterNumber: commercialNumberController.text,
       cityId: 1,
       managerCountryCode: countryCode,
       managerName: restaurantManagerNameController.text,
       managerPhoneNumber: phoneRestaurantController.text,
     );
-
     if (formKey.currentState!.validate()) {
       if (boxChecked) {
         unFocus(context);
         emit(RegisterRestaurantLoading());
         isLoading = true;
         final res = await authRepo.registerRestaurant(model);
+        print(await model.toJson());
         res.fold(
           (err) {
             isLoading = false;
@@ -312,11 +404,13 @@ class AuthCubit extends Cubit<AuthState> {
             emit(RegisterRestaurantError());
           },
           (res) async {
-            print('$countryCode${phoneController.text}');
-            submitPhoneNumber(newPhone: "$countryCode${phoneRestaurantController.text}");
-            Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
-                arguments: AccountVerificationScreenContent(
-                    phone: phoneRestaurantController.text, userType: userType));
+            submitPhoneNumber(
+                newPhone: "$countryCode${phoneRestaurantController.text}");
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AccountVerificationScreenContent(
+                      phone: '${phoneRestaurantController.text}',
+                      userType: userType,
+                    )));
             isLoading = false;
             emit(RegisterRestaurantLoaded());
           },
@@ -339,20 +433,27 @@ class AuthCubit extends Cubit<AuthState> {
         unFocus(context);
         emit(RegisterTrainerLoading());
         isLoading = true;
-        final res = await authRepo.registerTrainer(phoneController.text,
-            nameController.text, emailController.text, passwordController.text);
+        final res = await authRepo.registerTrainer(
+          phoneController.text,
+          nameController.text,
+          emailController.text,
+          passwordController.text,
+          dropdownValueCate!.id!,
+        );
         res.fold(
           (err) {
+            print(err);
             isLoading = false;
             Toast.show(err);
             emit(RegisterTrainerError());
           },
           (res) async {
-            print('$countryCode${phoneController.text}');
             submitPhoneNumber(newPhone: "$countryCode${phoneController.text}");
             Navigator.of(context).pushNamed(Routes.verificationOtpScreen,
                 arguments: AccountVerificationScreenContent(
-                    phone: phoneController.text, userType: userType));
+                  phone: "${phoneController.text}",
+                  userType: userType,
+                ));
             isLoading = false;
             emit(RegisterTrainerLoaded());
           },
@@ -423,13 +524,21 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future login(BuildContext context, int type) async {
+  Future login(BuildContext context, int type, [String? phone]) async {
     if (formKey.currentState!.validate()) {
+      int subId = 0;
+      if (type == 1) {
+        subId = 1000;
+      } else if (type == 3) {
+        subId = 1001;
+      } else if (type == 4) {
+        subId = 1002;
+      }
       unFocus(context);
       emit(LoginLoading());
       isLoading = true;
       final res = await authRepo.login(
-        phoneController.text,
+        phone ?? phoneController.text,
         passwordController.text,
         type,
       );
@@ -440,6 +549,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(LoginError());
         },
         (res) async {
+          assignSubscriptionToUser(context, subId, type);
           Navigator.pushNamedAndRemoveUntil(
               context, Routes.navigatorScreen, (route) => false,
               arguments: type);
@@ -463,25 +573,122 @@ class AuthCubit extends Cubit<AuthState> {
     return null;
   }
 
-// onLocationClick(context) async {
-//   var _loc = await Utils.getCurrentLocation(context);
-//   locationCubit.onLocationUpdated(LocationModel(
-//     lat: _loc?.latitude ?? 32.4,
-//     lng: _loc?.longitude ?? 32.4,
-//     address: "",
-//   ));
-//   Navigator.push(
-//     context,
-//     PageRouteBuilder(
-//       pageBuilder: (_, animation, __) {
-//         return FadeTransition(
-//             opacity: animation,
-//             child: BlocProvider.value(
-//               value: locationCubit,
-//               child: LocationAddress(),
-//             ));
-//       },
-//     ),
-//   );
-// }
+  Future<XFile?> getImage() async {
+    ImagePicker picker = ImagePicker();
+    var result = await picker.pickImage(source: ImageSource.gallery);
+    if (result != null) {
+      return result;
+    }
+  }
+
+  onLocationClick(context) async {
+    var _loc = await Utils.getCurrentLocation(context);
+    locationCubit.onLocationUpdated(LocationModel(
+      lat: _loc?.latitude ?? 32.4,
+      lng: _loc?.longitude ?? 32.4,
+      address: "",
+    ));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, animation, __) {
+          return FadeTransition(
+              opacity: animation,
+              child: BlocProvider.value(
+                value: locationCubit,
+                child: LocationAddress(),
+              ));
+        },
+      ),
+    );
+  }
+
+  Future createRestaurant(
+      BuildContext context, int userType, String phone) async {
+    CreateRestaurantModel model = CreateRestaurantModel(
+      arName: nameArController.text,
+      enName: nameEnController.text,
+      arLogo: imgLogoAr!,
+      enLogo: imgLogoEn!,
+      arCover: imgCoveAr!,
+      enCover: imgCoveEn!,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
+      commercialRegisterDocument: imgCommercialRegisterDoc!,
+      commercialRegisterNumber: commercialNumberController.text,
+      managerName: restaurantManagerNameController.text,
+      facebookUrl: facebookController.text,
+      instagramUrl: instegramController.text,
+      twitterUrl: twitterController.text,
+      websiteUrl: websiteController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
+    );
+
+    if (formKey.currentState!.validate()) {
+      unFocus(context);
+      emit(RegisterRestaurantLoading());
+      isLoading = true;
+      final res = await authRepo.createRestaurant(model);
+      res.fold(
+        (err) {
+          isLoading = false;
+          Toast.show(err);
+          emit(RegisterRestaurantError());
+        },
+        (res) async {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.mainLoginScreen,
+            (route) => false,
+          );
+          isLoading = false;
+          emit(RegisterRestaurantLoaded());
+        },
+      );
+    }
+  }
+
+  Future createShop(BuildContext context, int userType, String phone) async {
+    CreateShopModel model = CreateShopModel(
+      arName: nameArController.text,
+      enName: nameEnController.text,
+      arLogo: imgLogoAr!,
+      enLogo: imgLogoEn!,
+      arCover: imgCoveAr!,
+      enCover: imgCoveEn!,
+      arDescription: descArController.text,
+      enDescription: descEnController.text,
+      commercialRegisterDocument: imgCommercialRegisterDoc!,
+      commercialRegisterNumber: commercialNumberController.text,
+      managerName: restaurantManagerNameController.text,
+      facebookUrl: facebookController.text,
+      instagramUrl: instegramController.text,
+      twitterUrl: twitterController.text,
+      websiteUrl: websiteController.text,
+      latitude: locationCubit.state.model!.lat,
+      longitude: locationCubit.state.model!.lng,
+    );
+
+    if (formKey.currentState!.validate()) {
+      unFocus(context);
+      emit(RegisterShopLoading());
+      isLoading = true;
+      final res = await authRepo.createShop(model);
+      res.fold(
+        (err) {
+          isLoading = false;
+          Toast.show(err);
+          emit(RegisterShopError());
+        },
+        (res) async {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            Routes.mainLoginScreen,
+                (route) => false,
+          );
+          isLoading = false;
+          emit(RegisterRestaurantLoaded());
+        },
+      );
+    }
+  }
 }

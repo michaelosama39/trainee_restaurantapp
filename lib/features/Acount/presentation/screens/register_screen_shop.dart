@@ -72,16 +72,6 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                       },
                     ),
                     Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: Translation.of(context).userName,
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context)
-                    //         .requestFocus(AuthCubit.of(context).emailFocusNode);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller: AuthCubit.of(context).nameController,
-                    //   focusNode: AuthCubit.of(context).userNameFocusNode,
-                    // ),
                     EmailTextField(
                       text: Translation.of(context).email,
                       onFiledSubmitted: () {
@@ -120,9 +110,16 @@ class _RegisterShopScreenViewState extends State<RegisterShopScreenView> {
                       text: Translation.of(context).commericalFile,
                       file: AuthCubit.of(context).file,
                       onTap: () async {
-                        AuthCubit.of(context).file =
-                            await AuthCubit.of(context).getFile();
-                        AuthCubit.of(context).uploadImage(context, AuthCubit.of(context).file!);
+                        await AuthCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          AuthCubit.of(context)
+                              .fileCommercialRegisterDoc = File(value!.path);
+                        });
+                        AuthCubit.of(context).uploadImage(
+                            context,
+                            AuthCubit.of(context)
+                                .fileCommercialRegisterDoc!);
                         AuthCubit.of(context).emit(UploadSignUpFileState());
                       },
                     ),

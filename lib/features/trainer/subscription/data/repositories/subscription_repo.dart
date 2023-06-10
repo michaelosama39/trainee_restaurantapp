@@ -8,28 +8,26 @@ import '../../../../../core/models/review_model.dart';
 import '../../../../../core/models/trainer_model.dart';
 
 class SubscriptionRepo {
-
   Future<Either<String, List<SubscriptionModel>>> getSubscriptions() async {
-
     int type;
 
-    if(AppStorage.getUserInfo!.result!.restaurantId != null){
+    if (AppStorage.getUserInfo!.result!.restaurantId != null) {
       type = 1;
-    }else if(AppStorage.getUserInfo!.result!.shopId != null){
+    } else if (AppStorage.getUserInfo!.result!.shopId != null) {
       type = 2;
-    }else{
+    } else {
       type = 0;
     }
 
     final response = await DioHelper.get(
       "${APIUrls.API_GET_SUBSCRIPTIONS}?Target=$type",
-
     );
     try {
       if (response.data['success'] == true) {
         List<SubscriptionModel> subscriptions = [];
-        for(int i = 0; i < response.data['result']["items"].length; i++ ){
-          subscriptions.add(SubscriptionModel.fromJson(response.data['result']["items"][i]));
+        for (int i = 0; i < response.data['result']["items"].length; i++) {
+          subscriptions.add(
+              SubscriptionModel.fromJson(response.data['result']["items"][i]));
         }
         return Right(subscriptions);
       } else {
@@ -40,5 +38,4 @@ class SubscriptionRepo {
       return Left(e.toString());
     }
   }
-
 }

@@ -7,9 +7,12 @@ import 'package:http_parser/http_parser.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
 import 'package:trainee_restaurantapp/core/models/user_model.dart';
 import 'package:trainee_restaurantapp/core/net/api_url.dart';
+import 'package:trainee_restaurantapp/features/Acount/data/models/create_restaurant_model.dart';
+import 'package:trainee_restaurantapp/features/Acount/data/models/create_shop_model.dart';
 import '../../../../core/dioHelper/dio_helper.dart';
 import '../../../on_boarding/view/main_onboarding_view.dart';
 import '../models/register_restaurant_model.dart';
+import '../models/specialization_model.dart';
 
 class AuthRepo {
   Future<Either<String, String>> uploadImage(File file) async {
@@ -26,6 +29,53 @@ class AuthRepo {
       if (response.data['success'] == true) {
         print("Success uploadImage");
         return Right(response.data['result']['url']);
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, SpecializationModel>> getSpecialization() async {
+    final response = await DioHelper.get(
+      APIUrls.API_GetAll_Index,
+    );
+    try {
+      if (response.data['success'] == true) {
+        return Right(SpecializationModel.fromJson(response.data));
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      print(e);
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, bool>> assignSubscriptionToUser(
+      int subscriptionId, int typeUser) async {
+    final response = await DioHelper.post(
+      APIUrls.API_AssignSubscriptionToUser,
+      body: typeUser == 1
+          ? {
+        "trainerId": AppStorage.getUserData.result!.userId,
+        "subscriptionId": subscriptionId
+      }
+          : typeUser == 3
+          ? {
+        "restaurantId": AppStorage.getUserData.result!.restaurantId,
+        "subscriptionId": subscriptionId
+      }
+          : {
+        "shopId": AppStorage.getUserData.result!.shopId,
+        "subscriptionId": subscriptionId
+      },
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success assignSubscriptionToUser");
+        return const Right(true);
       } else {
         return Left(response.data['error']['message']);
       }
@@ -120,7 +170,6 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerShop");
-        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
@@ -139,7 +188,43 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerRestaurant");
-        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
+        // await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
+        return Right(UserModel.fromJson(response.data));
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, UserModel>> createShop(
+      CreateShopModel createShopModel) async {
+    final response = await DioHelper.post(
+      APIUrls.API_CREATE_SHOP,
+      body: await createShopModel.toJson(),
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success createShop");
+        return Right(UserModel.fromJson(response.data));
+      } else {
+        return Left(response.data['error']['message']);
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, UserModel>> createRestaurant(
+      CreateRestaurantModel createRestaurantModel) async {
+    final response = await DioHelper.post(
+      APIUrls.API_CREATE_REST,
+      body: await createRestaurantModel.toJson(),
+    );
+    try {
+      if (response.data['success'] == true) {
+        print("Success createRestaurant");
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);
@@ -150,12 +235,12 @@ class AuthRepo {
   }
 
   Future<Either<String, UserModel>> registerTrainer(String phoneNumber,
-      String name, String password, String countryCode) async {
+      String name, String password, String countryCode , int specializationId) async {
     final response = await DioHelper.post(
       APIUrls.API_REGISTER_TRAINER,
       body: {
         "name": name,
-        "specializationId": 1,
+        "specializationId": specializationId,
         "password": password,
         "countryCode": countryCode,
         "phoneNumber": phoneNumber
@@ -164,7 +249,7 @@ class AuthRepo {
     try {
       if (response.data['success'] == true) {
         print("Success registerTrainer");
-        await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
+        // await AppStorage.cacheUserInfo(UserModel.fromJson(response.data));
         return Right(UserModel.fromJson(response.data));
       } else {
         return Left(response.data['error']['message']);

@@ -13,6 +13,7 @@ import 'package:trainee_restaurantapp/features/trainer/add_course/presentation/c
 
 import '../../../../../core/common/style/dimens.dart';
 import '../../../../../core/common/style/gaps.dart';
+import '../../../../../core/models/categories_model.dart';
 import '../../../../../core/ui/widgets/custom_text_field.dart';
 
 class AddCourseView extends StatefulWidget {
@@ -76,7 +77,7 @@ class _AddCourseViewState extends State<AddCourseView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddCourseCubit(),
+      create: (context) => AddCourseCubit()..getCategories(),
       child: BlocBuilder<AddCourseCubit, AddCourseState>(
         buildWhen: (previous, current) =>
             previous != current ||
@@ -135,6 +136,38 @@ class _AddCourseViewState extends State<AddCourseView> {
                             AddCourseCubit.of(context)
                                 .emit(UploadSignUpFileState());
                           },
+                        ),
+                        Gaps.vGap16,
+                        DropdownButton<Items>(
+                          isExpanded: true,
+                          value: AddCourseCubit.of(context).dropdownValueCate,
+                          hint: const Text(
+                            'اختار التصنيف',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          dropdownColor: Colors.grey,
+                          underline: Container(
+                            height: 2,
+                            color: Colors.white,
+                          ),
+                          onChanged: (Items? value) {
+                            setState(() {
+                              AddCourseCubit.of(context).dropdownValueCate =
+                                  value!;
+                            });
+                          },
+                          items: AddCourseCubit.of(context)
+                              .listOfCates
+                              .map<DropdownMenuItem<Items>>((Items value) {
+                            return DropdownMenuItem<Items>(
+                              value: value,
+                              child: Text(
+                                value.name ?? '',
+                              ),
+                            );
+                          }).toList(),
                         ),
                         Gaps.vGap16,
                         EmailTextField(
@@ -213,29 +246,22 @@ class _AddCourseViewState extends State<AddCourseView> {
                         //   focusNode: commercialNumber,
                         // ),
                         // Gaps.vGap16,
-                        BlocBuilder<AddCourseCubit, AddCourseState>(
-                          buildWhen: (previous, current) => previous != current,
-                          builder: (context, state) {
-                            return state is UploadImageLoaded
-                                ? SizedBox(
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 45.0,
-                                        horizontal: 20,
-                                      ),
-                                      child: CustomElevatedButton(
-                                        borderRadius: 12,
-                                        onTap: () {
-                                          AddCourseCubit.of(context)
-                                              .addCourse(context);
-                                        },
-                                        text: 'اضافه',
-                                      ),
-                                    ),
-                                  )
-                                : const SizedBox();
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 45.0,
+                              horizontal: 20,
+                            ),
+                            child: CustomElevatedButton(
+                              borderRadius: 12,
+                              onTap: () {
+                                AddCourseCubit.of(context)
+                                    .addCourse(context);
+                              },
+                              text: 'اضافه',
+                            ),
+                          ),
                         ),
                       ],
                     ),

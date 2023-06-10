@@ -141,6 +141,7 @@ class _AddPlateViewState extends State<AddPlateView> {
                               ),
                               Gaps.vGap16,
                               DropdownButton<Items>(
+                                isExpanded: true,
                                 value:
                                     AddPlateCubit.of(context).dropdownValueCate,
                                 hint: const Text(

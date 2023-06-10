@@ -35,12 +35,14 @@ class TrainerProfileRepo {
 
   Future<Either<String, TrainerModel>> getTrainerProfile() async {
     print(AppStorage.getUserInfo!.result!.userId);
+    print('>>>>>>>>>>>>');
     final response = await DioHelper.get(APIUrls.API_GET_TRAINER_PROFILE,
         query: {"id": AppStorage.getUserInfo!.result!.userId});
     try {
       if (response.data['success'] == true) {
         return Right(TrainerModel.fromJson(response.data["result"]));
       } else {
+        print(response.data);
         return Left(response.data['error']['message']);
       }
     } catch (e) {

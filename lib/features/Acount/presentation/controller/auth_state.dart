@@ -48,3 +48,12 @@ class ChangePasswordLoading extends AuthState {}
 
 class LogoutLoaded extends AuthState {}
 class LogoutLoading extends AuthState {}
+
+class GetSpecializationLoaded extends AuthState {}
+class GetSpecializationLoading extends AuthState {}
+
+class AssignSubscriptionToUserLoaded extends AuthState {}
+class AssignSubscriptionToUserLoading extends AuthState {}
+class AssignSubscriptionToUserError extends AuthState {}
+
+class GetImageState extends AuthState {}

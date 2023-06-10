@@ -16,7 +16,9 @@ import 'general_auth.dart';
 
 class ForgetPasswordVerificationScreenContent extends StatefulWidget {
   const ForgetPasswordVerificationScreenContent(
-      {super.key, required this.phone, required this.userType});
+      {super.key,
+      required this.phone,
+      required this.userType});
 
   final String phone;
   final int userType;
@@ -77,8 +79,11 @@ class _ForgetPasswordVerificationScreenContentState
                       Gaps.hGap4,
                       GestureDetector(
                         onTap: () {
-                          AuthCubit.of(context).resendCode(
-                              context, widget.phone, widget.userType);
+                          AuthCubit.of(context).submitPhoneNumber(
+                            newPhone: widget.phone,
+                          );
+                          // AuthCubit.of(context).resendCode(
+                          //     context, widget.phone, widget.userType);
                         },
                         child: CustomText(
                           text: Translation.of(context).resend_code,
@@ -108,8 +113,8 @@ class _ForgetPasswordVerificationScreenContentState
 
   void _verify(context) {
     if (AuthCubit.of(context).codeController.text.length == 6) {
-      AuthCubit.of(context).submitOTP(AuthCubit.of(context).codeController.text);
-      // AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
+      // AuthCubit.of(context).submitOTP(AuthCubit.of(context).codeController.text);
+      AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
       Navigator.of(context).pushNamed(
         Routes.resetPass,
         arguments: ResetPasswordScreen(

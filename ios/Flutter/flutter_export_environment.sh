@@ -1,9 +1,9 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=E:\flutter"
-export "FLUTTER_APPLICATION_PATH=E:\FlutterProjects\tasks\trainee_restaurantapp"
+export "FLUTTER_ROOT=/Users/admin/Desktop/flutter sdk/2.19.2(2)/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/admin/Desktop/trainee_restaurantapp"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
-export "FLUTTER_TARGET=lib\main.dart"
+export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
 export "FLUTTER_BUILD_NUMBER=1"

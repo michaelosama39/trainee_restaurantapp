@@ -11,3 +11,6 @@ class UploadSignUpFileState extends AddCourseState {}
 
 class UploadImageLoading extends AddCourseState {}
 class UploadImageLoaded extends AddCourseState {}
+
+class GetCategoryLoading extends AddCourseState {}
+class GetCategoryLoaded extends AddCourseState {}

@@ -75,8 +75,11 @@ class _AccountVerificationScreenContentState
                       Gaps.hGap4,
                       GestureDetector(
                         onTap: () {
-                          AuthCubit.of(context).resendCode(
-                              context, widget.phone, widget.userType);
+                          // AuthCubit.of(context).submitPhoneNumber(
+                          //   newPhone: widget.phone,
+                          // );
+                          // AuthCubit.of(context).resendCode(
+                          //     context, widget.phone, widget.userType);
                         },
                         child: CustomText(
                           text: Translation.of(context).resend_code,
@@ -105,7 +108,9 @@ class _AccountVerificationScreenContentState
   }
 
   void _verifyAccount(context) {
-    AuthCubit.of(context).submitOTP(AuthCubit.of(context).codeController.text);
-    AuthCubit.of(context).verifyAccount(context, widget.phone, widget.userType);
+    // AuthCubit.of(context)
+    //     .submitOTP(AuthCubit.of(context).codeController.text);
+    AuthCubit.of(context)
+        .verifyAccount(context, widget.phone, widget.userType);
   }
 }

@@ -8,6 +8,8 @@ class APIUrls {
   static const API_LOGIN = "/TokenAuth/Authenticate";
   static const API_Upload_Image = "/services/app/Image/UploadImage";
   static const API_REGISTER_TRAINER = "/services/app/Account/RegisterTrainer";
+  static const API_CREATE_REST = "/services/app/Restaurant/Create";
+  static const API_CREATE_SHOP = "/services/app/Shop/Create";
   static const API_REGISTER_REST = "/services/app/Account/RegisterRestaurant";
   static const API_REGISTER_SHOP = "/services/app/Account/RegisterShop";
   static const API_FORGETPASSWORD = "/services/app/Account/ForgotPassword";
@@ -16,7 +18,7 @@ class APIUrls {
   static const API_VERIFY_FORGETPASSWORD = "/services/app/Account/ConfirmForgotPassword";
   static const API_GET_COURSES = "/services/app/Course/GetAll";
   static const API_GET_NEW_TRAINEES = "/services/app/Trainee/GetNewTrainees";
-  static const API_GET_TRAINER_PROFILE = "/services/app/Trainer/Get";
+  static const API_GET_TRAINER_PROFILE = "/services/app/Trainer/GetProfile";
   static const API_COURSE_CREATE = "/services/app/Course/Create";
   static const API_GET_TRAINER_REVIEWS = "/services/app/Review/GetAll";
   static const API_GET_COURSE = "/services/app/Course/Get";
@@ -36,6 +38,7 @@ class APIUrls {
 
   static const API_Create_Dish = "/services/app/Dish/Create";
   static const API_GetAll_Category = "/services/app/Category/GetAll";
+  static const API_GetAll_Index = "/services/app/Index/GetAll";
   static const API_GetAll_Dish_MostOrdered = "/services/app/Dish/GetAll?Sorting=MostOrdered&MaxResultCount=10";
   static const API_GetAll_Dish = "/services/app/Dish/GetAll";
   static const API_Get_Dish_Details = "/services/app/Dish/Get";

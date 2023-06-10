@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainee_restaurantapp/core/appStorage/app_storage.dart';
+import 'package:trainee_restaurantapp/features/restaurant/add_plate/data/repositories/add_plate_repo.dart';
 import 'package:trainee_restaurantapp/features/trainer/add_course/data/repositories/add_course_repo.dart';
+import '../../../../../core/models/categories_model.dart';
 import '../../../../../core/ui/toast.dart';
 import '../../data/models/add_course_model.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,6 +20,7 @@ class AddCourseCubit extends Cubit<AddCourseState> {
   static AddCourseCubit of(context) => BlocProvider.of(context);
 
   final addCourseRepo = AddCourseRepo();
+  final addPlateRepo = AddPlateRepo();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -37,6 +40,9 @@ class AddCourseCubit extends Cubit<AddCourseState> {
   final arDescriptionController = TextEditingController();
   final enDescriptionController = TextEditingController();
 
+  List<Items> listOfCates = [];
+  Items? dropdownValueCate;
+
   File? file;
   String? img;
 
@@ -44,13 +50,27 @@ class AddCourseCubit extends Cubit<AddCourseState> {
     emit(UploadImageLoading());
     final res = await addCourseRepo.uploadImage(file);
     res.fold(
-          (err) {
+      (err) {
         Toast.show(err);
         emit(AddCourseInitial());
       },
-          (res) async {
+      (res) async {
         img = res;
         emit(UploadImageLoaded());
+      },
+    );
+  }
+
+  Future getCategories() async {
+    emit(GetCategoryLoading());
+    final res = await addPlateRepo.getCategories();
+    res.fold(
+      (err) {
+        Toast.show(err);
+      },
+      (res) {
+        listOfCates.addAll(res.result!.items ?? []);
+        emit(GetCategoryLoaded());
       },
     );
   }
@@ -66,11 +86,12 @@ class AddCourseCubit extends Cubit<AddCourseState> {
             discountPercentageController.text.isNotEmpty ? true : false,
         discountPercentage: num.parse(discountPercentageController.text),
         trainerId: AppStorage.getUserId,
-        categoryId: 3,
+        categoryId: dropdownValueCate!.id!,
         trainingHoursCount: int.parse(trainingHoursCountController.text),
         arDescription: arDescriptionController.text,
         enDescription: enDescriptionController.text,
       );
+      print(await addCourseModel.toJson());
       unFocus(context);
       emit(AddCourseLoading());
       final res = await addCourseRepo.addCourse(addCourseModel);
@@ -80,8 +101,8 @@ class AddCourseCubit extends Cubit<AddCourseState> {
           emit(AddCourseError());
         },
         (res) async {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const SuccessCourseAdd()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const SuccessCourseAdd()));
           emit(AddCourseLoaded());
         },
       );

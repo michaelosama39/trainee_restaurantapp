@@ -117,39 +117,22 @@ class _RegisterRestaurantScreenViewState
                     Gaps.vGap8,
                     uploadSignUpFile(
                       text: Translation.of(context).commericalFile,
-                      file: AuthCubit.of(context).file,
+                      file: AuthCubit.of(context).fileCommercialRegisterDoc,
                       onTap: () async {
-                        AuthCubit.of(context).file =
-                            await AuthCubit.of(context).getFile();
-                        AuthCubit.of(context).uploadImage(context, AuthCubit.of(context).file!);
+                        await AuthCubit.of(context)
+                            .getImage()
+                            .then((value) {
+                          AuthCubit.of(context)
+                              .fileCommercialRegisterDoc = File(value!.path);
+                        });
+                        AuthCubit.of(context).uploadImage(
+                            context,
+                            AuthCubit.of(context)
+                                .fileCommercialRegisterDoc!);
                         AuthCubit.of(context).emit(UploadSignUpFileState());
                       },
                     ),
                     Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: 'التفاصيل باللغه العربيه',
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(
-                    //         AuthCubit.of(context).descAr);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller:
-                    //   AuthCubit.of(context).descArController,
-                    //   focusNode: AuthCubit.of(context).descAr,
-                    // ),
-                    // Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: 'التفاصيل باللغه الانجليزيه',
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(
-                    //         AuthCubit.of(context).descEn);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller:
-                    //   AuthCubit.of(context).descEnController,
-                    //   focusNode: AuthCubit.of(context).descEn,
-                    // ),
-                    // Gaps.vGap8,
                     EmailTextField(
                       text: Translation.of(context).restaurantManagerName,
                       onFiledSubmitted: () {
@@ -166,7 +149,6 @@ class _RegisterRestaurantScreenViewState
                       hint: Translation.of(context).restaurantPhoneNumber,
                       onInputChanged: (code) =>
                           AuthCubit.of(context).countryCode = code,
-                      //onDialChanged: (dial)=>countryDial=dial,
                       textEditingController:
                           AuthCubit.of(context).phoneRestaurantController,
                       isoCode: AuthCubit.of(context).countryCode,
@@ -177,17 +159,6 @@ class _RegisterRestaurantScreenViewState
                       },
                     ),
                     Gaps.vGap8,
-                    // EmailTextField(
-                    //   text: Translation.of(context).cityName,
-                    //   onFiledSubmitted: () {
-                    //     FocusScope.of(context).requestFocus(
-                    //         AuthCubit.of(context).passwordFocusNode);
-                    //   },
-                    //   textInputAction: TextInputAction.next,
-                    //   controller: AuthCubit.of(context).cityNameController,
-                    //   focusNode: AuthCubit.of(context).cityManagerName,
-                    // ),
-                    // Gaps.vGap8,
                     PasswordTextField(
                       controller: AuthCubit.of(context).passwordController,
                       passwordSecure: AuthCubit.of(context).passwordSecure,
@@ -219,27 +190,6 @@ class _RegisterRestaurantScreenViewState
                         AuthCubit.of(context).emit(PasswordSecureState());
                       },
                     ),
-                    // InkWell(
-                    //   onTap: (){
-                    //     AuthCubit.of(context).onLocationClick(context);
-                    //   },
-                    //   child: Padding(
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: 10.h,
-                    //     ),
-                    //     child: Align(
-                    //       alignment: AlignmentDirectional.centerStart,
-                    //       child: Text(
-                    //         'تحديد موقعك',
-                    //         style: TextStyle(
-                    //           fontSize: 16.sp,
-                    //           color: AppColors.white,
-                    //           decoration: TextDecoration.underline,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Gaps.vGap8,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

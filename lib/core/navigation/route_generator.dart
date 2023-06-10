@@ -130,24 +130,30 @@ class AppRoute {
       //   return MaterialPageRoute(
       //       builder: (context) => const HomeRestaurantScreen());
       case Routes.traineeProfileScreen:
-        return MaterialPageRoute(builder: (context) => TraineeProfileScreen(args: settings.arguments as Map,));
+        return MaterialPageRoute(
+            builder: (context) => TraineeProfileScreen(
+                  args: settings.arguments as Map,
+                ));
       case Routes.MyCourseDetailsScreen:
-        return MaterialPageRoute(builder: (context) => MyCourseDetails(courseId: settings.arguments as int,));
+        return MaterialPageRoute(
+            builder: (context) => MyCourseDetails(
+                  courseId: settings.arguments as int,
+                ));
       case Routes.myOrderScreen:
         return MaterialPageRoute(builder: (context) => const MyOrderView());
       case Routes.myCourseScreen:
         return MaterialPageRoute(builder: (context) => const MyCoursesView());
       case Routes.traineeScreen:
-        return MaterialPageRoute(builder: (context) => const AllTraineeScreen());
+        return MaterialPageRoute(
+            builder: (context) => const AllTraineeScreen());
       case Routes.editProfileScreen:
         return MaterialPageRoute(
             builder: (context) => EditProfileScreenContent());
-        case Routes.editRestProfileScreen:
+      case Routes.editRestProfileScreen:
         return MaterialPageRoute(
             builder: (context) => EditRestaurantScreenContent());
       case Routes.editShopProfileScreen:
-        return MaterialPageRoute(
-            builder: (context) => EditShopScreenContent());
+        return MaterialPageRoute(builder: (context) => EditShopScreenContent());
       case Routes.navigatorScreen:
         return MaterialPageRoute(
             builder: (context) => NavigatorScreen(
