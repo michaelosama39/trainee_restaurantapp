@@ -11,7 +11,10 @@ import 'package:trainee_restaurantapp/core/common/app_colors.dart';
 import 'package:trainee_restaurantapp/core/constants/app/app_constants.dart';
 import 'package:trainee_restaurantapp/core/ui/widgets/custom_text.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/video_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/video_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_call_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_screen.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../../../../core/ui/loader.dart';
 import '../../../../core/ui/widgets/custom_appbar.dart';
@@ -123,17 +126,28 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return VoiceCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                    }));
-                  },
-                  icon: const Icon(
-                    Icons.phone,
-                    color: AppColors.accentColorLight,
-                  ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.of(context)
+                //         .push(MaterialPageRoute(builder: (context) {
+                //       return AudioCallPage(traineeId:widget.chatModel!.traineeId!);
+                //     }));
+                //   },
+                //   icon: const Icon(
+                //     Icons.phone,
+                //     color: AppColors.accentColorLight,
+                //   ),
+                // ),
+                ZegoSendCallInvitationButton(
+                  isVideoCall: false,
+                  resourceID: "zego_uikit_call",    // For offline call notification
+                  invitees: [
+                    ZegoUIKitUser(
+                      id: widget.chatModel!.traineeId.toString(),
+                      name: widget.chatModel!.traineeName!,
+                    ),
+
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -142,17 +156,28 @@ class _ChatDetailsViewState extends State<ChatDetailsView> {
                     color: AppColors.white,
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return VideoCallScreen(channelName:widget.chatModel!.traineeId.toString() +AppStorage.getUserId.toString(),);
-                      }));
-                    },
-                    icon: const Icon(
-                      Icons.videocam,
-                      color: AppColors.accentColorLight,
-                    ))
+                ZegoSendCallInvitationButton(
+                  isVideoCall: true,
+                  resourceID: "zego_uikit_call",    // For offline call notification
+                  invitees: [
+                    ZegoUIKitUser(
+                      id: widget.chatModel!.traineeId.toString(),
+                      name: widget.chatModel!.traineeName!,
+                    ),
+
+                  ],
+                )
+                // IconButton(
+                //     onPressed: () {
+                //       Navigator.of(context)
+                //           .push(MaterialPageRoute(builder: (context) {
+                //         return VideoCallPage(traineeId:widget.chatModel!.traineeId!);
+                //       }));
+                //     },
+                //     icon: const Icon(
+                //       Icons.videocam,
+                //       color: AppColors.accentColorLight,
+                //     ))
               ],
             ),
           )

@@ -7,10 +7,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:trainee_restaurantapp/features/restaurant/my_orders_restaurant/controller/my_orders_restaurant_cubit.dart';
 import 'package:trainee_restaurantapp/features/restaurant/restaurant_profile/rest_profile_controller/rest_profile_cubit.dart';
 import 'package:trainee_restaurantapp/features/shop/my_orders_shop/controller/my_orders_shop_cubit.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/video_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/my_courses/presentation/courses_controller/courses_cubit.dart';
 import 'package:trainee_restaurantapp/features/trainer/profile_details/presentation/trainer_profile_controller/trainer_profile_cubit.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
+import 'core/appStorage/app_storage.dart';
 import 'core/common/app_config.dart';
 import 'core/common/provider_list.dart';
 import 'core/constants/app/app_constants.dart';
@@ -27,9 +32,10 @@ import 'generated/l10n.dart';
 class App extends StatefulWidget {
   static final GlobalKey<NavigatorState> globalKey =
       GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey;
 
   const App({
-    Key? key,
+    Key? key, required this.navigatorKey,
   }) : super(key: key);
 
   @override
@@ -38,7 +44,42 @@ class App extends StatefulWidget {
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
+
+
 class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  void getToken()async{
+
+    if (AppStorage.isLogged) {
+      onUserLogin();
+    }
+  }
+  /// on App's user login
+  void onUserLogin() {
+    /// 1.2.1. initialized ZegoUIKitPrebuiltCallInvitationService
+    /// when app's user is logged in or re-logged in
+    /// We recommend calling this method as soon as the user logs in to your app.
+    ZegoUIKitPrebuiltCallInvitationService().init(
+      appID: 172297515 /*input your AppID*/,
+      appSign: "7088d2ea9432e77970a85beeb177953cbee5b6a7b41845280e1a1c4d39ac813e" /*input your AppSign*/,
+      userID: AppStorage.getUserId.toString(),
+      userName:HomeTrainerCubit.of(context)
+          .trainee!.trainee!.name ?? "",
+      plugins: [ZegoUIKitSignalingPlugin()],
+    );
+  }
+
+  /// on App's user logout
+  void onUserLogout() {
+    /// 1.2.2. de-initialization ZegoUIKitPrebuiltCallInvitationService
+    /// when app's user is logged out
+    ZegoUIKitPrebuiltCallInvitationService().uninit();
+  }
   @override
   Widget build(BuildContext context) {
     return RestartWidget(
@@ -85,7 +126,8 @@ class _AppState extends State<App> {
                     title: AppConstants.TITLE_APP_NAME,
 
                     /// Routing
-                    navigatorKey: App.globalKey,
+                    // navigatorKey: App.globalKey,
+                    navigatorKey: widget.navigatorKey,
                     onGenerateRoute: AppRoute().generateRoute,
                     initialRoute: "/",
 

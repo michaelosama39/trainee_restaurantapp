@@ -6,7 +6,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trainee_restaurantapp/core/ui/loader.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/video_screen.dart';
+import 'package:trainee_restaurantapp/features/trainer/chat/view/voice_screen.dart';
 import 'package:trainee_restaurantapp/features/trainer/home_trainer/presentation/home_trainer_controller/home_trainer_cubit.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import '../../../../../core/appStorage/app_storage.dart';
 import '../../../../../core/common/app_colors.dart';
 import '../../../../../core/common/style/gaps.dart';
@@ -167,48 +170,68 @@ class _TraineeProfileScreenState extends State<TraineeProfileScreen> {
                               size: 20.h,
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return VoiceCallScreen(
-                                  channelName: HomeTrainerCubit.of(context)
-                                          .trainee!
-                                          .traineeId
-                                          .toString() +
-                                      AppStorage.getUserId.toString(),
-                                );
-                              }));
-                            },
-                            child: ImageIcon(
-                              const AssetImage(
-                                AppConstants.PHONE_CALL_ICON,
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.of(context)
+                          //         .push(MaterialPageRoute(builder: (context) {
+                          //       return AudioCallPage(
+                          //         traineeId: HomeTrainerCubit.of(context)
+                          //                 .trainee!
+                          //                 .traineeId!
+                          //       );
+                          //     }));
+                          //   },
+                          //   child: ImageIcon(
+                          //     const AssetImage(
+                          //       AppConstants.PHONE_CALL_ICON,
+                          //     ),
+                          //     color: AppColors.white,
+                          //     size: 20.h,
+                          //   ),
+                          // ),
+                          ZegoSendCallInvitationButton(
+                            isVideoCall: true,
+                            resourceID: "zego_uikit_call",    // For offline call notification
+                            invitees: [
+                              ZegoUIKitUser(
+                                id: HomeTrainerCubit.of(context).trainee!.traineeId.toString(),
+                                name: HomeTrainerCubit.of(context)
+                                                 .trainee!.trainee!.name ?? "",
                               ),
-                              color: AppColors.white,
-                              size: 20.h,
-                            ),
+
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return VideoCallScreen(
-                                  channelName: HomeTrainerCubit.of(context)
-                                          .trainee!
-                                          .traineeId
-                                          .toString() +
-                                      AppStorage.getUserId.toString(),
-                                );
-                              }));
-                            },
-                            child: ImageIcon(
-                              const AssetImage(
-                                AppConstants.VIDEO_CALL_ICON,
+                          ZegoSendCallInvitationButton(
+                            isVideoCall: false,
+                            resourceID: "zego_uikit_call",    // For offline call notification
+                            invitees: [
+                              ZegoUIKitUser(
+                                id: HomeTrainerCubit.of(context).trainee!.traineeId.toString(),
+                                name: HomeTrainerCubit.of(context)
+                                    .trainee!.trainee!.name ?? "",
                               ),
-                              color: AppColors.white,
-                              size: 20.h,
-                            ),
+
+                            ],
                           ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Navigator.of(context)
+                          //         .push(MaterialPageRoute(builder: (context) {
+                          //       return VideoCallPage(
+                          //         traineeId: HomeTrainerCubit.of(context)
+                          //                 .trainee!
+                          //                 .traineeId!,
+                          //       );
+                          //     }));
+                          //   },
+                          //   child: ImageIcon(
+                          //     const AssetImage(
+                          //       AppConstants.VIDEO_CALL_ICON,
+                          //     ),
+                          //     color: AppColors.white,
+                          //     size: 20.h,
+                          //   ),
+                          // ),
                         ],
                       )
                     ],
